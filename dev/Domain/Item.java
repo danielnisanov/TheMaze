@@ -1,4 +1,4 @@
-package Inventory;
+package Domain;
 
 public class Item {
 }
