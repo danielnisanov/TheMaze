@@ -4,13 +4,13 @@ public class shift {
     public int shift_date;
     public String shift_type;
     public List<Worker> workers_on_shift;
-    public shiftmanager shift_man;
+    public shiftmanager shiftmanager;
 
     public shift(int shift_date, String shift_type, List<Worker> workers_on_shift, shiftmanager shift_man) {
         this.shift_date = shift_date;
         this.shift_type = shift_type;
         this.workers_on_shift = workers_on_shift;
-        this.shift_man = shift_man;
+        this.shiftmanager = shift_man;
     }
 
     public int getShift_date() {
@@ -25,8 +25,8 @@ public class shift {
         return workers_on_shift;
     }
 
-    public shiftmanager getShift_man() {
-        return shift_man;
+    public shiftmanager getShiftmanager() {
+        return shiftmanager;
     }
 
     public void setShift_date(int shift_date) {
@@ -41,7 +41,7 @@ public class shift {
         this.workers_on_shift = workers_on_shift;
     }
 
-    public void setShift_man(shiftmanager shift_man) {
-        this.shift_man = shift_man;
+    public void setShiftmanager(shiftmanager shiftmanager) {
+        this.shiftmanager = shiftmanager;
     }
 }

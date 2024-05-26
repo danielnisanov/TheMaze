@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.time.LocalDate;
 
@@ -108,7 +109,7 @@ public class Worker {
     }
 
     public void setTotal_hours(double total_hours) {
-        this.total_hours = total_hours;
+        this.total_hours = 0;
     }
 
     public Set<Role> getRoles_permissions() {
@@ -140,6 +141,13 @@ public class Worker {
             this.bank_account_num = new_account_num;
         }
 
+    // Add a method to add a role to the employee
+    public void addRole(Role role) {
+        if (roles_permissions == null) {
+            roles_permissions = new HashSet<>();
+        }
+        roles_permissions.add(role);
+    }
 
 
     }
