@@ -1,8 +1,8 @@
 package Domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Report {
     protected String reportID;
-    protected Date reportDate;
+    protected LocalDateTime reportDate;
 }

@@ -1,6 +1,6 @@
 package Domain;
 
-public class SubCategory extends Category{
-    protected String subCategoryName;
+public class SubCategory{
+    private String subCategoryName;
 
 }

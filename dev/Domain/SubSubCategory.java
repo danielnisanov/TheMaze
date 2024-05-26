@@ -1,5 +1,5 @@
 package Domain;
 
-public class SubSubCategory extends SubCategory{
-    protected String subSubCategoryName;
+public class SubSubCategory {
+    private String subSubCategoryName;
 }
