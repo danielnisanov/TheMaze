@@ -3,6 +3,6 @@ public enum Role {
     Cashier,
     Sorter,
     Shift_manager,
-    humen_resurce,
+    Guard,
 
 }

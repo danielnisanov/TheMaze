@@ -1,22 +1,33 @@
-import java.util.HashSet;
+import java.time.LocalDateTime;
 import java.util.Set;
+import java.time.LocalDate;
 
-public abstract class worker {
+
+public class Worker {
     protected String name;
     private int ID_number;
     private String address ;
     protected int bank_account_num;
-    protected double global_salary;
     protected  double hourly_salary;
     protected  int vaction_days;
-    public String job_type;
-    public int starting_day;
+    public GobType job_type;
+    private LocalDate starting_day;
     public int brunch;
     protected double total_hours;
     protected Set<Role> roles_permissions;
+    public boolean job_status;
+
+    public boolean getJob_status() {
+        return job_status;
+    }
+
+    public void setJob_status(boolean job_status) {
+        this.job_status = true;
+    }
 
     public int getID_number() {
         return ID_number;
+
     }
 
     public void setID_number(int ID_number) {
@@ -47,12 +58,8 @@ public abstract class worker {
         this.bank_account_num = bank_account_num;
     }
 
-    public double getGlobal_salary() {
-        return global_salary;
-    }
-
-    public void setGlobal_salary(double global_salary) {
-        this.global_salary = hourly_salary * total_hours;
+    public double Global_salary(double hourly_salary, int total_hours) {
+        return hourly_salary * total_hours;
     }
 
     public double getHourly_salary() {
@@ -71,20 +78,21 @@ public abstract class worker {
         this.vaction_days = vaction_days;
     }
 
-    public String getJob_type() {
+    public GobType getJob_type() {
         return job_type;
+
     }
 
-    public void setJob_type(String job_type) {
+    public void setJob_type(GobType job_type) {
         this.job_type = job_type;
     }
 
-    public int getStarting_day() {
+    public LocalDate getStarting_day() {
         return starting_day;
     }
 
     public void setStarting_day(int starting_day) {
-        this.starting_day = starting_day;
+        this.starting_day = LocalDate.ofEpochDay(starting_day);
     }
 
     public int getBrunch() {
@@ -95,8 +103,8 @@ public abstract class worker {
         this.brunch = brunch;
     }
 
-    public double getTotal_hours() {
-        return total_hours;
+    public int getTotal_hours() {
+        return (int) total_hours;
     }
 
     public void setTotal_hours(double total_hours) {
@@ -111,22 +119,28 @@ public abstract class worker {
         this.roles_permissions = roles_permissions;
     }
 
-    public worker(String address, String name, int ID_number, int bank_account_num, double global_salary, double hourly_salary, int vaction_days, String job_type, int starting_day,
-                  double total_hours, int brunch, Set<Role> roles_permissions) {
+    public Worker(String address, String name, int ID_number, int bank_account_num, double global_salary, double hourly_salary, int vaction_days, GobType job_type, int starting_day,
+                  double total_hours, int brunch, Set<Role> roles_permissions, boolean job_status) {
         this.address = address;
         this.name = name;
         this.ID_number = ID_number;
         this.bank_account_num = bank_account_num;
-        this.global_salary = global_salary;
+        //this.global_salary = global_salary;
         this.hourly_salary = hourly_salary;
         this.vaction_days = vaction_days;
         this.job_type = job_type;
-        this.starting_day = starting_day;
+        this.starting_day = LocalDate.from(LocalDateTime.now()); // Get the current date
         this.total_hours = total_hours;
         this.brunch = brunch;
         this.roles_permissions = roles_permissions;
+        this.job_status = job_status;
+    }
+
+        public void update_account_num(int new_account_num) {
+            this.bank_account_num = new_account_num;
+        }
 
 
 
     }
-}
+
