@@ -5,4 +5,9 @@ import java.time.LocalDateTime;
 public class Report {
     protected String reportID;
     protected LocalDateTime reportDate;
+
+    public Report(String reportID, LocalDateTime reportDate) {
+        this.reportID = reportID;
+        this.reportDate = reportDate;
+    }
 }

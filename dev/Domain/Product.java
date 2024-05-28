@@ -66,6 +66,15 @@ public class Product {
         return area;
     }
 
+    public double getCurrentCostPrice(){
+        return costPrice*discount*0.01;
+    }
+
+    public double getCurrentSellingPrice(){
+        return sellingPrice*discount*0.01;
+    }
+
+
     public boolean isOnShelf(int id) throws Exception {
         isExists(id);
         for (Map.Entry<String, Item> entry : items.entrySet()) {
@@ -119,6 +128,134 @@ public class Product {
         items.remove((Integer.toString(id)));
     }
 
+    public void setItemIndex(int itemIndex) {
+        this.itemIndex = itemIndex;
+    }
+
+    public void setCatNum(String catNum) {
+        this.catNum = catNum;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public void setCurrentQuantity(int currentQuantity) {
+        this.currentQuantity = currentQuantity;
+    }
+
+    public void setShelfQuantity(int shelfQuantity) {
+        this.shelfQuantity = shelfQuantity;
+    }
+
+    public void setWarehouseQuantity(int warehouseQuantity) {
+        this.warehouseQuantity = warehouseQuantity;
+    }
+
+    public void setMinQuantity(int minQuantity) {
+        this.minQuantity = minQuantity;
+    }
+
+    public void setCostPrice(double costPrice) {
+        this.costPrice = costPrice;
+    }
+
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public void setSale(double sale) {
+        this.sale = sale;
+    }
+
+    public void setCat(String cat) {
+        this.cat = cat;
+    }
+
+    public void setSubCat(String subCat) {
+        this.subCat = subCat;
+    }
+
+    public void setSubSubCat(String subSubCat) {
+        this.subSubCat = subSubCat;
+    }
+
+    public void setItems(Map<String, Item> items) {
+        this.items = items;
+    }
+
+    public int getItemIndex() {
+        return itemIndex;
+    }
+
+    public String getCatNum() {
+        return catNum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public int getCurrentQuantity() {
+        return currentQuantity;
+    }
+
+    public int getShelfQuantity() {
+        return shelfQuantity;
+    }
+
+    public int getWarehouseQuantity() {
+        return warehouseQuantity;
+    }
+
+    public int getMinQuantity() {
+        return minQuantity;
+    }
+
+    public double getCostPrice() {
+        return costPrice;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public double getSale() {
+        return sale;
+    }
+
+    public String getCat() {
+        return cat;
+    }
+
+    public String getSubCat() {
+        return subCat;
+    }
+
+    public String getSubSubCat() {
+        return subSubCat;
+    }
+
+    public Map<String, Item> getItems() {
+        return items;
+    }
+
     public void moveItem(int id) throws Exception{
         isExists(id);
         if (!items.get((Integer.toString(id))).isOnShelf()) {
@@ -131,6 +268,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
+                "itemIndex=" + itemIndex +
                 ", catNum='" + catNum + '\'' +
                 ", name='" + name + '\'' +
                 ", area='" + area + '\'' +
@@ -139,6 +277,14 @@ public class Product {
                 ", shelfQuantity=" + shelfQuantity +
                 ", warehouseQuantity=" + warehouseQuantity +
                 ", minQuantity=" + minQuantity +
+                ", costPrice=" + costPrice +
+                ", discount=" + discount +
+                ", sellingPrice=" + sellingPrice +
+                ", sale=" + sale +
+                ", cat='" + cat + '\'' +
+                ", subCat='" + subCat + '\'' +
+                ", subSubCat='" + subSubCat + '\'' +
+                ", items=" + items +
                 '}';
     }
 }
