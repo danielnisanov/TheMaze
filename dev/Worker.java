@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.time.LocalDate;
 
@@ -10,7 +11,7 @@ public class Worker {
     protected int bank_account_num;
     protected  double hourly_salary;
     protected  int vaction_days;
-    public GobType job_type;
+    public JobType job_type;
     private LocalDate starting_day;
     public int brunch;
     protected double total_hours;
@@ -78,12 +79,12 @@ public class Worker {
         this.vaction_days = vaction_days;
     }
 
-    public GobType getJob_type() {
+    public JobType getJob_type() {
         return job_type;
 
     }
 
-    public void setJob_type(GobType job_type) {
+    public void setJob_type(JobType job_type) {
         this.job_type = job_type;
     }
 
@@ -108,7 +109,7 @@ public class Worker {
     }
 
     public void setTotal_hours(double total_hours) {
-        this.total_hours = total_hours;
+        this.total_hours = 0;
     }
 
     public Set<Role> getRoles_permissions() {
@@ -119,7 +120,7 @@ public class Worker {
         this.roles_permissions = roles_permissions;
     }
 
-    public Worker(String address, String name, int ID_number, int bank_account_num, double global_salary, double hourly_salary, int vaction_days, GobType job_type, int starting_day,
+    public Worker(String address, String name, int ID_number, int bank_account_num, double global_salary, double hourly_salary, int vaction_days, JobType job_type, int starting_day,
                   double total_hours, int brunch, Set<Role> roles_permissions, boolean job_status) {
         this.address = address;
         this.name = name;
@@ -139,7 +140,31 @@ public class Worker {
             this.bank_account_num = new_account_num;
         }
 
+    // Add a method to add a role to the employee
+    public void addRole(Role role) {
+        if (roles_permissions == null) {
+            roles_permissions = new HashSet<>();
+        }
+        roles_permissions.add(role);
+    }
 
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "ID: " + ID_number +
+                ", Name: '" + name + '\'' +
+                ", Address: '" + address + '\'' +
+                ", Bank Account Number: " + bank_account_num +
+                ", Hourly Salary: " + hourly_salary +
+                ", Vacation Days: " + vaction_days +
+                ", Job Type: " + job_type +
+                ", Starting Day: " + starting_day +
+                ", Branch: " + brunch +
+                ", Total Hours: " + total_hours +
+                ", Roles and Permissions: " + roles_permissions +
+                ", Job Status: " + (job_status ? "Active" : "Inactive") +
+                '}';
+    }
 
     }
 
