@@ -125,7 +125,6 @@ public class Worker {
         this.name = name;
         this.ID_number = ID_number;
         this.bank_account_num = bank_account_num;
-        //this.global_salary = global_salary;
         this.hourly_salary = hourly_salary;
         this.vaction_days = vaction_days;
         this.job_type = job_type;

@@ -50,7 +50,7 @@ public class Worker_Controller {
 
         GobType gob_type;
         System.out.println(" enter his job type: Full_time_job, Part_time_job, Works_contractor");
-        gob_type = scanner.next(); ///fix
+        gob_type = GobType.valueOf(scanner.next()); ///fix
 
         int branch;
         System.out.println("enter his branch");
