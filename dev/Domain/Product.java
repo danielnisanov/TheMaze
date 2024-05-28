@@ -1,5 +1,7 @@
 package Domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.time.LocalDateTime;
@@ -52,11 +54,11 @@ public class Product {
         }
     }
 
-    public Map<String,Item> findExpiredItems ()  {
-        Map<String,Item> expiredItems = new HashMap<>();
+    public List<Item> findExpiredItems ()  {
+        List<Item> expiredItems = new ArrayList<>();
         for (Map.Entry<String, Item> entry : items.entrySet()) {
             if(entry.getValue().getExpirationDate().isBefore(LocalDateTime.now())){
-                expiredItems.put(entry.getKey(),entry.getValue());
+                expiredItems.add(entry.getValue());
             }
         }
         return expiredItems;

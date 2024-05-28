@@ -17,8 +17,8 @@ public class Category {
             throw new Exception("This subCategory is already exist.");
         }
         else{
-            SubCategory newsub = new SubCategory(subCategoryName);
-            subList.put(subCategoryName, newsub);
+            SubCategory newSub = new SubCategory(subCategoryName);
+            subList.put(subCategoryName, newSub);
         }
     }
 
