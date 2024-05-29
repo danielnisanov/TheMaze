@@ -1,5 +1,6 @@
 package Domain;
 
+import javax.swing.plaf.PanelUI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,10 @@ public class ProductController {
     private ProductController() {
         productsList = new HashMap<>();
         productIndex = 0;
+    }
+
+    public Product getProduct (int catNum){
+        return productsList.get(Integer.toString(catNum));
     }
 
     public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory) {
