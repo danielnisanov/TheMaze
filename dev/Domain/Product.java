@@ -76,7 +76,6 @@ public class Product {
         return sellingPrice*discount*0.01;
     }
 
-
     public boolean isOnShelf(int id) throws Exception {
         isExists(id);
         for (Map.Entry<String, Item> entry : items.entrySet()) {
@@ -85,16 +84,6 @@ public class Product {
             }
         }
         return false;
-    }
-
-    public void updateDamagedItem (int id)  throws Exception  {
-        isExists(id);
-        for (Map.Entry<String, Item> entry : items.entrySet()) {
-            if (entry.getValue().getItemID() == id){
-                entry.getValue().setDamaged(true);
-            }
-            break;
-        }
     }
 
     public void setDiscount(double discount) {
@@ -118,6 +107,12 @@ public class Product {
         else
             warehouseQuantity++;
     }
+
+    public Item getItem(int id) throws Exception {
+        isExists(id);
+        return items.get(Integer.toString(id));
+    }
+
 
     public void removeItem(int id) throws Exception{
         isExists(id);

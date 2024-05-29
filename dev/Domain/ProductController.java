@@ -1,6 +1,7 @@
 package Domain;
 
 import javax.swing.plaf.PanelUI;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +26,51 @@ public class ProductController {
         productIndex = 0;
     }
 
+    public void addProduct(String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
+        boolean category = category_controller.getCategoriesList().containsKey(cat);
+        boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);
+        boolean subSubCategory = category_controller.getCategoriesList().get(cat).getSubList().get(subCat).getSubSubList().containsKey(subSubCat);
+
+        if (!category || !subCategory || !subSubCategory) throw new Exception("Category or SubCategory or SubSubCategory isn't exists.");
+        if(name == null || name.equals("")) throw new Exception("Product name is empty.");
+        if(area == null || area.equals("")) throw new Exception("Product area is empty.");
+        if(manufacturer == null || manufacturer.equals("")) throw new Exception("Product manufacturer is empty.");
+        if(minQuantity < 0 ) throw new Exception("Product minQuantity is negative.");
+        if (costPrice < 0 ) throw new Exception("Product costPrice is negative.");
+        if (sellingPrice < 0 ) throw new Exception("Product sellingPrice is negative.");
+        if (discount <= 0 || discount > 1) throw new Exception("Product discount is illegal.");
+        if (sale <= 0 || sale > 1) throw new Exception("Product sale is illegal.");
+
+        Product product = new Product(Integer.toString(productIndex), name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
+        productsList.put(product.getCatNum(), product);
+        productIndex++;
+    }
     public Product getProduct (int catNum){
         return productsList.get(Integer.toString(catNum));
     }
+
+
+    public void removeProduct(int catNum) throws Exception{
+        proIsExist(catNum);
+        productsList.remove(Integer.toString(catNum));
+    }
+
+    public void addItem(int catNum, LocalDateTime expirationDate, boolean onShelf) throws Exception{
+        proIsExist(catNum);
+        productsList.get(Integer.toString(catNum)).addItem(expirationDate, onShelf);
+    }
+
+    public Item getItem(int catNum, int itemNum) throws Exception{
+        proIsExist(catNum);
+        return productsList.get(Integer.toString(catNum)).getItem(itemNum);
+    }
+
+    public void removeItem(int catNum, int itemNum) throws Exception{
+        proIsExist(catNum);
+        productsList.get(Integer.toString(catNum)).removeItem(itemNum);
+    }
+
+
 
     public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory) {
         List<Product> products = new ArrayList<>();
@@ -65,30 +108,6 @@ public class ProductController {
         return expiredItemsList;
     }
 
-    public void addProduct(String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
-        boolean category = category_controller.getCategoriesList().containsKey(cat);
-        boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);
-        boolean subSubCategory = category_controller.getCategoriesList().get(cat).getSubList().get(subCat).getSubSubList().containsKey(subSubCat);
-
-        if (!category || !subCategory || !subSubCategory) throw new Exception("Category or SubCategory or SubSubCategory isn't exists.");
-        if(name == null || name.equals("")) throw new Exception("Product name is empty.");
-        if(area == null || area.equals("")) throw new Exception("Product area is empty.");
-        if(manufacturer == null || manufacturer.equals("")) throw new Exception("Product manufacturer is empty.");
-        if(minQuantity < 0 ) throw new Exception("Product minQuantity is negative.");
-        if (costPrice < 0 ) throw new Exception("Product costPrice is negative.");
-        if (sellingPrice < 0 ) throw new Exception("Product sellingPrice is negative.");
-        if (discount <= 0 || discount > 1) throw new Exception("Product discount is illegal.");
-        if (sale <= 0 || sale > 1) throw new Exception("Product sale is illegal.");
-
-        Product product = new Product(Integer.toString(productIndex), name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
-        productsList.put(product.getCatNum(), product);
-        productIndex++;
-    }
-
-    public void removeProduct(int catNum) throws Exception{
-        proIsExist(catNum);
-        productsList.remove(Integer.toString(catNum));
-    }
 
     public void proIsExist (int catNum) throws Exception{
         if(!productsList.containsKey(Integer.toString(catNum))){

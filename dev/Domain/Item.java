@@ -48,5 +48,13 @@ public class Item {
         return onShelf;
     }
 
-
+    @Override
+    public String toString() {
+        return "Item{" +
+                "itemID=" + itemID +
+                ", expirationDate=" + expirationDate +
+                ", isDamaged=" + isDamaged +
+                ", onShelf=" + onShelf +
+                '}';
+    }
 }

@@ -1,11 +1,9 @@
 package Presentation;
 
 import java.util.Scanner;
-import Domain.ProductController;
-import Domain.CategoryController;
-import Domain.ReportController;
-import Domain.Product;
-import Domain.Item;
+
+import Domain.*;
+
 import java.time.LocalDateTime;
 
 public class Menu {
@@ -248,4 +246,45 @@ public class Menu {
         }
     }
 
+    private void addItem() {
+        try {
+            System.out.print("Enter catalog number of the product: ");
+            int catNum = Integer.parseInt(scanner.nextLine());
+            System.out.print("Enter if the item is on shelf (true/false): ");
+            String onShelf = scanner.nextLine();
+            boolean boolOnShelf = Boolean.parseBoolean(onShelf);
+            System.out.print("Enter expiration date (yyyy-MM-dd): ");
+            String expirationDate = scanner.nextLine();
+            LocalDateTime dateExpirationDate = LocalDateTime.parse(expirationDate);
+            productController.addItem(catNum, dateExpirationDate, boolOnShelf);
+            System.out.println("Item added successfully.");
+        } catch (Exception e) {
+            System.out.println("Error adding item: " + e.getMessage());
+        }
+    }
+
+    private void viewItem() {
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter product catalog number: ");
+        int catNum = Integer.parseInt(scanner.nextLine());
+        try {
+            Item item = productController.getProduct(catNum).getItem(itemid);
+            System.out.println(item.toString());
+        } catch (Exception e) {
+            System.out.println("Error viewing item: " + e.getMessage());
+        }
+    }
+
+    private void removeItem() {
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter product catalog number: ");
+        int catNum = Integer.parseInt(scanner.nextLine());
+        try {
+            productController.getProduct(catNum).removeItem(itemid);
+        } catch (Exception e) {
+            System.out.println("Error removing item: " + e.getMessage());
+        }
+    }
 }
