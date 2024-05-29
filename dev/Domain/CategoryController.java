@@ -47,7 +47,6 @@ public class CategoryController {
         }
     }
 
-
     public void addSubCategory(String subCategoryName, String categoryName ) throws Exception {
         if (!categoriesList.containsKey(categoryName)){
             throw new Exception("The Category isn't exist.");

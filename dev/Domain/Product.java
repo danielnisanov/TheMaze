@@ -50,7 +50,7 @@ public class Product {
 
     public void isExists(int id) throws Exception{
         if (!items.containsKey(Integer.toString(id))){
-            throw new Exception("Item id " + id + " doesn't exist.");
+            throw new Exception("Item with id " + id + " doesn't exist.");
         }
     }
 
@@ -86,8 +86,6 @@ public class Product {
         }
         return false;
     }
-
-
 
     public void updateDamagedItem (int id)  throws Exception  {
         isExists(id);
