@@ -24,6 +24,7 @@ public class ProductController {
     private ProductController() {
         productsList = new HashMap<>();
         productIndex = 0;
+        category_controller = CategoryController.getInstance();
     }
 
     public void addProduct(String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
@@ -42,32 +43,32 @@ public class ProductController {
         if (sale <= 0 || sale > 1) throw new Exception("Product sale is illegal.");
 
         Product product = new Product(Integer.toString(productIndex), name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
-        productsList.put(product.getCatNum(), product);
+        productsList.put(product.getName(), product);
         productIndex++;
     }
-    public Product getProduct (int catNum){
-        return productsList.get(Integer.toString(catNum));
+    public Product getProduct (String name){
+        return productsList.get(name);
     }
 
 
-    public void removeProduct(int catNum) throws Exception{
-        proIsExist(catNum);
-        productsList.remove(Integer.toString(catNum));
+    public void removeProduct(String name) throws Exception{
+        proIsExist(name);
+        productsList.remove(name);
     }
 
-    public void addItem(int catNum, LocalDateTime expirationDate, boolean onShelf) throws Exception{
-        proIsExist(catNum);
-        productsList.get(Integer.toString(catNum)).addItem(expirationDate, onShelf);
+    public void addItem(String name, LocalDateTime expirationDate, boolean onShelf) throws Exception{
+        proIsExist(name);
+        productsList.get(name).addItem(expirationDate, onShelf);
     }
 
-    public Item getItem(int catNum, int itemNum) throws Exception{
-        proIsExist(catNum);
-        return productsList.get(Integer.toString(catNum)).getItem(itemNum);
+    public Item getItem(String name, int itemNum) throws Exception{
+        proIsExist(name);
+        return productsList.get(name).getItem(itemNum);
     }
 
-    public void removeItem(int catNum, int itemNum) throws Exception{
-        proIsExist(catNum);
-        productsList.get(Integer.toString(catNum)).removeItem(itemNum);
+    public void removeItem(String name, int itemNum) throws Exception{
+        proIsExist(name);
+        productsList.get(name).removeItem(itemNum);
     }
 
 
@@ -109,9 +110,9 @@ public class ProductController {
     }
 
 
-    public void proIsExist (int catNum) throws Exception{
-        if(!productsList.containsKey(Integer.toString(catNum))){
-            throw new Exception("Product with catalog number "+ catNum +" doesn't exist.");
+    public void proIsExist (String name) throws Exception{
+        if(!productsList.containsKey(name)){
+            throw new Exception("Product "+ name +" doesn't exist.");
         }
     }
 

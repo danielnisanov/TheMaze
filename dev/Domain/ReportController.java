@@ -19,7 +19,7 @@ public class ReportController {
     }
 
     public ReportController() {
-        reportIndex = 0;
+        reportIndex = 1;
         reports = new HashMap<>();
     }
 
@@ -40,27 +40,29 @@ public class ReportController {
     }
 
 
-    public ReportOfDamaged createDamagedReport( int id) throws Exception {
-        if (reports.containsKey(Integer.toString(id)))
-            throw new Exception("The ReportId already exists in the system");
-        else {
-            List<Item> damagedProd = product_controller.getDamagedItems();
-            ReportOfDamaged report = new ReportOfDamaged(id, LocalDateTime.now(), damagedProd);
-            reports.put(Integer.toString(id), report);
-            return report;
-        }
+    public ReportByCategory createInventoryReport( String categoryName, String subCategoryName, String subSubCategoryName) {
+        List<Product> byCategoryPro = product_controller.getProductsByCategory(categoryName, subCategoryName, subSubCategoryName);
+        ReportByCategory report = new ReportByCategory(reportIndex, LocalDateTime.now(), byCategoryPro, categoryName);
+        reports.put(Integer.toString(reportIndex), report);
+        reportIndex++;
+        return report;
     }
 
-    public ReportOfExpired createExpiredReport( int id) throws Exception {
-        if (reports.containsKey(Integer.toString(id)))
-            throw new Exception("The ReportId already exists in the system");
-        else {
-            List<Item> expiredProd = product_controller.getExpiredItems();
-            ReportOfExpired report = new ReportOfExpired(id, LocalDateTime.now(), expiredProd);
-            reports.put(Integer.toString(id), report);
-            return report;
-        }
+    public ReportOfDamaged createDamagedReport()  {
+        List<Item> damagedProd = product_controller.getDamagedItems();
+        ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDateTime.now(), damagedProd);
+        reports.put(Integer.toString(reportIndex), report);
+        reportIndex++;
+        return report;
+
     }
 
+    public ReportOfExpired createExpiredReport()  {
+        List<Item> expiredItems = product_controller.getExpiredItems();
+        ReportOfExpired report = new ReportOfExpired(reportIndex, LocalDateTime.now(), expiredItems);
+        reports.put(Integer.toString(reportIndex), report);
+        reportIndex++;
+        return report;
+    }
 
 }

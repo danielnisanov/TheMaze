@@ -9,7 +9,7 @@ public class ReportByCategory extends Report {
     public ReportByCategory(int reportID, LocalDateTime reportDate, List<Product> productList,String categoryName ) {
         super(reportID, reportDate);
         this.productList = productList;
-        this. categoryName = categoryName;
+        this.categoryName = categoryName;
     }
 
     @Override

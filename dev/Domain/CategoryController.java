@@ -131,12 +131,18 @@ public class CategoryController {
         this.categoriesList = categoriesList;
     }
 
+
     public static void setCategory_controller(CategoryController category_controller) {
         CategoryController.category_controller = category_controller;
     }
 
     public Map<String, Category> getCategoriesList() {
         return categoriesList;
+    }
+    public void showCategories(){
+        for (Category c: categoriesList.values()){
+            System.out.println(c.toString());
+        }
     }
 
     public static CategoryController getCategory_controller() {

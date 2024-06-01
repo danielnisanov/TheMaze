@@ -57,5 +57,13 @@ public class Category {
     public Map<String, SubCategory> getSubList() {
         return subList;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryName='" + categoryName + '\'' +
+                ", subList=" + subList +
+                '}';
+    }
 }
 
