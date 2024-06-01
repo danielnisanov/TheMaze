@@ -21,6 +21,8 @@ public class ReportController {
     public ReportController() {
         reportIndex = 1;
         reports = new HashMap<>();
+        product_controller = ProductController.getInstance();
+
     }
 
     public void removeReport(int id) throws Exception {
