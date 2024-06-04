@@ -111,36 +111,36 @@ public class Menu {
 
     private void printMainMenu() {
         System.out.println("\nMenu:");
-        System.out.println("1. Adding a category");
-        System.out.println("2. Adding a sub-category");
-        System.out.println("3. Adding a sub-sub-category");
-        System.out.println("4. Removing a category");
-        System.out.println("5. Removing a sub-category");
-        System.out.println("6. Removing a sub-sub-category");
-        System.out.println("7. Adding a new product");
-        System.out.println("8. Displaying an existing product");
-        System.out.println("9. Removing an existing product");
+        System.out.println("1. Add category");
+        System.out.println("2. Add sub-category");
+        System.out.println("3. Add sub-sub-category");
+        System.out.println("4. Remove category");
+        System.out.println("5. Remove sub-category");
+        System.out.println("6. Remove sub-sub-category");
+        System.out.println("7. Add new product");
+        System.out.println("8. Display an existing product");
+        System.out.println("9. Remove an existing product");
         System.out.println("10. Show all items");
-        System.out.println("11. Adding a new item");
-        System.out.println("12. Displaying an existing item");
-        System.out.println("13. Removing an existing item");
-        System.out.println("14. Updating product discount from suppliers");
-        System.out.println("15. Updating product sale for customers");
-        System.out.println("16. Moving an item from the warehouse to the shelf");
-        System.out.println("17. Checking item location");
-        System.out.println("18. Updating item damaged");
-        System.out.println("19. Creating an inventory report");
-        System.out.println("20. Creating a damaged products report");
-        System.out.println("21. Creating an expired products report");
-        System.out.println("22. Displaying an exist report");
-        System.out.println("23. Removing a report");
+        System.out.println("11. Add new item");
+        System.out.println("12. Display an existing item");
+        System.out.println("13. Remove an existing item");
+        System.out.println("14. Update product discount from suppliers");
+        System.out.println("15. Update product sale for customers");
+        System.out.println("16. Move item from the warehouse to the shelf");
+        System.out.println("17. Check item location");
+        System.out.println("18. Update item damaged");
+        System.out.println("19. Create an inventory report");
+        System.out.println("20. Create damaged products report");
+        System.out.println("21. Create an expired products report");
+        System.out.println("22. Display an exist report");
+        System.out.println("23. Remove an exist report");
         System.out.println("24. Exit");
         System.out.print("Select an option: ");
     }
 
     private void loadInitialData() {
-        csvReader.loadCategories("C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\docs\\categories.csv", categoryPresentation);
-        csvReader.loadProducts("C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\docs\\products.csv", productPresentation);
-        csvReader.loadItems("C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\docs\\items.csv", productPresentation);
+        csvReader.loadCategories("dev/Data/categories.csv", categoryPresentation);
+        csvReader.loadProducts("dev/Data/products.csv", productPresentation);
+        csvReader.loadItems("dev/Data/items.csv", productPresentation);
     }
 }
