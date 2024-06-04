@@ -1,10 +1,10 @@
 package Domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.time.LocalDateTime;
 
 public class Product {
     private int itemIndex;
@@ -55,10 +55,11 @@ public class Product {
     }
 
     public List<Item> findExpiredItems ()  {
+        LocalDate today = LocalDate.now();
         List<Item> expiredItems = new ArrayList<>();
-        for (Map.Entry<String, Item> entry : items.entrySet()) {
-            if(entry.getValue().getExpirationDate().isBefore(LocalDateTime.now())){
-                expiredItems.add(entry.getValue());
+        for  (Item i: items.values()){
+            if(i.getExpirationDate().isBefore(today)){
+                expiredItems.add(i);
             }
         }
         return expiredItems;
@@ -95,7 +96,7 @@ public class Product {
         items.get((Integer.toString(id))).setDamaged(damaged);
     }
 
-    public void addItem(LocalDateTime expirationDate, boolean onShelf) throws Exception{
+    public void addItem(LocalDate expirationDate, boolean onShelf) throws Exception{
         if (expirationDate == null){
             throw new Exception("expirationDate is missing.");
         }
@@ -106,6 +107,7 @@ public class Product {
             shelfQuantity++;
         else
             warehouseQuantity++;
+        currentQuantity++;
     }
 
     public Item getItem(int id) throws Exception {
@@ -121,6 +123,10 @@ public class Product {
         else
             warehouseQuantity--;
         items.remove((Integer.toString(id)));
+        currentQuantity--;
+        if (currentQuantity <= minQuantity){
+            System.out.println("Please note, the quantity of items from this product has reached the minimum quantity:" + minQuantity);
+        }
     }
 
     public void setItemIndex(int itemIndex) {
@@ -263,7 +269,6 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "itemIndex=" + itemIndex +
                 ", catNum='" + catNum + '\'' +
                 ", name='" + name + '\'' +
                 ", area='" + area + '\'' +
@@ -280,4 +285,5 @@ public class Product {
                 ", items=" + items +
                 '}';
     }
+
 }

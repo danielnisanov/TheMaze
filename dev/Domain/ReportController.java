@@ -1,6 +1,6 @@
 package Domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public class ReportController {
 
     public ReportByCategory createInventoryReport( String categoryName, String subCategoryName, String subSubCategoryName) {
         List<Product> byCategoryPro = product_controller.getProductsByCategory(categoryName, subCategoryName, subSubCategoryName);
-        ReportByCategory report = new ReportByCategory(reportIndex, LocalDateTime.now(), byCategoryPro, categoryName);
+        ReportByCategory report = new ReportByCategory(reportIndex, LocalDate.now(), byCategoryPro, categoryName);
         reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;
@@ -52,7 +52,7 @@ public class ReportController {
 
     public ReportOfDamaged createDamagedReport()  {
         List<Item> damagedProd = product_controller.getDamagedItems();
-        ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDateTime.now(), damagedProd);
+        ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDate.now(), damagedProd);
         reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;
@@ -61,7 +61,7 @@ public class ReportController {
 
     public ReportOfExpired createExpiredReport()  {
         List<Item> expiredItems = product_controller.getExpiredItems();
-        ReportOfExpired report = new ReportOfExpired(reportIndex, LocalDateTime.now(), expiredItems);
+        ReportOfExpired report = new ReportOfExpired(reportIndex, LocalDate.now(), expiredItems);
         reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;

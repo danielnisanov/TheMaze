@@ -1,13 +1,14 @@
 package Domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Item {
     private int itemID;
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
     private boolean isDamaged;
 
-    public Item(int itemID, LocalDateTime expirationDate, boolean isDamaged, boolean onShelf) {
+    public Item(int itemID, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
         this.itemID = itemID;
         this.expirationDate = expirationDate;
         this.isDamaged = isDamaged;
@@ -20,7 +21,7 @@ public class Item {
         this.itemID = itemID;
     }
 
-    public void setExpirationDate(LocalDateTime expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -36,7 +37,7 @@ public class Item {
         return itemID;
     }
 
-    public LocalDateTime getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 

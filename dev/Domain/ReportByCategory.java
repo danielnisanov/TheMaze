@@ -1,12 +1,12 @@
 package Domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReportByCategory extends Report {
     private List<Product> productList;
     private String categoryName;
-    public ReportByCategory(int reportID, LocalDateTime reportDate, List<Product> productList,String categoryName ) {
+    public ReportByCategory(int reportID, LocalDate reportDate, List<Product> productList,String categoryName ) {
         super(reportID, reportDate);
         this.productList = productList;
         this.categoryName = categoryName;

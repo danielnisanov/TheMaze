@@ -1,12 +1,12 @@
 package Domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Report {
     protected int reportID;
-    protected LocalDateTime reportDate;
+    protected LocalDate reportDate;
 
-    public Report(int reportID, LocalDateTime reportDate) {
+    public Report(int reportID, LocalDate reportDate) {
         this.reportID = reportID;
         this.reportDate = reportDate;
     }
@@ -15,7 +15,7 @@ public class Report {
         return reportID;
     }
 
-    public LocalDateTime getReportDate() {
+    public LocalDate getReportDate() {
         return reportDate;
     }
 
@@ -23,7 +23,7 @@ public class Report {
         this.reportID = reportID;
     }
 
-    public void setReportDate(LocalDateTime reportDate) {
+    public void setReportDate(LocalDate reportDate) {
         this.reportDate = reportDate;
     }
 

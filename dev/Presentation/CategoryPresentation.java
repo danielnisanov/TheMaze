@@ -24,8 +24,15 @@ public class CategoryPresentation {
         }
     }
 
+    public void addCategory2(String categoryName){
+        try {
+            categoryController.addCategory(categoryName);
+        } catch (Exception e) {
+        }
+    }
+
     public void addSubCategory() {
-        System.out.print("Enter category name from the list: ");
+        System.out.println("Enter category name from the list: ");
         categoryController.showCategories();
         String categoryName = scanner.nextLine();
         System.out.print("Enter sub-category name: ");
@@ -38,9 +45,18 @@ public class CategoryPresentation {
         }
     }
 
+    public void addSubCategory2(String subCategoryName, String categoryName) {
+        try {
+            categoryController.addSubCategory(subCategoryName, categoryName);
+        } catch (Exception e) {
+        }
+    }
+
     public void addSubSubCategory() {
+        categoryController.showCategories();
         System.out.print("Enter category name: ");
         String categoryName = scanner.nextLine();
+        categoryController.showSubCategories(categoryName);
         System.out.print("Enter sub-category name: ");
         String subCategoryName = scanner.nextLine();
         System.out.print("Enter sub-sub-category name: ");
@@ -50,6 +66,13 @@ public class CategoryPresentation {
             System.out.println("Sub-sub-category added successfully.");
         } catch (Exception e) {
             System.out.println("Error adding sub-sub-category: " + e.getMessage());
+        }
+    }
+
+    public void addSubSubCategory2(String subSubCategoryName, String subCategoryName, String categoryName) {
+        try {
+            categoryController.addSubSubCategory(subSubCategoryName, subCategoryName, categoryName);
+        } catch (Exception e) {
         }
     }
 

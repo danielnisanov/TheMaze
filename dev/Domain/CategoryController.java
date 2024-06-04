@@ -145,6 +145,13 @@ public class CategoryController {
         }
     }
 
+    public void showSubCategories(String categoryName){
+        Map<String,SubCategory> sublist= categoriesList.get(categoryName).getSubList();
+        for (SubCategory s: sublist.values()){
+            System.out.println(s.toString());
+        }
+    }
+
     public static CategoryController getCategory_controller() {
         return category_controller;
     }

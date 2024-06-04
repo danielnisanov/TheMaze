@@ -1,6 +1,7 @@
 package Domain;
 
 import javax.swing.plaf.PanelUI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class ProductController {
         productsList.remove(name);
     }
 
-    public void addItem(String name, LocalDateTime expirationDate, boolean onShelf) throws Exception{
+    public void addItem(String name, LocalDate expirationDate, boolean onShelf) throws Exception{
         proIsExist(name);
         productsList.get(name).addItem(expirationDate, onShelf);
     }
@@ -69,9 +70,8 @@ public class ProductController {
     public void removeItem(String name, int itemNum) throws Exception{
         proIsExist(name);
         productsList.get(name).removeItem(itemNum);
+
     }
-
-
 
     public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory) {
         List<Product> products = new ArrayList<>();
@@ -104,8 +104,11 @@ public class ProductController {
     public List<Item> getExpiredItems(){
         List<Item> expiredItemsList = new ArrayList<>();
         for (Product product: productsList.values() ){
-            expiredItemsList = product.findExpiredItems();
+            List<Item> expiredItemsOfP = new ArrayList<>();
+            expiredItemsOfP = product.findExpiredItems();
+            expiredItemsList.addAll(expiredItemsOfP);
         }
+
         return expiredItemsList;
     }
 
@@ -113,6 +116,21 @@ public class ProductController {
     public void proIsExist (String name) throws Exception{
         if(!productsList.containsKey(name)){
             throw new Exception("Product "+ name +" doesn't exist.");
+        }
+    }
+
+    public void showProducts(){
+        for (Product p: productsList.values()){
+            System.out.println(p.getName());
+        }
+    }
+
+    public void showAllItems(){
+        for (Product p: productsList.values()){
+            Map<String, Item> items =  p.getItems();
+            for (Item i: items.values()){
+                System.out.println( p.getName() +" "+ i.getItemID() +" "+i.getExpirationDate());
+            }
         }
     }
 

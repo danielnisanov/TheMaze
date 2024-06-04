@@ -57,4 +57,8 @@ public class SubCategory{
         this.subSubList = subSubList;
     }
 
+    @Override
+    public String toString() {
+        return subCategoryName;
+    }
 }

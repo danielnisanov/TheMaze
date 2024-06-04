@@ -59,11 +59,14 @@ public class Category {
     }
 
     @Override
-    public String toString() {
-        return "Category{" +
-                "categoryName='" + categoryName + '\'' +
-                ", subList=" + subList +
-                '}';
+    public String toString(){
+        return categoryName;
     }
+//    public String toString() {
+//        return "Category{" +
+//                "categoryName='" + categoryName + '\'' +
+//                ", subList=" + subList +
+//                '}';
+//    }
 }
 

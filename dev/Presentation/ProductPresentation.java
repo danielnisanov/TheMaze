@@ -3,7 +3,10 @@ package Presentation;
 import Domain.Item;
 import Domain.Product;
 import Domain.ProductController;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class ProductPresentation {
@@ -47,7 +50,17 @@ public class ProductPresentation {
         }
     }
 
+    public void addProduct2(String name, String area,String manufacturer,int minQuantity, double costPrice, double sellingPrice,double discount,double sale,String category, String subCategory,String subSubCategory) {
+        try {
+            productController.addProduct(name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, category, subCategory, subSubCategory);
+        } catch (Exception e) {
+            System.out.println("Error adding product: " + e.getMessage());
+        }
+    }
+
+
     public void viewProduct() {
+        productController.showProducts();
         System.out.print("Enter product name: ");
         String name = scanner.nextLine();
         try {
@@ -76,11 +89,22 @@ public class ProductPresentation {
             System.out.print("Enter if the item is on shelf (true/false): ");
             String onShelf = scanner.nextLine();
             boolean boolOnShelf = Boolean.parseBoolean(onShelf);
+
             System.out.print("Enter expiration date (yyyy-MM-dd): ");
             String expirationDate = scanner.nextLine();
-            LocalDateTime dateExpirationDate = LocalDateTime.parse(expirationDate);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dateExpirationDate = LocalDate.parse(expirationDate, format);
+
             productController.addItem(name, dateExpirationDate, boolOnShelf);
             System.out.println("Item added successfully.");
+        } catch (Exception e) {
+            System.out.println("Error adding item: " + e.getMessage());
+        }
+    }
+
+    public void addItem2(String name,LocalDate dateExpirationDate,boolean boolOnShelf) {
+        try {
+            productController.addItem(name, dateExpirationDate, boolOnShelf);
         } catch (Exception e) {
             System.out.println("Error adding item: " + e.getMessage());
         }
@@ -152,10 +176,10 @@ public class ProductPresentation {
     }
 
     public void checkItemLocation() {
-        System.out.print("Enter item id: ");
-        int itemid = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter product name: ");
         String name = scanner.nextLine();
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
         try {
             boolean onShelf = productController.getProduct(name).isOnShelf(itemid);
             if (onShelf) {
@@ -166,6 +190,23 @@ public class ProductPresentation {
         } catch (Exception e) {
             System.out.println("Error checking item location: " + e.getMessage());
         }
+    }
+
+    public void updateItemDamaged() {
+        System.out.print("Enter product name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
+        try {
+            productController.getProduct(name).getItem(itemid).setDamaged(true);
+            System.out.println("Updating item damaged successfully.");
+        } catch (Exception e) {
+            System.out.println("Error updating item damaged: " + e.getMessage());
+        }
+    }
+
+    public void showAllItems(){
+        productController.showAllItems();
     }
 
     public ProductController getProductController() {
