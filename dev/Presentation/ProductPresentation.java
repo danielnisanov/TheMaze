@@ -61,7 +61,7 @@ public class ProductPresentation {
 
     public void viewProduct() {
         productController.showProducts();
-        System.out.print("Enter product name: ");
+        System.out.print("Enter product name from the list: ");
         String name = scanner.nextLine();
         try {
             Product product = productController.getProduct(name);
@@ -72,7 +72,8 @@ public class ProductPresentation {
     }
 
     public void removeProduct() {
-        System.out.print("Enter product name: ");
+        productController.showProducts();
+        System.out.print("Enter product name from the list: ");
         String name = scanner.nextLine();
         try {
             productController.removeProduct(name);
