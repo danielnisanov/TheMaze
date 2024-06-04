@@ -129,7 +129,6 @@ public class Menu {
         System.out.println("16. Moving an item from the warehouse to the shelf");
         System.out.println("17. Checking item location");
         System.out.println("18. Updating item damaged");
-
         System.out.println("19. Creating an inventory report");
         System.out.println("20. Creating a damaged products report");
         System.out.println("21. Creating an expired products report");
@@ -140,8 +139,8 @@ public class Menu {
     }
 
     private void loadInitialData() {
-        csvReader.loadCategories("C:\\Users\\Danieln\\Documents\\GitHub\\ADSS_Group_I\\docs\\categories.csv", categoryPresentation);
-        csvReader.loadProducts("C:\\Users\\Danieln\\Documents\\GitHub\\ADSS_Group_I\\docs\\products.csv", productPresentation);
-        csvReader.loadItems("C:\\Users\\Danieln\\Documents\\GitHub\\ADSS_Group_I\\docs\\items.csv", productPresentation);
+        csvReader.loadCategories("C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\docs\\categories.csv", categoryPresentation);
+        csvReader.loadProducts("C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\docs\\products.csv", productPresentation);
+        csvReader.loadItems("C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\docs\\items.csv", productPresentation);
     }
 }

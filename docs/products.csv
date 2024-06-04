@@ -1,11 +1,12 @@
 name,area,manufacturer,minQuantity,costPrice,sellingPrice,discount,sale,category,subCategory,subSubCategory
-iPhone 12,Aisle 1,Apple,10,699.99,999.99,0.1,0.05,Electronics,Mobile Phones,Smartphones
-Samsung Galaxy S21,Aisle 1,Samsung,15,649.99,849.99,0.1,0.1,Electronics,Mobile Phones,Smartphones
-Dell XPS 15,Aisle 2,Dell,5,999.99,1299.99,0.15,0.1,Electronics,Laptops,Gaming Laptops
-HP Spectre x360,Aisle 2,HP,7,1199.99,1399.99,0.1,0.1,Electronics,Laptops,Business Laptops
-Carrot,Aisle 5,Farm Fresh,50,0.5,1.0,0.05,0.02,Groceries,Vegetables,Root Vegetables
-Spinach,Aisle 5,Farm Fresh,40,0.8,1.5,0.05,0.02,Groceries,Vegetables,Leafy Greens
-Orange,Aisle 6,Farm Fresh,30,0.6,1.2,0.1,0.05,Groceries,Fruits,Citrus
-Strawberry,Aisle 6,Farm Fresh,25,2.5,4.0,0.1,0.05,Groceries,Fruits,Berries
-Men's Shirt,Aisle 7,Brand A,20,10.0,20.0,0.2,0.1,Clothing,Men,Shirts
-Women's Dress,Aisle 7,Brand B,15,15.0,30.0,0.2,0.1,Clothing,Women,Dresses
+Tomato,A,Farmers Market,50,0.50,1.00,0.05,0.02,Vegetables,Tomato,100 gram
+Banana,A,Fruit Farm,25,0.70,1.00,0.1,0.05,Fruits,Banana,150 gram
+Orange,A,Fruit Farm,30,0.60,1.20,0.1,0.05,Fruits,Orange,200 gram
+Tnuva Milk,B,DairyCo,20,8.00,1.50,0.1,0.05,Dairy products,Dairy,1 liter
+Tara Milk,B,DairyCo,20,9.00,1.50,0.1,0.05,Dairy products,Dairy,1.5 liter
+Emek Cheese,B,DairyCo,15,3.00,5.00,0.1,0.05,Dairy products,Cheese,250 gram
+Tara Cheese,B,DairyCo,10,9.00,5.00,0.2,0.05,Dairy products,Cheese,200 gram
+Yogurt,B,DairyCo,30,0.80,1.50,0.1,0.05,Dairy products,Yogurt,250 gram
+Eggs,C,Farmer's Best,30,2.00,3.50,0.1,0.05,Eggs products,Eggs,12 Pieces
+Osem Pasta,D,Italiano,25,1.50,2.50,0.1,0.05,Carbohydrate,Pasta,500 gram
+WhiteBread,D,Bakery Fresh,20,2.00,3.00,0.1,0.05,Carbohydrate,Bread,1 kg
