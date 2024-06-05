@@ -1,0 +1,4 @@
+manager,Haim,1,123,1
+worker,holon 2378,yossi,3,78,60,0,Full_time_job,0,Storekeeper,Sorter,Cashier
+
+//worker,address, name, id, bank account, salary,vacation,job type, branch, role
