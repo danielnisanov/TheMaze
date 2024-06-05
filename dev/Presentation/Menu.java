@@ -70,6 +70,7 @@ public class Menu {
     }
 
     private void printCategoryMenu() {
+        System.out.println("\n Category Menu:");
         System.out.println("1. Add category");
         System.out.println("2. Add sub-category");
         System.out.println("3. Add sub-sub-category");
@@ -82,6 +83,7 @@ public class Menu {
 
 
     private void printProductsItemsMenu() {
+        System.out.println("\n Products and Items Menu:");
         System.out.println("1. Add new product");
         System.out.println("2. Display an existing product");
         System.out.println("3. Remove an existing product");
@@ -98,6 +100,7 @@ public class Menu {
         System.out.print("Select an option: ");
     }
     private void printReportsMenu() {
+        System.out.println("\n Reports Menu:");
         System.out.println("1. Create an inventory report");
         System.out.println("2. Create damaged products report");
         System.out.println("3. Create an expired products report");

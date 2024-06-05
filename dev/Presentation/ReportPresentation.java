@@ -23,17 +23,20 @@ public class ReportPresentation {
         String subCategoryName = scanner.nextLine();
         System.out.print("Enter sub sub category name: ");
         String subSubCategoryName = scanner.nextLine();
+        System.out.println();
         ReportByCategory report = reportController.createInventoryReport(categoryName, subCategoryName, subSubCategoryName);
         System.out.println(report.toString());
     }
 
     public void createDamagedReport() {
         ReportOfDamaged report = reportController.createDamagedReport();
+        System.out.println();
         System.out.println(report.toString());
     }
 
     public void createExpiredReport() {
         ReportOfExpired report = reportController.createExpiredReport();
+        System.out.println();
         System.out.println(report.toString());
     }
 

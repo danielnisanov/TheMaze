@@ -114,10 +114,10 @@ public class ProductPresentation {
     }
 
     public void viewItem() {
-        System.out.print("Enter item id: ");
-        int itemid = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter product name: ");
         String name = scanner.nextLine();
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
         try {
             Item item = productController.getProduct(name).getItem(itemid);
             System.out.println(item.toString());
@@ -127,10 +127,10 @@ public class ProductPresentation {
     }
 
     public void removeItem() {
-        System.out.print("Enter item id: ");
-        int itemid = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter product name: ");
         String name = scanner.nextLine();
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
         try {
             productController.getProduct(name).removeItem(itemid);
             System.out.println("Item removed successfully.");
@@ -166,10 +166,10 @@ public class ProductPresentation {
     }
 
     public void moveItemToShelf() {
-        System.out.print("Enter item id: ");
-        int itemid = Integer.parseInt(scanner.nextLine());
         System.out.print("Enter product name: ");
         String name = scanner.nextLine();
+        System.out.print("Enter item id: ");
+        int itemid = Integer.parseInt(scanner.nextLine());
         try {
             productController.getProduct(name).moveItem(itemid);
             System.out.println("Item moved to shelf successfully.");
