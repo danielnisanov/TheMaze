@@ -107,7 +107,11 @@ public class Worker {
     }
 
     public int getBranchNum() {
-        return branch.getBranchNum();
+        if (branch != null) {
+            return branch.getBranchNum();
+        } else {
+            return -1;
+        }
     }
 
     public void setBranch(int branch) {

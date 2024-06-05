@@ -59,7 +59,7 @@ public class ManagerPresentation {
             System.out.println("5. Changing a worker's salary");//
             System.out.println("6. Update job type for a worker");//
             System.out.println("7. Update brunch number for worker");//
-            System.out.println("8. edit shift arrangement");
+            System.out.println("8. Add a new Branch");
             System.out.println("9. Creating a work arrangement");//
             System.out.println("10. Add new HR manager");
             System.out.println("11. Update bank account number for worker");//
