@@ -60,11 +60,12 @@ public class ManagerPresentation {
             System.out.println("6. Update job type for a worker");//
             System.out.println("7. Update brunch number for worker");//
             System.out.println("8. edit shift arrangement");
-            System.out.println("9. Creating a work arrangement");
+            System.out.println("9. Creating a work arrangement");//
             System.out.println("10. Add new HR manager");
             System.out.println("11. Update bank account number for worker");//
             System.out.println("12. Present work arrangement");
-            System.out.println("13. Exit");
+            System.out.println("13. Show me past workers");
+            System.out.println("14. Exit");
             System.out.print("Enter your choice: ");
             // Here you would add the logic for handling each menu option
 
@@ -112,6 +113,9 @@ public class ManagerPresentation {
                 break;
             case 13:
                 break;
+            case 14:
+                break;
+
 
         }
     }

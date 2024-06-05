@@ -22,6 +22,7 @@ public class WorkerController {
     public WorkerController(String file) {
         workers = new HashMap<>();
         managers = new HashMap<>();
+        branches = new HashMap<>();
         try {
             managers = openFileIntoListsManagers(file, managers);
             workers = openFileIntoListsWorkers(file, workers);
@@ -31,6 +32,19 @@ public class WorkerController {
         }
 
 
+    }
+
+    private Map<Integer, Branch> openFileIntoListsBranch(String file, Map<Integer, Branch> branches) throws FileNotFoundException {
+        Scanner sc = new Scanner(new File(file));
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            String[] parts = line.split(",");
+            if (parts[0].trim().equals("branch")) {
+                int branchNum = Integer.parseInt(parts[1].trim());
+                branches.put(branchNum, new Branch(branchNum));
+            }
+        }
+        return branches;
     }
 
     private Map<Integer, HRManager> openFileIntoListsManagers(String file, Map<Integer, HRManager> managers) throws FileNotFoundException {

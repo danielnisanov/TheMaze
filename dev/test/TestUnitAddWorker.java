@@ -51,7 +51,7 @@ public class TestUnitAddWorker {
         assertEquals(50.0, worker.getHourly_salary(), 0.0);
         assertEquals(20, worker.getVaction_days());
         assertEquals(JobType.Full_time_job, worker.getJob_type());
-        assertEquals(1, worker.getBranch());
+        assertEquals(1, worker.getBranchNum());
         assertTrue(worker.getRoles_permissions().contains(Role.Storekeeper));
 
 
@@ -77,7 +77,7 @@ public class TestUnitAddWorker {
         wc.add_worker(json);
 
         Worker worker = wc.getWorkers().get(987654321);
-        assertEquals(2, worker.getBranch());
+        assertEquals(2, worker.getBranchNum());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class TestUnitAddWorker {
         wc.add_worker(json);
 
         Worker worker = wc.getWorkers().get(135792468);
-        assertEquals(3, worker.getBranch());
+        assertEquals(3, worker.getBranchNum());
 
         AddWorker addWorker1 = new AddWorker(wc);
 
@@ -263,7 +263,7 @@ public class TestUnitAddWorker {
 
         // Asserting the worker's job type was updated correctly
         Worker worker = wc.getWorkers().get(987654321);
-        assertEquals(4, worker.getBranch());
+        assertEquals(4, worker.getBranchNum());
     }
 
     @Test

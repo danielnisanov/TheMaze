@@ -3,6 +3,7 @@ package Presentation;
 import Domain.WorkerController;
 import com.google.gson.JsonObject;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class WorkerPresentation {
@@ -68,7 +69,12 @@ public class WorkerPresentation {
 
 
     private void Submit_constraints() {
-        SubmitConstraints.WorkerConstraint(json);
+        boolean success = SubmitConstraints.WorkerConstraint(json).isEmpty();
+        if (success) {
+            System.out.println("Constraints submitted successfully.");
+        } else {
+            System.out.println("Error occurred while submitting constraints.");
+        }
     }
 
     private void Find_global_salary(){
@@ -80,12 +86,21 @@ public class WorkerPresentation {
         System.out.println("The global salary for you is:" + salary);
     }
 
-    private void Find_vaction_day(){
-        worker_controler.Find_vaction_day(json);
-
+    private void Find_vaction_day() {
+        int vacationDays;
+        if ((vacationDays = worker_controler.Find_vaction_day(json)) < 0) {
+            System.out.println("Error occurred");
+        } else {
+            System.out.println("The number of vacation days for you is: " + vacationDays);
+        }
     }
 
-    private void Find_Start_date(){
-        worker_controler.Find_Start_date(json);
+    private void Find_Start_date() {
+        LocalDate startDate;
+        if ((startDate = worker_controler.Find_Start_date(json)) == null) {
+            System.out.println("Error occurred");
+        } else {
+            System.out.println("Your start date is: " + startDate.toString());
+        }
     }
 }
