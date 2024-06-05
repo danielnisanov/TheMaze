@@ -1,0 +1,12 @@
+name,area,manufacturer,minQuantity,costPrice,sellingPrice,discount,sale,category,subCategory,subSubCategory
+Tomato,A,Farmers Market,50,0.50,1.00,0.05,0.02,Vegetables,Tomato,100 gram
+Banana,A,Fruit Farm,25,0.70,1.00,0.1,0.05,Fruits,Banana,150 gram
+Orange,A,Fruit Farm,30,0.60,1.20,0.1,0.05,Fruits,Orange,200 gram
+Tnuva Milk,B,DairyCo,20,8.00,1.50,0.1,0.05,Dairy products,Dairy,1 liter
+Tara Milk,B,DairyCo,20,9.00,1.50,0.1,0.05,Dairy products,Dairy,1.5 liter
+Emek Cheese,B,DairyCo,15,3.00,5.00,0.1,0.05,Dairy products,Cheese,250 gram
+Tara Cheese,B,DairyCo,10,9.00,5.00,0.2,0.05,Dairy products,Cheese,200 gram
+Yogurt,B,DairyCo,30,0.80,1.50,0.1,0.05,Dairy products,Yogurt,250 gram
+Eggs,C,Farmer's Best,30,2.00,3.50,0.1,0.05,Eggs products,Eggs,12 Pieces
+Osem Pasta,D,Italiano,25,1.50,2.50,0.1,0.05,Carbohydrate,Pasta,500 gram
+WhiteBread,D,Bakery Fresh,20,2.00,3.00,0.1,0.05,Carbohydrate,Bread,1 kg
