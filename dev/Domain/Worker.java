@@ -1,5 +1,9 @@
+package Domain;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.time.LocalDate;
 
@@ -13,18 +17,23 @@ public class Worker {
     protected  int vaction_days;
     public JobType job_type;
     private LocalDate starting_day;
-    public int brunch;
-    protected double total_hours;
+    public Branch branch;
+    protected double total_hours = 0;
     protected Set<Role> roles_permissions;
-    public boolean job_status;
+    public boolean job_status = true;
+    private Map<String, List<String>> constraints = null;
 
     public boolean getJob_status() {
         return job_status;
     }
 
+
+
     public void setJob_status(boolean job_status) {
-        this.job_status = true;
+
+        this.job_status = job_status;
     }
+
 
     public int getID_number() {
         return ID_number;
@@ -59,7 +68,8 @@ public class Worker {
         this.bank_account_num = bank_account_num;
     }
 
-    public double Global_salary(double hourly_salary, int total_hours) {
+    public double Global_salary(double hourly_salary, double total_hours) {
+
         return hourly_salary * total_hours;
     }
 
@@ -96,32 +106,33 @@ public class Worker {
         this.starting_day = LocalDate.ofEpochDay(starting_day);
     }
 
-    public int getBrunch() {
-        return brunch;
+    public int getBranchNum() {
+        return branch.getBranchNum();
     }
 
-    public void setBrunch(int brunch) {
-        this.brunch = brunch;
+    public void setBranch(int branch) {
+        this.branch.setBranchNum(branch);
     }
 
-    public int getTotal_hours() {
-        return (int) total_hours;
+    public double getTotal_hours() {
+        return total_hours;
     }
 
     public void setTotal_hours(double total_hours) {
-        this.total_hours = 0;
+        this.total_hours = 0.0;
     }
 
     public Set<Role> getRoles_permissions() {
         return roles_permissions;
     }
 
-    public void setRoles_permissions(Set<Role> roles_permissions) {
-        this.roles_permissions = roles_permissions;
-    }
+//    public void setRoles_permissions(Set<Role> roles_permissions) {
+//
+//        this.roles_permissions = roles_permissions;
+//    }
 
-    public Worker(String address, String name, int ID_number, int bank_account_num, double global_salary, double hourly_salary, int vaction_days, JobType job_type, int starting_day,
-                  double total_hours, int brunch, Set<Role> roles_permissions, boolean job_status) {
+    public Worker(String address, String name, int ID_number, int bank_account_num, double hourly_salary, int vaction_days, JobType job_type,
+                  Branch branch, Set<Role> roles_permissions) {
         this.address = address;
         this.name = name;
         this.ID_number = ID_number;
@@ -130,15 +141,15 @@ public class Worker {
         this.vaction_days = vaction_days;
         this.job_type = job_type;
         this.starting_day = LocalDate.from(LocalDateTime.now()); // Get the current date
-        this.total_hours = total_hours;
-        this.brunch = brunch;
+        this.branch = branch;
         this.roles_permissions = roles_permissions;
-        this.job_status = job_status;
+
+
     }
 
-        public void update_account_num(int new_account_num) {
-            this.bank_account_num = new_account_num;
-        }
+    public void update_account_num(int new_account_num) {
+        this.bank_account_num = new_account_num;
+    }
 
     // Add a method to add a role to the employee
     public void addRole(Role role) {
@@ -150,7 +161,7 @@ public class Worker {
 
     @Override
     public String toString() {
-        return "Worker{" +
+        return "Domain.Worker{" +
                 "ID: " + ID_number +
                 ", Name: '" + name + '\'' +
                 ", Address: '" + address + '\'' +
@@ -159,12 +170,20 @@ public class Worker {
                 ", Vacation Days: " + vaction_days +
                 ", Job Type: " + job_type +
                 ", Starting Day: " + starting_day +
-                ", Branch: " + brunch +
+                ", Branch: " + branch +
                 ", Total Hours: " + total_hours +
                 ", Roles and Permissions: " + roles_permissions +
-                ", Job Status: " + (job_status ? "Active" : "Inactive") +
+                ", Job Status: " + (job_status ? "True" : "False") +
                 '}';
     }
 
+    public Map<String, List<String>> getConstraints() {
+        return constraints;
+
+    }
+    public void setConstraints(Map<String, List<String>> constraints) {
+        this.constraints = constraints;
+
     }
 
+}
