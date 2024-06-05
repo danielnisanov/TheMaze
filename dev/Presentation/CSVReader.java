@@ -35,20 +35,21 @@ public class CSVReader {
             String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length == 11) {
-                    String name = values[0];
-                    String area = values[1];
-                    String manufacturer = values[2];
-                    int minQuantity = Integer.parseInt(values[3]);
-                    double costPrice = Double.parseDouble(values[4]);
-                    double sellingPrice = Double.parseDouble(values[5]);
-                    double discount = Double.parseDouble(values[6]);
-                    double sale = Double.parseDouble(values[7]);
-                    String category = values[8];
-                    String subCategory = values[9];
-                    String subSubCategory = values[10];
+                if (values.length == 12) {
+                    String catNum = values[0];
+                    String name = values[1];
+                    String area = values[2];
+                    String manufacturer = values[3];
+                    int minQuantity = Integer.parseInt(values[4]);
+                    double costPrice = Double.parseDouble(values[5]);
+                    double sellingPrice = Double.parseDouble(values[6]);
+                    double discount = Double.parseDouble(values[7]);
+                    double sale = Double.parseDouble(values[8]);
+                    String category = values[9];
+                    String subCategory = values[10];
+                    String subSubCategory = values[11];
 
-                    productPresentation.addProduct2(name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, category, subCategory, subSubCategory);
+                    productPresentation.addProduct2(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, category, subCategory, subSubCategory);
                 }
             }
         } catch (IOException e) {

@@ -51,7 +51,7 @@ public class ReportController {
     }
 
     public ReportOfDamaged createDamagedReport()  {
-        List<Item> damagedProd = product_controller.getDamagedItems();
+        Map<Item, String> damagedProd = product_controller.getDamagedItems();
         ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDate.now(), damagedProd);
         reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
@@ -60,7 +60,7 @@ public class ReportController {
     }
 
     public ReportOfExpired createExpiredReport()  {
-        List<Item> expiredItems = product_controller.getExpiredItems();
+        Map<Item, String> expiredItems = product_controller.getExpiredItems();
         ReportOfExpired report = new ReportOfExpired(reportIndex, LocalDate.now(), expiredItems);
         reports.put(Integer.toString(reportIndex), report);
         reportIndex++;

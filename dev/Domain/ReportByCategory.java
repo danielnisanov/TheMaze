@@ -16,7 +16,7 @@ public class ReportByCategory extends Report {
     public String toString() {
         String toPrint =  super.toString() + "\n" +  "The products in the category: "+ categoryName+" are:\n";
         for (Product p:productList) {
-            toPrint = toPrint + "catalog number:" + p.getCatNum()+ ", name:" + p.getName() + ", area:" + p.getArea() + ", manufacturer:" + p.getManufacturer() + ", quantity:" + p.getCurrentQuantity() + "\n";
+            toPrint = toPrint + "catalog number:" + p.getCatNum()+ ", name:" + p.getName() + ", area:" + p.getArea() + ", manufacturer:" + p.getManufacturer() + ", quantity:" + p.getCurrentQuantity() + ", damaged quanttity:" + p.getNumDamagedItems() + "\n";
         }
         return toPrint;
     }

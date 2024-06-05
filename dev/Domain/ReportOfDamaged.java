@@ -2,22 +2,32 @@ package Domain;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class ReportOfDamaged extends Report{
-    private List<Item> damagedItems;
+    private Map<Item, String> damagedItems;
 
-    public ReportOfDamaged(int reportID, LocalDate reportDate, List<Item> damagedItems) {
+    public ReportOfDamaged(int reportID, LocalDate reportDate, Map<Item, String> damagedItems) {
         super(reportID, reportDate);
         this.damagedItems = damagedItems;
     }
 
+
     @Override
     public String toString() {
-        String toPrint =  super.toString() + "\n" + "The damaged items are: \n";
-        for (Item i:damagedItems) {
-            toPrint = toPrint + i.getItemID()+ "\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString())
+                .append("\nThe damaged items are:\n");
+
+        for (Map.Entry<Item, String> entry : damagedItems.entrySet()) {
+            sb.append("Product name: ")
+                    .append(entry.getValue())
+                    .append(", Item ID: ")
+                    .append(entry.getKey().getItemID())
+                    .append("\n");
         }
-        return toPrint;
+
+        return sb.toString();
     }
 
 }

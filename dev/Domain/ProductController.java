@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class ProductController {
 
-    private int productIndex;
     private Map<String,Product> productsList;
 
     private static ProductController product_controller;
@@ -24,16 +23,16 @@ public class ProductController {
 
     private ProductController() {
         productsList = new HashMap<>();
-        productIndex = 0;
         category_controller = CategoryController.getInstance();
     }
 
-    public void addProduct(String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
+    public void addProduct(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
         boolean category = category_controller.getCategoriesList().containsKey(cat);
         boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);
         boolean subSubCategory = category_controller.getCategoriesList().get(cat).getSubList().get(subCat).getSubSubList().containsKey(subSubCat);
 
         if (!category || !subCategory || !subSubCategory) throw new Exception("Category or SubCategory or SubSubCategory isn't exists.");
+        if(catNum == null || catNum.equals("")) throw new Exception("Product catNum is empty.");
         if(name == null || name.equals("")) throw new Exception("Product name is empty.");
         if(area == null || area.equals("")) throw new Exception("Product area is empty.");
         if(manufacturer == null || manufacturer.equals("")) throw new Exception("Product manufacturer is empty.");
@@ -43,9 +42,8 @@ public class ProductController {
         if (discount <= 0 || discount > 1) throw new Exception("Product discount is illegal.");
         if (sale <= 0 || sale > 1) throw new Exception("Product sale is illegal.");
 
-        Product product = new Product(Integer.toString(productIndex), name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
+        Product product = new Product(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
         productsList.put(product.getName(), product);
-        productIndex++;
     }
     public Product getProduct (String name){
         return productsList.get(name);
@@ -89,24 +87,25 @@ public class ProductController {
         return products;
     }
 
-    public List<Item> getDamagedItems(){
-        List<Item> damagedItemsList = new ArrayList<>();
+    public Map<Item, String> getDamagedItems(){
+        Map<Item, String> damagedItemsList = new HashMap<>();
         for (Product product: productsList.values() ){
             for (Item item: product.getItems().values()){
                 if (item.isDamaged()){
-                    damagedItemsList.add(item);
+                    damagedItemsList.put(item, product.getName());
                 }
             }
         }
         return damagedItemsList;
     }
 
-    public List<Item> getExpiredItems(){
-        List<Item> expiredItemsList = new ArrayList<>();
+
+    public Map<Item, String> getExpiredItems(){
+        Map<Item, String> expiredItemsList = new HashMap<>();
         for (Product product: productsList.values() ){
-            List<Item> expiredItemsOfP = new ArrayList<>();
+            Map<Item, String> expiredItemsOfP;
             expiredItemsOfP = product.findExpiredItems();
-            expiredItemsList.addAll(expiredItemsOfP);
+            expiredItemsList.putAll(expiredItemsOfP);
         }
 
         return expiredItemsList;

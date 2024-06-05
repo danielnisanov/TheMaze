@@ -20,6 +20,8 @@ public class ProductPresentation {
 
     public void addProduct() {
         try {
+            System.out.print("Enter product catalog number: ");
+            String catNum = scanner.nextLine();
             System.out.print("Enter product name: ");
             String name = scanner.nextLine();
             System.out.print("Enter area: ");
@@ -43,16 +45,16 @@ public class ProductPresentation {
             System.out.print("Enter sub-sub-category: ");
             String subSubCat = scanner.nextLine();
 
-            productController.addProduct(name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
+            productController.addProduct(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
             System.out.println("Product added successfully.");
         } catch (Exception e) {
             System.out.println("Error adding product: " + e.getMessage());
         }
     }
 
-    public void addProduct2(String name, String area,String manufacturer,int minQuantity, double costPrice, double sellingPrice,double discount,double sale,String category, String subCategory,String subSubCategory) {
+    public void addProduct2(String catNum, String name, String area,String manufacturer,int minQuantity, double costPrice, double sellingPrice,double discount,double sale,String category, String subCategory,String subSubCategory) {
         try {
-            productController.addProduct(name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, category, subCategory, subSubCategory);
+            productController.addProduct(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, category, subCategory, subSubCategory);
         } catch (Exception e) {
             System.out.println("Error adding product: " + e.getMessage());
         }

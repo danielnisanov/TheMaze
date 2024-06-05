@@ -54,15 +54,26 @@ public class Product {
         }
     }
 
-    public List<Item> findExpiredItems ()  {
+    public Map<Item, String> findExpiredItems ()  {
         LocalDate today = LocalDate.now();
-        List<Item> expiredItems = new ArrayList<>();
-        for  (Item i: items.values()){
+        Map<Item, String>  expiredItems = new HashMap<>();
+        for (Item i: items.values()){
             if(i.getExpirationDate().isBefore(today)){
-                expiredItems.add(i);
+                expiredItems.put(i, name);
             }
         }
         return expiredItems;
+    }
+
+    public int getNumDamagedItems(){
+        int counter = 0;
+            for (Item item: this.getItems().values()){
+                if (item.isDamaged()){
+                    counter++;
+                }
+            }
+
+        return counter;
     }
 
     public String getArea() {
@@ -269,7 +280,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                ", catNum='" + catNum + '\'' +
+                "catNum='" + catNum + '\'' +
                 ", name='" + name + '\'' +
                 ", area='" + area + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
