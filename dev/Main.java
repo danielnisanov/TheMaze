@@ -29,9 +29,7 @@ public class Main {
             System.out.println("2. My vacation days");
             System.out.println("3. My job type");
             System.out.println("4. My starting day");
-            System.out.println("5. Update my bank account number");
             System.out.println("6. Submit my constraints");
-            System.out.println("7. Manager options");
             System.out.print("Enter your choice: ");
 
             choice = scanner.nextInt();
