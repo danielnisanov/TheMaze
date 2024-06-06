@@ -3,29 +3,19 @@ package Domain;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ShiftController {
-    private static ArrayList<shift> weeklyWorkArrangement = new ArrayList<shift>(); // Weekly work arrangement array
-    private static ArrayList<shift> Shift_History = new ArrayList<shift>(); // Map that saves all the past shifts and the workers in the shift
 
     public ShiftController()
     {
-        String type = "Morning";
-        for (int i = 1; i <= 14; i++) {
-            shift sh = new shift((i+1)/2,type,new ArrayList<Worker>());
-            weeklyWorkArrangement.add(sh);
-            if(type.equals("Morning")) {
-                type = "Evening";
-            }
-            else {
-                type = "Morning";
-            }
-        }
+
     }
-    public static boolean add_worker_to_weekly_arrangement(Worker worker, String day, String shiftType, Role role) {
+
+    public boolean add_worker_to_weekly_arrangement(Branch branch,Worker worker, String day, String shiftType, Role role) {
         int dayIndex = getDayIndex(day);
         int shiftIndex = getShiftIndex(shiftType);
 
@@ -35,7 +25,7 @@ public class ShiftController {
         }
 
 
-        shift shift = weeklyWorkArrangement.get((dayIndex - 1) * 2 + shiftIndex);
+        shift shift = branch.getWeeklyWorkArrangement().get((dayIndex - 1) * 2 + shiftIndex);
         if (shift.workers_on_shift.contains(worker)) {
             return false;
         }
@@ -43,16 +33,16 @@ public class ShiftController {
         shift.workers_on_shift.add(worker);
 
         // Save a copy of the shift to history
-        Shift_History.add(new shift(shift));
+        branch.add_shift(shift);
 
         double cur_total_hours = worker.getTotal_hours();
         worker.setTotal_hours(cur_total_hours + 8);
         return true;
     }
 
-    public boolean is_shift_already_booked(int day,int shift)
+    public boolean is_shift_already_booked(int day,int shift,Branch branch)
     {
-        return weeklyWorkArrangement.get((day-1)*2+shift).workers_on_shift.size() > 0;
+        return branch.getWeeklyWorkArrangement().get((day-1)*2+shift).workers_on_shift.size() > 0;
     }
 
 

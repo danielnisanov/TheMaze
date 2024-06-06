@@ -1,11 +1,11 @@
 package Presentation;
 
+import Domain.Branch;
 import Domain.HRManager;
 import Domain.WorkerController;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -74,40 +74,40 @@ public class ManagerPresentation {
 
                 switch (choice) {
                     case 1:
-                        present_workers();
+                        present_workers(manager.getBranch());
                         break;
                     case 2:
-                        Appointment_Manager();
+                        Appointment_Manager(manager.getBranch());
                         break;
                     case 3:
                         add_worker();
                         break;
                     case 4:
-                        Employment_Termination();
+                        Employment_Termination(manager.getBranch());
                         break;
                     case 5:
-                        Update_Salary();
+                        Update_Salary(manager.getBranch());
                         break;
                     case 6:
-                        Update_Job_Type();
+                        Update_Job_Type(manager.getBranch());
                         break;
                     case 7:
                         Update_branch();
                         break;
                     case 8:
-                        Create_work_arrangement();
+                        Create_work_arrangement(manager.getBranch());
                         break;
                     case 9:
                         add_new_manager();
                         break;
                     case 10:
-                        UpdateBankAccountNum();
+                        UpdateBankAccountNum(manager.getBranch());
                         break;
                     case 11:
                         // Implement logic to present work arrangement
                         break;
                     case 12:
-                        print_past_workers();
+                        print_past_workers(manager.getBranch());
                         break;
                     case 13:
                         changePassword();
@@ -127,58 +127,59 @@ public class ManagerPresentation {
     }
 
     private void changePassword() {
-        System.out.print("Enter new password: ");
+        scanner.nextLine();  // Consume the leftover newline
+        System.out.print("Enter the new password: ");
         String newPassword = scanner.nextLine();
         manager.changePassword(newPassword);
         System.out.println("Password updated successfully.");
     }
 
 
-    private void UpdateBankAccountNum() {
-        updatrDetails.UpdateBankAccountNum();
+    private void UpdateBankAccountNum(Branch branch) {
+        updatrDetails.UpdateBankAccountNum(branch);
     }
 
-    private void present_workers() {
-        JsonArray jsonArray = worker_controler.present_workers();
+    private void present_workers(Branch branch) {
+        JsonArray jsonArray = worker_controler.present_workers(branch);
         for (JsonElement workerElement : jsonArray) {
             System.out.println(workerElement.toString());
         }
     }
 
-    private void Appointment_Manager() {
-        appointmentManager.Appointment_Manager();
+    private void Appointment_Manager(Branch branch) {
+        appointmentManager.Appointment_Manager(branch);
     }
 
     private void add_worker() {
         addWorker.add_worker();
     }
 
-    private void Employment_Termination() {
-        emplymenttermination.Employment_Termination();
+    private void Employment_Termination(Branch branch) {
+        emplymenttermination.Employment_Termination(branch);
     }
 
-    private void Update_Salary() {
-        updatrDetails.Update_Salary();
+    private void Update_Salary(Branch branch) {
+        updatrDetails.Update_Salary(branch);
     }
 
-    private void Update_Job_Type() {
-        updatrDetails.Update_Job_Type();
+    private void Update_Job_Type(Branch branch) {
+        updatrDetails.Update_Job_Type(branch);
     }
 
     private void Update_branch() {
         updatrDetails.Update_branch();
     }
 
-    private void Create_work_arrangement() {
-        submitConstraints.Submit_Constraints();
+    private void Create_work_arrangement(Branch branch) {
+        submitConstraints.Submit_Constraints(branch);
     }
 
     private void add_new_manager() {
         addWorker.add_manager();
     }
 
-    public void print_past_workers(){
-        JsonArray jsonArray = worker_controler.present_past_workers();
+    public void print_past_workers(Branch branch){
+        JsonArray jsonArray = worker_controler.present_past_workers(branch);
         for (JsonElement workerElement : jsonArray) {
             System.out.println(workerElement.toString());
         }

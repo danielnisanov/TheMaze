@@ -1,5 +1,6 @@
 package Presentation;
 
+import Domain.Branch;
 import Domain.WorkerController;
 import com.google.gson.JsonObject;
 import java.util.Scanner;
@@ -12,9 +13,15 @@ public class EmploymentTermination {
         this.workerController = workerController;
     }
 
-    public void Employment_Termination() {
+    public void Employment_Termination(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
+
+        if(!branch.is_worker_in_branch(id_num))
+        {
+            System.out.println("The id number is incorrect");
+            return;
+        }
 
         JsonObject json = new JsonObject();
         json.addProperty("id", id_num);

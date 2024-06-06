@@ -1,17 +1,36 @@
 package Domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Branch {
     private int branch_num;
     private HRManager hr_manager;
-    private Map<Integer, HRManager> worker_on_brunch; //check
+
+    private ArrayList<Integer> valid_days_for_subbmition;
+
+    private Map<Integer, Worker> workers_on_brunch; //check
+
+    private ArrayList<shift> weeklyWorkArrangement = new ArrayList<shift>(); // Weekly work arrangement array
+    private ArrayList<shift> Shift_History = new ArrayList<shift>(); // Map that saves all the past shifts and the workers in the shift
 
     public Branch(int branch_num) {
         this.branch_num = branch_num;
         this.hr_manager = null;
-        worker_on_brunch = new HashMap<Integer, HRManager>();
+        workers_on_brunch = new HashMap<Integer, Worker>();
+        init_branch_week();
+        valid_days_for_subbmition = new ArrayList<Integer>();
+        valid_days_for_subbmition.add(7);
+        valid_days_for_subbmition.add(1);
+        valid_days_for_subbmition.add(2);
+        valid_days_for_subbmition.add(3);
+        valid_days_for_subbmition.add(4);
+    }
+
+    public ArrayList<Integer> get_submittion_days()
+    {
+        return valid_days_for_subbmition;
     }
 
     public void set_manager(HRManager manager)
@@ -28,9 +47,43 @@ public class Branch {
     public HRManager getHRManager() {
         return hr_manager;
     }
-    public Map<Integer, HRManager> getWorker_on_brunch() {
-        return worker_on_brunch;
+    public Map<Integer, Worker> getWorkers_on_brunch() {
+        return workers_on_brunch;
+    }
+    public void add_worker(Worker value) {
+        workers_on_brunch.put(value.getID_number(),value);
     }
 
+    public boolean is_worker_in_branch(int id)
+    {
+        return workers_on_brunch.get(id) != null;
+    }
+
+    public ArrayList<shift> getWeeklyWorkArrangement() {
+        return weeklyWorkArrangement;
+    }
+
+    public ArrayList<shift> getShift_History() {
+        return Shift_History;
+    }
+
+    public void add_shift(shift st)
+    {
+        Shift_History.add(st);
+    }
+
+    public void init_branch_week()
+    {
+        String type = "Morning";
+        for (int i = 1; i <= 14; i++) {
+            shift sh = new shift((i + 1) / 2, type, new ArrayList<Worker>());
+            weeklyWorkArrangement.add(sh);
+            if (type.equals("Morning")) {
+                type = "Evening";
+            } else {
+                type = "Morning";
+            }
+        }
+    }
 
 }

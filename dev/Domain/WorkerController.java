@@ -11,19 +11,17 @@ import java.util.ArrayList;
 
 import java.util.*;
 
-import static Domain.Role.Shift_manager;
-
 
 public class WorkerController {
     private Map<Integer, HRManager> managers;
     private Map<Integer, Branch> branches;
-    private Map<Integer, Worker> workers; // workers map<id,worker>
+    private Map<Integer, Worker> workers;
     private Map<Integer, Map<String, List<String>>> workerConstraints;//all workers available map<id,unavailable time>
 
     public WorkerController(String file) {
-        workers = new HashMap<>();
         managers = new HashMap<>();
         branches = new HashMap<>();
+        workers = new HashMap<>();
         try {
             managers = openFileIntoListsManagers(file, managers);
             workers = openFileIntoListsWorkers(file, workers);
@@ -31,7 +29,13 @@ public class WorkerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        for(Map.Entry<Integer,HRManager> manager : managers.entrySet()){
+            branches.get(manager.getValue().getBranch()).set_manager(manager.getValue());
+        }
 
+        for(Map.Entry<Integer,Worker> worker : workers.entrySet()){
+            branches.get(worker.getValue().getBranchNum()).add_worker(worker.getValue());
+        }
 
     }
 
@@ -127,8 +131,12 @@ public class WorkerController {
             branches.put(branchNum, branch);
         }
 
+
+
+
         Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays,
                 jobTypeEnum, branch, roleSet);
+        branch.add_worker(newWorker);
         newWorker.setBranch(branch); // Set the Branch object
         workers.put(id, newWorker);
     }
@@ -153,36 +161,16 @@ public class WorkerController {
         return managers.get(id);
     }
 
-    public JsonArray present_workers() {
-        JsonArray jsonArray = new JsonArray();
-
-        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            Worker worker = entry.getValue();
-            JsonObject workerJson = new JsonObject();
-            workerJson.addProperty("id", worker.getID_number());
-            workerJson.addProperty("name", worker.getName());
-            workerJson.addProperty("address", worker.getAddress());
-            workerJson.addProperty("bank_account", worker.getBank_account_num());
-            workerJson.addProperty("hourly_salary", worker.getHourly_salary());
-            workerJson.addProperty("vacation_days", worker.getVaction_days());
-            workerJson.addProperty("job_type", worker.getJob_type().toString());
-            workerJson.addProperty("branch_num", worker.getBranchNum());
-            workerJson.addProperty("roles", worker.getRoles_permissions().toString());
-            workerJson.addProperty("starting_day", worker.getStarting_day().toString());
-            workerJson.addProperty("total_hours", worker.getTotal_hours());
-            workerJson.addProperty("job_status", worker.getJob_status());
-            jsonArray.add(workerJson);
-        }
-
-        return jsonArray;
+    public Branch getBranch(int id) {
+        return branches.get(id);
     }
 
-    public JsonArray present_past_workers(){
+    public JsonArray present_workers(Branch branch) {
         JsonArray jsonArray = new JsonArray();
 
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            Worker worker = entry.getValue();
-            if (!worker.getJob_status()) {
+            if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
+                Worker worker = entry.getValue();
                 JsonObject workerJson = new JsonObject();
                 workerJson.addProperty("id", worker.getID_number());
                 workerJson.addProperty("name", worker.getName());
@@ -198,7 +186,34 @@ public class WorkerController {
                 workerJson.addProperty("job_status", worker.getJob_status());
                 jsonArray.add(workerJson);
             }
+        }
 
+        return jsonArray;
+    }
+
+    public JsonArray present_past_workers(Branch branch){
+        JsonArray jsonArray = new JsonArray();
+
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
+                Worker worker = entry.getValue();
+                if (!worker.getJob_status()) {
+                    JsonObject workerJson = new JsonObject();
+                    workerJson.addProperty("id", worker.getID_number());
+                    workerJson.addProperty("name", worker.getName());
+                    workerJson.addProperty("address", worker.getAddress());
+                    workerJson.addProperty("bank_account", worker.getBank_account_num());
+                    workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+                    workerJson.addProperty("vacation_days", worker.getVaction_days());
+                    workerJson.addProperty("job_type", worker.getJob_type().toString());
+                    workerJson.addProperty("branch_num", worker.getBranchNum());
+                    workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+                    workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+                    workerJson.addProperty("total_hours", worker.getTotal_hours());
+                    workerJson.addProperty("job_status", worker.getJob_status());
+                    jsonArray.add(workerJson);
+                }
+            }
             }
             return jsonArray;
         }

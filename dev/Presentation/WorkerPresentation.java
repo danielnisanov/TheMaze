@@ -1,5 +1,6 @@
 package Presentation;
 
+import Domain.Branch;
 import Domain.WorkerController;
 import com.google.gson.JsonObject;
 
@@ -57,7 +58,7 @@ public class WorkerPresentation {
                     Find_Start_date();
                     break;
                 case 4:
-                    Submit_constraints();
+                    Submit_constraints( worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()));
                     break;
                 case 0:
                     return;
@@ -68,8 +69,8 @@ public class WorkerPresentation {
     }
 
 
-    private void Submit_constraints() {
-        boolean success = SubmitConstraints.WorkerConstraint(json).isEmpty();
+    private void Submit_constraints(Branch branch) {
+        boolean success = submitConstraints.WorkerConstraint(json,branch).isEmpty();
         if (success) {
             System.out.println("Constraints submitted successfully.");
         } else {

@@ -1,8 +1,8 @@
 package Presentation;
 
+import Domain.Branch;
 import Domain.WorkerController;
 import Domain.JobType;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Scanner;
@@ -16,10 +16,14 @@ public class UpdateWorkerDetails {
     {
         this.wc = wc;
     }
-    public void Update_Job_Type() {
+    public void Update_Job_Type(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
-
+        if(!branch.is_worker_in_branch(id_num))
+        {
+            System.out.println("The id number is incorrect");
+            return;
+        }
         // Check if the ID is a 9-digit number
         int temp_id = id_num;
         int sum = 0;
@@ -50,9 +54,15 @@ public class UpdateWorkerDetails {
 
     }
 
-    public void Update_Salary() {
+    public void Update_Salary(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
+
+        if(!branch.is_worker_in_branch(id_num))
+        {
+            System.out.println("The id number is incorrect");
+            return;
+        }
 
         // Check if the ID is a 9-digit number
         int temp_id = id_num;
@@ -157,7 +167,7 @@ public class UpdateWorkerDetails {
 //
 //    }
 
-    public void UpdateBankAccountNum() {
+    public void UpdateBankAccountNum(Branch branch) {
         System.out.println("Enter the worker ID");
         String id_num = scanner.next();
 
@@ -169,6 +179,11 @@ public class UpdateWorkerDetails {
 
         // Convert the string to an integer after validation
         int id_num_int = Integer.parseInt(id_num);
+
+        if(!branch.is_worker_in_branch(id_num_int))
+        {
+            return;
+        }
 
         // Ask for the new bank account number
         System.out.println("Enter the new bank account number");

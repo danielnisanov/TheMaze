@@ -1,12 +1,10 @@
 package Presentation;
 
-import Domain.ShiftController;
-import Domain.Worker;
-import Domain.WorkerController;
-import Domain.Role;
+import Domain.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 
@@ -23,7 +21,12 @@ public class SubmitConstraints {
         this.sc = sc;
     }
 
-    public boolean Submit_Constraints() {
+    public boolean Submit_Constraints(Branch branch) {
+        if(branch.get_submittion_days().contains(LocalDate.now().getDayOfWeek().getValue()))
+        {
+            System.out.println("Can't close shifts today");
+            return false;
+        }
         JsonArray constraintsArray = new JsonArray();
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         String[] shifts = {"Morning", "Evening"};
@@ -44,7 +47,7 @@ public class SubmitConstraints {
                 }
                 int Choice_worker = scanner.nextInt();
                 Worker selectedWorker = available.get(Choice_worker);
-                if (!sc.add_worker_to_weekly_arrangement(selectedWorker, days[day - 1], shifts[shift], role)) {
+                if (!sc.add_worker_to_weekly_arrangement(branch,selectedWorker, days[day - 1], shifts[shift], role)) {
                     System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift.");
                     return false;
                 }
@@ -56,7 +59,12 @@ public class SubmitConstraints {
     }
 
     // Creating worker constraints
-    public static Map<String, List<String>> WorkerConstraint(JsonObject json) {
+    public Map<String, List<String>> WorkerConstraint(JsonObject json,Branch branch) {
+        if(!branch.get_submittion_days().contains(LocalDate.now().getDayOfWeek().getValue()))
+        {
+            System.out.println("Can't submit shifts today");
+            return null;
+        }
         int id = json.get("id").getAsInt();
         Scanner scanner = new Scanner(System.in);
         Map<String, List<String>> constraintMap = new HashMap<>();
