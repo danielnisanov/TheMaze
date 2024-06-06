@@ -1,0 +1,232 @@
+Do you want to load initial data? (Y/N): Today is not Sunday. No inventory report is generated.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Reports Menu:
+1. Create an inventory report
+2. Create damaged products report
+3. Create an expired products report
+4. Display an exist report
+5. Remove an exist report
+6. Return to Main Menu
+Select an option:
+Report{reportID='1', reportDate=2024-06-05}
+The expired items are:
+Product name: Yellow banana, Item ID: 3
+Product name: Sheri tomato, Item ID: 1
+Product name: Red apple, Item ID: 9
+
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter item id: Item removed successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter item id: Please note, the quantity of items from this product has reached the minimum quantity:50
+Item removed successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter item id: Item removed successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Reports Menu:
+1. Create an inventory report
+2. Create damaged products report
+3. Create an expired products report
+4. Display an exist report
+5. Remove an exist report
+6. Return to Main Menu
+Select an option:
+Report{reportID='2', reportDate=2024-06-05}
+The expired items are:
+
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Tnuva milk
+L eggs
+Tara cheese
+White bread
+Osem pasta
+Tara milk
+Small orange
+Sheri tomato
+Tnuva yogurt
+Red apple
+Yellow banana
+Emek cheese
+Enter product name from the list: Product{catNum='183648443', name='Tnuva milk', area='B', manufacturer='DairyCo', currentQuantity=0, shelfQuantity=0, warehouseQuantity=0, minQuantity=20, costPrice=8.0, sellingPrice=1.5, cat='Dairy products', subCat='Dairy', subSubCat='1 liter', items={}}
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter product discount: Product discount updated successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter product sale: Product sale updated successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Tnuva milk
+L eggs
+Tara cheese
+White bread
+Osem pasta
+Tara milk
+Small orange
+Sheri tomato
+Tnuva yogurt
+Red apple
+Yellow banana
+Emek cheese
+Enter product name from the list: Error viewing product: Cannot invoke "Domain.Product.toString()" because "<local2>" is null
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option:
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: For input string: "Sheri tomato"
