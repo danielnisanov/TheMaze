@@ -1,12 +1,7 @@
 package Presentation;
 
-import Domain.Category;
-import Domain.CategoryController;
-import Domain.ProductController;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -15,8 +10,6 @@ public class Menu {
     private CategoryPresentation categoryPresentation;
     private ReportPresentation reportPresentation;
     private CSVReader csvReader;
-    private DataReader dataReader;
-
 
 
     public Menu() {
@@ -25,7 +18,6 @@ public class Menu {
         categoryPresentation = new CategoryPresentation(scanner);
         reportPresentation = new ReportPresentation(scanner);
         csvReader = new CSVReader();
-        dataReader = new DataReader();
     }
 
     public void start() throws Exception {
@@ -221,16 +213,13 @@ public class Menu {
     }
 
 
-//        private void loadInitialData() {
-//        dataReader.loadCategories( categoryPresentation);
-//        dataReader.loadProducts( productPresentation);
-//        dataReader.loadItems( productPresentation);
-//    }
-
         private void loadInitialData() {
-        csvReader.loadCategories("dev/Data/categories.csv", categoryPresentation);
-        csvReader.loadProducts("dev/Data/products.csv", productPresentation);
-        csvReader.loadItems("dev/Data/items.csv", productPresentation);
+//        csvReader.loadCategories("dev/Data/categories.csv", categoryPresentation);
+//        csvReader.loadProducts("dev/Data/products.csv", productPresentation);
+//        csvReader.loadItems("dev/Data/items.csv", productPresentation);
+            csvReader.loadCategories("categories.csv", categoryPresentation);
+            csvReader.loadProducts("products.csv", productPresentation);
+            csvReader.loadItems("items.csv", productPresentation);
     }
 
     public void checkAndGenerateReport() {

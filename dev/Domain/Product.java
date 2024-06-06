@@ -288,8 +288,8 @@ public class Product {
                 ", shelfQuantity=" + shelfQuantity +
                 ", warehouseQuantity=" + warehouseQuantity +
                 ", minQuantity=" + minQuantity +
-                ", costPrice=" + costPrice*discount +
-                ", sellingPrice=" + sellingPrice*sale +
+                ", costPrice=" + costPrice*(1-discount) +
+                ", sellingPrice=" + sellingPrice*(1-sale) +
                 ", cat='" + cat + '\'' +
                 ", subCat='" + subCat + '\'' +
                 ", subSubCat='" + subSubCat + '\'' +
