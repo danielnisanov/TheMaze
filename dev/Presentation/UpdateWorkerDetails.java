@@ -2,6 +2,7 @@ package Presentation;
 
 import Domain.WorkerController;
 import Domain.JobType;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class UpdateWorkerDetails {
     static Scanner scanner = new Scanner(System.in);
     private WorkerController wc;
 
-    UpdateWorkerDetails(WorkerController wc)
+    public UpdateWorkerDetails(WorkerController wc)
     {
         this.wc = wc;
     }
@@ -42,7 +43,10 @@ public class UpdateWorkerDetails {
         if (wc.update_job_type_success(json)) {
             System.out.println("Update job type success");
         }
-        System.out.println("Update job type failed");
+        else{
+            System.out.println("Update job type failed");
+        }
+
 
     }
 
@@ -78,8 +82,10 @@ public class UpdateWorkerDetails {
         if (wc.update_salary_success(json)) {
             System.out.println("Update salary success");
         }
-        System.out.println("Update salary failed");
-        // HRmenu();
+        else{
+            System.out.println("Update salary failed");
+        }
+
     }
 
     public void Update_branch() {
@@ -115,42 +121,73 @@ public class UpdateWorkerDetails {
         if (wc.update_branch_success(json)) {
             System.out.println("Update branch success");
         }
-        System.out.println("Update branch failed");
-        // HRmenu();
+        else {
+            System.out.println("Update branch failed");
+        }
     }
 
-    public void UpdateBankAccountNum(){
+//    public void UpdateBankAccountNum(){
+//        System.out.println("Enter the worker ID");
+//        String id_num = scanner.next();
+//
+//
+//        // Check if the ID is a 9-digit number
+//        if (id_num.length() != 9) {
+//            System.out.println("The id number is incorrect");
+//            return; // Exit the method if the ID number is incorrect
+//        }
+//        int id_num_int = Integer.parseInt(id_num);
+//
+//        System.out.println("Enter the new bank account number");
+//        int bank_num = scanner.nextInt();
+//        if (bank_num <= 0) {
+//            System.out.println("The bank account number must be a positive number");
+//        }
+//        JsonObject json = new JsonObject();
+//        json.addProperty("id", id_num_int);
+//        json.addProperty("bank_num", bank_num);
+//
+//        wc.Update_bank_account_num(json);
+//        if (wc.Update_Bank_Account_Num_success(json)) {
+//            System.out.println("Update bank account number success");
+//        }
+//        else {
+//            System.out.println("Update bank account number failed");
+//        }
+//
+//    }
+
+    public void UpdateBankAccountNum() {
         System.out.println("Enter the worker ID");
-        int id_num = scanner.nextInt();
+        String id_num = scanner.next();
 
         // Check if the ID is a 9-digit number
-        int temp_id = id_num;
-        int sum = 0;
-        while (temp_id != 0) {
-            temp_id /= 10;
-            sum++;
-        }
-
-        if (sum != 9) {
+        if (id_num.length() != 9) {
             System.out.println("The id number is incorrect");
-            // HRmenu(); // Uncomment this when you add the menu
             return; // Exit the method if the ID number is incorrect
         }
-        System.out.println("Enter bank account number:");
-        int bank_num = scanner.nextInt();
-        if (bank_num <= 0) {
-            System.out.println("The bank account number must be a positive number");
-        }
-        JsonObject json = new JsonObject();
-        json.addProperty("id", id_num);
-        json.addProperty("bank_num", bank_num);
 
-        wc.Update_bank_account_num(json);
-        if (wc.Update_Bank_Account_Num_success(json)) {
-            System.out.println("Update bank account number success");
+        // Convert the string to an integer after validation
+        int id_num_int = Integer.parseInt(id_num);
+
+        // Ask for the new bank account number
+        System.out.println("Enter the new bank account number");
+        int new_bank_account_num = scanner.nextInt();
+
+        // Create a JSON object to send to the WorkerController
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id_num_int);
+        json.addProperty("bank_account", new_bank_account_num);
+
+        // Call the controller method to update the bank account number
+        if (wc.Update_bank_account_num(json)) {
+            System.out.println("Bank account number updated successfully.");
+        } else {
+            System.out.println("Failed to update bank account number. Please check the worker ID and try again.");
         }
-        System.out.println("Update bank account number failed");
-        // HRmenu();
     }
+
+
+
 
 }

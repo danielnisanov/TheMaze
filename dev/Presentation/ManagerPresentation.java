@@ -2,6 +2,8 @@ package Presentation;
 
 import Domain.HRManager;
 import Domain.WorkerController;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -49,83 +51,98 @@ public class ManagerPresentation {
 
         if (manager.authenticate(password)) {
             System.out.println("Access granted. HR menu options:");
+            boolean exit = false;
+            while (!exit) {
+                System.out.println("HR Manager Menu:");
+                System.out.println("Please choose one of the following:");
+                System.out.println("1. List of all the workers in the company");
+                System.out.println("2. Appointment of an additional shift manager");
+                System.out.println("3. Add new worker");
+                System.out.println("4. Termination of an employee's employment period");
+                System.out.println("5. Changing a worker's salary");
+                System.out.println("6. Update job type for a worker");
+                System.out.println("7. Update brunch number for worker");
+                System.out.println("8. Creating a work arrangement");
+                System.out.println("9. Add new HR manager");
+                System.out.println("10. Update bank account number for worker");
+                System.out.println("11. Present work arrangement");
+                System.out.println("12. Show me past workers");
+                System.out.println("13. Change password");
+                System.out.println("14. Exit");
+                System.out.print("Enter your choice: ");
+                choice = scanner.nextInt();
 
-            System.out.println("HR Manager Menu:");
-            System.out.println("Please choose one of the following:");
-            System.out.println("1. List of all the workers in the company"); //
-            System.out.println("2. Appointment of an additional shift manager"); //
-            System.out.println("3. Add new worker");
-            System.out.println("4. Termination of an employee's employment period");//
-            System.out.println("5. Changing a worker's salary");//
-            System.out.println("6. Update job type for a worker");//
-            System.out.println("7. Update brunch number for worker");//
-            System.out.println("8. Add a new Branch");
-            System.out.println("9. Creating a work arrangement");//
-            System.out.println("10. Add new HR manager");
-            System.out.println("11. Update bank account number for worker");//
-            System.out.println("12. Present work arrangement");
-            System.out.println("13. Show me past workers");
-            System.out.println("14. Exit");
-            System.out.print("Enter your choice: ");
-            // Here you would add the logic for handling each menu option
-
+                switch (choice) {
+                    case 1:
+                        present_workers();
+                        break;
+                    case 2:
+                        Appointment_Manager();
+                        break;
+                    case 3:
+                        add_worker();
+                        break;
+                    case 4:
+                        Employment_Termination();
+                        break;
+                    case 5:
+                        Update_Salary();
+                        break;
+                    case 6:
+                        Update_Job_Type();
+                        break;
+                    case 7:
+                        Update_branch();
+                        break;
+                    case 8:
+                        Create_work_arrangement();
+                        break;
+                    case 9:
+                        add_new_manager();
+                        break;
+                    case 10:
+                        UpdateBankAccountNum();
+                        break;
+                    case 11:
+                        // Implement logic to present work arrangement
+                        break;
+                    case 12:
+                        print_past_workers();
+                        break;
+                    case 13:
+                        changePassword();
+                        break;
+                    case 14:
+                        exit = true;
+                        System.out.println("Exiting.");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please choose again.");
+                        break;
+                }
+            }
         } else {
             System.out.println("Invalid password. Access denied.");
-            // Call the main menu method from MainMenu
-//            Main.mainMenu();   //add this when i add the main
-        }
-
-        choice = scanner.nextInt();
-
-        switch (choice) {
-            case 1:
-                present_workers();
-                break;
-            case 2:
-                Appointment_Manager();
-                break;
-            case 3:
-                add_worker(); // להחזיר סטטוס
-                break;
-            case 4:
-                Employment_Termination();
-                break;
-            case 5:
-                Update_Salary();
-                break;
-            case 6:
-                Update_Job_Type();
-                break;
-            case 7:
-                Update_branch();
-                break;
-            case 8:
-                break;
-            case 9:
-                Create_work_arrangement();
-                break;
-            case 10:
-                break;
-            case 11:
-                UpdateBankAccountNum();
-                break;
-            case 12:
-                break;
-            case 13:
-                break;
-            case 14:
-                break;
-
-
         }
     }
+
+    private void changePassword() {
+        System.out.print("Enter new password: ");
+        String newPassword = scanner.nextLine();
+        manager.changePassword(newPassword);
+        System.out.println("Password updated successfully.");
+    }
+
 
     private void UpdateBankAccountNum() {
         updatrDetails.UpdateBankAccountNum();
     }
 
     private void present_workers() {
-        worker_controler.present_workers();
+        JsonArray jsonArray = worker_controler.present_workers();
+        for (JsonElement workerElement : jsonArray) {
+            System.out.println(workerElement.toString());
+        }
     }
 
     private void Appointment_Manager() {
@@ -155,4 +172,17 @@ public class ManagerPresentation {
     private void Create_work_arrangement() {
         submitConstraints.Submit_Constraints();
     }
+
+    private void add_new_manager() {
+        addWorker.add_manager();
+    }
+
+    public void print_past_workers(){
+        JsonArray jsonArray = worker_controler.present_past_workers();
+        for (JsonElement workerElement : jsonArray) {
+            System.out.println(workerElement.toString());
+        }
+    }
+
+
 }

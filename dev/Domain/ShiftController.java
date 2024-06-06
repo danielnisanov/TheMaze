@@ -36,13 +36,15 @@ public class ShiftController {
 
 
         shift shift = weeklyWorkArrangement.get((dayIndex - 1) * 2 + shiftIndex);
+        if (shift.workers_on_shift.contains(worker)) {
+            return false;
+        }
+
         shift.workers_on_shift.add(worker);
 
         // Save a copy of the shift to history
         Shift_History.add(new shift(shift));
 
-        // Print confirmation message
-        //System.out.println("Worker " + worker.getName() + " assigned to " + role + " role on " + day + " at " + shiftType + " shift.");
         double cur_total_hours = worker.getTotal_hours();
         worker.setTotal_hours(cur_total_hours + 8);
         return true;
@@ -52,6 +54,8 @@ public class ShiftController {
     {
         return weeklyWorkArrangement.get((day-1)*2+shift).workers_on_shift.size() > 0;
     }
+
+
 
 //    public static HashMap<String, String>[][] update_HRConstraints(JsonArray constraintsArray) {
 //        HashMap<String, String>[][] HRconstraints = new HashMap[7][2];

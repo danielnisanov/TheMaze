@@ -106,6 +106,52 @@ public class AddWorker {
         json.addProperty("roles", role.toString());
         wc.add_worker(json);
 
-        System.out.println("Worker added successfully with details: " + json);
+        System.out.println("Worker added successfully with details: " );
+        System.out.println(json);
     }
+
+    public void add_manager() {
+        System.out.println("Please enter the name of the new manager:");
+        String name = scanner.nextLine();
+        // Check if the name is non-empty and only contains letters and spaces
+        if (name.isEmpty() || !name.matches("[a-zA-Z\\s]+")) {
+            System.out.println("The name is incorrect");
+            return;
+        }
+
+        System.out.println("Enter his branch:");
+        int branch_num = scanner.nextInt();
+        if (branch_num <= 0) {
+            System.out.println("The branch number must be a positive number");
+            return;
+        }
+
+        System.out.println("Please enter the id_number of the new manager:");
+        int id_num = scanner.nextInt();
+
+        // Check if the ID is a 9-digit number
+        int temp_id = id_num;
+        int sum = 0;
+        while (temp_id != 0) {
+            temp_id /= 10;
+            sum++;
+        }
+
+        if (sum != 9) {
+            System.out.println("The id number is incorrect");
+            return; // Exit the method if the ID number is incorrect
+        }
+
+        JsonObject json = new JsonObject();
+        json.addProperty("name", name);
+        json.addProperty("branch_num", branch_num);
+        json.addProperty("ID_number", id_num);
+        wc.add_manager(json);
+
+        System.out.println("Manager added successfully with details: " + json);
+    }
+
+
 }
+
+

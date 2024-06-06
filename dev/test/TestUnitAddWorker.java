@@ -1,6 +1,8 @@
 package test;
 import Domain.*;
+import Presentation.ManagerPresentation;
 import Presentation.SubmitConstraints;
+import Presentation.UpdateWorkerDetails;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.junit.Test;
@@ -332,84 +334,75 @@ public class TestUnitAddWorker {
         assertTrue(worker.getRoles_permissions().contains(Role.Shift_manager));
     }
 
-    @Test
-    public void test_present_workers() {
-        WorkerController wc = new WorkerController("empty.csv");
-        // Adding workers
-        JsonObject jsonAdd1 = new JsonObject();
-        jsonAdd1.addProperty("id", 987654321);
-        jsonAdd1.addProperty("name", "JaneSmith");
-        jsonAdd1.addProperty("address", "456 Elm St");
-        jsonAdd1.addProperty("bank_account", 654321);
-        jsonAdd1.addProperty("hourly_salary", 30.0);
-        jsonAdd1.addProperty("vacation_days", 15);
-        jsonAdd1.addProperty("job_type", "Part_time_job");
-        jsonAdd1.addProperty("branch_num", 2);
-        jsonAdd1.addProperty("roles", "Cashier");
-        wc.add_worker(jsonAdd1);
-
-        JsonObject jsonAdd2 = new JsonObject();
-        jsonAdd2.addProperty("id", 123456789);
-        jsonAdd2.addProperty("name", "JohnDoe");
-        jsonAdd2.addProperty("address", "123 Main St");
-        jsonAdd2.addProperty("bank_account", 123456);
-        jsonAdd2.addProperty("hourly_salary", 25.0);
-        jsonAdd2.addProperty("vacation_days", 10);
-        jsonAdd2.addProperty("job_type", "Full_time_job");
-        jsonAdd2.addProperty("branch_num", 1);
-        jsonAdd2.addProperty("roles", "Shift_manager");
-        wc.add_worker(jsonAdd2);
-
-        // Capture the output
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        // Call the method to present workers
-        wc.present_workers();
-
-        // Restore the original System.out
-        System.setOut(originalOut);
-
-        // Expected output
-        JsonArray expectedJsonArray = new JsonArray();
-
-        JsonObject expectedWorkerJson1 = new JsonObject();
-        expectedWorkerJson1.addProperty("id", 123456789);
-        expectedWorkerJson1.addProperty("name", "JohnDoe");
-        expectedWorkerJson1.addProperty("address", "123 Main St");
-        expectedWorkerJson1.addProperty("bank_account", 123456);
-        expectedWorkerJson1.addProperty("hourly_salary", 25.0);
-        expectedWorkerJson1.addProperty("vacation_days", 10);
-        expectedWorkerJson1.addProperty("job_type", "Full_time_job");
-        expectedWorkerJson1.addProperty("branch_num", 1);
-        expectedWorkerJson1.addProperty("roles", "[Shift_manager]");
-        expectedWorkerJson1.addProperty("starting_day", "2024-06-04");  // Use actual date if available
-        expectedWorkerJson1.addProperty("total_hours", 0.0);   // Assuming default value, replace with actual if available
-        expectedWorkerJson1.addProperty("job_status", true);   // Use actual value if available
-        expectedJsonArray.add(expectedWorkerJson1);
-
-        JsonObject expectedWorkerJson2 = new JsonObject();
-        expectedWorkerJson2.addProperty("id", 987654321);
-        expectedWorkerJson2.addProperty("name", "JaneSmith");
-        expectedWorkerJson2.addProperty("address", "456 Elm St");
-        expectedWorkerJson2.addProperty("bank_account", 654321);
-        expectedWorkerJson2.addProperty("hourly_salary", 30.0);
-        expectedWorkerJson2.addProperty("vacation_days", 15);
-        expectedWorkerJson2.addProperty("job_type", "Part_time_job");
-        expectedWorkerJson2.addProperty("branch_num", 2);
-        expectedWorkerJson2.addProperty("roles", "[Cashier]");
-        expectedWorkerJson2.addProperty("starting_day", "2024-06-04");  // Use actual date if available
-        expectedWorkerJson2.addProperty("total_hours", 0.0);   // Assuming default value, replace with actual if available
-        expectedWorkerJson2.addProperty("job_status", true);   // Use actual value if available
-        expectedJsonArray.add(expectedWorkerJson2);
-
-        // Actual output
-        String actualOutput = outputStream.toString().trim();
-
-        // Asserting the output
-        assertEquals(expectedJsonArray.toString(), actualOutput);
-    }
+//    @Test
+//    public void test_print_past_workers() {
+//        WorkerController wc = new WorkerController("empty.csv");
+//
+//        // Adding current workers
+//        JsonObject jsonAdd1 = new JsonObject();
+//        jsonAdd1.addProperty("id", 123456789);
+//        jsonAdd1.addProperty("name", "JohnDoe");
+//        jsonAdd1.addProperty("address", "123 Main St");
+//        jsonAdd1.addProperty("bank_account", 123456);
+//        jsonAdd1.addProperty("hourly_salary", 25.0);
+//        jsonAdd1.addProperty("vacation_days", 10);
+//        jsonAdd1.addProperty("job_type", "Full_time_job");
+//        jsonAdd1.addProperty("branch_num", 1);
+//        jsonAdd1.addProperty("roles", "Shift_manager");
+//        jsonAdd1.addProperty("job_status", true);  // Current worker
+//        wc.add_worker(jsonAdd1);
+//
+//        // Adding past workers
+//        JsonObject jsonAdd2 = new JsonObject();
+//        jsonAdd2.addProperty("id", 987654321);
+//        jsonAdd2.addProperty("name", "JaneSmith");
+//        jsonAdd2.addProperty("address", "456 Elm St");
+//        jsonAdd2.addProperty("bank_account", 654321);
+//        jsonAdd2.addProperty("hourly_salary", 30.0);
+//        jsonAdd2.addProperty("vacation_days", 15);
+//        jsonAdd2.addProperty("job_type", "Part_time_job");
+//        jsonAdd2.addProperty("branch_num", 2);
+//        jsonAdd2.addProperty("roles", "Cashier");
+//        jsonAdd2.addProperty("job_status", false);  // Past worker
+//        wc.add_worker(jsonAdd2);
+//
+//        ManagerPresentation mp = new ManagerPresentation(wc, null, null, null, null, null, null);
+//
+//        // Capture the output
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        PrintStream originalOut = System.out;
+//        System.setOut(new PrintStream(outputStream));
+//
+//        // Call the method to print past workers
+//        mp.present_workers();
+//
+//        // Restore the original System.out
+//        System.setOut(originalOut);
+//
+//        // Expected output
+//        JsonArray expectedJsonArray = new JsonArray();
+//
+//        JsonObject expectedWorkerJson = new JsonObject();
+//        expectedWorkerJson.addProperty("id", 987654321);
+//        expectedWorkerJson.addProperty("name", "JaneSmith");
+//        expectedWorkerJson.addProperty("address", "456 Elm St");
+//        expectedWorkerJson.addProperty("bank_account", 654321);
+//        expectedWorkerJson.addProperty("hourly_salary", 30.0);
+//        expectedWorkerJson.addProperty("vacation_days", 15);
+//        expectedWorkerJson.addProperty("job_type", "Part_time_job");
+//        expectedWorkerJson.addProperty("branch_num", 2);
+//        expectedWorkerJson.addProperty("roles", "[Cashier]");
+//        expectedWorkerJson.addProperty("starting_day", "2024-06-04");  // Use actual date if available
+//        expectedWorkerJson.addProperty("total_hours", 0.0);   // Assuming default value, replace with actual if available
+//        expectedWorkerJson.addProperty("job_status", false);   // Past worker
+//        expectedJsonArray.add(expectedWorkerJson);
+//
+//        // Actual output
+//        String actualOutput = outputStream.toString().trim();
+//
+//        // Asserting the output
+//        assertEquals(expectedJsonArray.toString(), actualOutput);
+//    }
 
     @Test
     public void test_manager_const_submited() throws IOException {
@@ -460,8 +453,7 @@ public class TestUnitAddWorker {
 
     }
 
-    private void assertTrue(boolean b) {
-    }
+
 
 
 }

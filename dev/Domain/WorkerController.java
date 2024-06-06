@@ -1,6 +1,7 @@
 package Domain;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -114,16 +115,35 @@ public class WorkerController {
 
         JobType jobTypeEnum = JobType.valueOf(jobType);
 
-
-        HashSet s = new HashSet();
-        for(int i =0 ;i < roles.length; i++) {
-            Role roleEnum = Role.valueOf(roles[i]);
-            s.add(roleEnum);
+        HashSet<Role> roleSet = new HashSet<>();
+        for (String role : roles) {
+            roleSet.add(Role.valueOf(role.trim()));
         }
-        Worker newWorker = new Worker(address, name , id , bankAccount, hourlySalary , vacationDays ,
-                jobTypeEnum ,  branches.get(branchNum) , s);
+
+        Branch branch = branches.get(branchNum);
+        if (branch == null) {
+            // If the branch doesn't exist, create a new one
+            branch = new Branch(branchNum);
+            branches.put(branchNum, branch);
+        }
+
+        Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays,
+                jobTypeEnum, branch, roleSet);
+        newWorker.setBranch(branch); // Set the Branch object
         workers.put(id, newWorker);
     }
+
+
+    public void add_manager(JsonObject json) {
+        String name = json.get("name").getAsString();
+        int ID_number = json.get("ID_number").getAsInt();
+        int branch_num = json.get("branch_num").getAsInt();
+
+        Branch branch = branches.get(branch_num);
+        HRManager newManager = new HRManager(name, branch, String.valueOf(ID_number), ID_number);
+        managers.put(ID_number, newManager);
+    }
+
 
     public Map<Integer, Worker> getWorkers() {
         return workers;
@@ -133,7 +153,7 @@ public class WorkerController {
         return managers.get(id);
     }
 
-    public void present_workers() {
+    public JsonArray present_workers() {
         JsonArray jsonArray = new JsonArray();
 
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
@@ -154,23 +174,59 @@ public class WorkerController {
             jsonArray.add(workerJson);
         }
 
-        System.out.println(jsonArray.toString());
+        return jsonArray;
     }
+
+    public JsonArray present_past_workers(){
+        JsonArray jsonArray = new JsonArray();
+
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            Worker worker = entry.getValue();
+            if (!worker.getJob_status()) {
+                JsonObject workerJson = new JsonObject();
+                workerJson.addProperty("id", worker.getID_number());
+                workerJson.addProperty("name", worker.getName());
+                workerJson.addProperty("address", worker.getAddress());
+                workerJson.addProperty("bank_account", worker.getBank_account_num());
+                workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+                workerJson.addProperty("vacation_days", worker.getVaction_days());
+                workerJson.addProperty("job_type", worker.getJob_type().toString());
+                workerJson.addProperty("branch_num", worker.getBranchNum());
+                workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+                workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+                workerJson.addProperty("total_hours", worker.getTotal_hours());
+                workerJson.addProperty("job_status", worker.getJob_status());
+                jsonArray.add(workerJson);
+            }
+
+            }
+            return jsonArray;
+        }
+
 
     public boolean appointment_manager(JsonObject json) {
         int id = json.get("id").getAsInt();
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
             if (entry.getKey() == id) {
                 Worker worker = entry.getValue();
+
+                // Check if the worker already has the Shift_manager role
+                for (Role role : worker.getRoles_permissions()) {
+                    if (role == Role.Shift_manager) {
+                        return false;
+                    }
+                }
+
+                // Check if the worker's job status is active
                 if (worker.getJob_status()) {
-                    worker.getRoles_permissions().add(Shift_manager);
+                    worker.getRoles_permissions().add(Role.Shift_manager);
                     return true;
                 }
             }
-
         }
         return false;
     }
+
 
     public boolean Appointment_success(JsonObject json) {
         boolean success = appointment_manager(json);
@@ -236,13 +292,20 @@ public class WorkerController {
 
     public boolean Update_Branch(JsonObject json) {
         int id = json.get("id").getAsInt();
+        int branchNum = json.get("branch_num").getAsInt();
+        Branch branch = branches.get(branchNum); // Retrieve the Branch object from the branch number
+        if (branch == null) {
+            // If the branch doesn't exist, create a new one
+            branch = new Branch(branchNum);
+            branches.put(branchNum, branch);
+        }
+
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
             if (entry.getKey() == id) {
                 Worker worker = entry.getValue();
                 if (worker.getJob_status()) {
-                    worker.setBranch(json.get("branch_num").getAsInt());
+                    worker.setBranch(branch); // Set the Branch object
                     return true;
-
                 }
             }
         }
@@ -256,12 +319,19 @@ public class WorkerController {
 
     public boolean Update_bank_account_num(JsonObject json) {
         int id = json.get("id").getAsInt();
-        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            if (entry.getKey() == id) {
-                Worker worker = entry.getValue();
-                if (worker.getJob_status()) {
-                    worker.setBank_account_num(json.get("bank_account").getAsInt());
-                    return true;
+        JsonElement bankAccountElement = json.get("bank_account");
+
+        // Check if bank_accountElement is null before accessing its value
+        if (bankAccountElement != null && !bankAccountElement.isJsonNull()) {
+            int bankAccount = ((JsonElement) bankAccountElement).getAsInt();
+
+            for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+                if (entry.getKey() == id) {
+                    Worker worker = entry.getValue();
+                    if (worker.getJob_status()) {
+                        worker.setBank_account_num(bankAccount);
+                        return true;
+                    }
                 }
             }
         }
@@ -273,7 +343,6 @@ public class WorkerController {
         boolean success = Update_bank_account_num(json);
         return success;
     }
-
 
 
     // Finding available workers based on constraints, day, shift, and role
@@ -290,7 +359,6 @@ public class WorkerController {
                 }
             }
         }
-
         return availableWorkersList;
 
     }
@@ -354,6 +422,8 @@ public class WorkerController {
         }
 
     }
+
+
 }
 
 

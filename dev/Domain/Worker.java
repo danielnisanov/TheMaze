@@ -114,8 +114,8 @@ public class Worker {
         }
     }
 
-    public void setBranch(int branch) {
-        this.branch.setBranchNum(branch);
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public double getTotal_hours() {

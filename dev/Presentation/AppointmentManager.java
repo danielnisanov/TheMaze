@@ -38,7 +38,8 @@ public class AppointmentManager {
         if (wc.Appointment_success(json)) {
             System.out.println("Appointment success");
         }
-        System.out.println("Appointment failed");
-        // HRmenu();
+        else {
+            System.out.println("Appointment failed");
+        }
     }
 }

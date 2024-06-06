@@ -43,9 +43,9 @@ public class SubmitConstraints {
                     worker_number++;
                 }
                 int Choice_worker = scanner.nextInt();
-
-                sc.add_worker_to_weekly_arrangement(available.get(Choice_worker), days[day], shifts[shift], role);
-                if (!sc.add_worker_to_weekly_arrangement(available.get(Choice_worker), days[day], shifts[shift], role)) {
+                Worker selectedWorker = available.get(Choice_worker);
+                if (!sc.add_worker_to_weekly_arrangement(selectedWorker, days[day - 1], shifts[shift], role)) {
+                    System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift.");
                     return false;
                 }
 
