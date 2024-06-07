@@ -8,36 +8,39 @@ branch,7
 branch,8
 branch,9
 
+manager,Haim,100000001,123,1
+manager,Shira,100000002,456,2
+manager,David,100000003,789,3
+manager,Rachel,100000004,101,4
+manager,Michael,100000005,112,5
+manager,Dan,100000006,113,6
+manager,Orna,100000007,114,7
+manager,Amir,100000008,115,8
+manager,Liat,100000009,116,9
+manager,Nir,100000010,117,1
+manager,Gal,100000011,118,2
+manager,Ido,100000012,119,3
+manager,Noa,100000013,120,4
+manager,Gil,100000014,121,5
+manager,Maya,100000015,122,6
 
-manager,Haim,1,123,123456789
-manager,Shira,2,456,223456789
-manager,David,3,789,398989898
-manager,Rachel,4,101,400000009
-manager,Michael,5,112,547474748
-manager,Dan,6,113,689085674
-manager,Orna,7,114,712345678
-manager,Amir,8,115,890876578
-manager,Liat,9,116,908765432
-
-
-
-worker,holon 2378,yossi,323456786,78,60,0,Full_time_job,1,Storekeeper,Sorter,Cashier
-worker,tel aviv 1234,dan,000000004,99,50,10,Part_time_job,2,Cashier
-worker,bat yam 5678,levi,000000005,101,60,5,Full_time_job,3,Storekeeper,Sorter
-worker,herzliya 9101,omer,000000006,112,70,15,Part_time_job,4,Cashier
-worker,raanana 1123,tal,000000007,113,80,20,Full_time_job,5,Sorter
-worker,petah tikva 1354,lior,000000008,114,90,10,Part_time_job,6,Storekeeper
-worker,netanya 1678,naama,000000009,115,100,5,Full_time_job,7,Cashier
-worker,hod hasharon 1890,barak,000000010,116,110,0,Part_time_job,8,Sorter
-worker,rehovot 2011,tomer,000000011,117,120,25,Full_time_job,9,Storekeeper
-worker,ashdod 2345,eran,000000012,118,130,30,Part_time_job,1,Cashier
-worker,haifa 2678,ariel,000000013,119,140,35,Full_time_job,2,Sorter
-worker,beer sheva 2901,nadav,000000014,120,150,40,Part_time_job,3,Storekeeper
-worker,kiryat shmona 3123,eden,000000015,121,160,45,Full_time_job,4,Cashier
-worker,ramat gan 3456,elad,000000016,122,170,50,Part_time_job,5,Sorter
-worker,bnei brak 3789,noga,000000017,123,180,55,Full_time_job,6,Storekeeper
-worker,jerusalem 4011,roi,000000018,124,190,60,Part_time_job,7,Cashier
-worker,modiin 4234,galit,000000019,125,200,65,Full_time_job,8,Sorter
-worker,kfar saba 4567,tzvika,000000020,126,210,70,Part_time_job,9,Storekeeper
-worker,ashkelon 4890,yafit,000000021,127,220,75,Full_time_job,1,Cashier
-worker,beersheva 5123,dina,000000022,128,230,80,Part_time_job,2,Sorter
+worker,holon 2378,yossi,200000001,456,78,60,0,Full_time_job,1,Storekeeper,Sorter,Cashier
+worker,tel aviv 1234,dan,200000002,004,99,50,10,Part_time_job,2,Cashier
+worker,bat yam 5678,levi,200000003,005,101,60,5,Full_time_job,3,Storekeeper,Sorter
+worker,herzliya 9101,omer,200000004,006,112,70,15,Part_time_job,4,Cashier
+worker,raanana 1123,tal,200000005,007,113,80,20,Full_time_job,5,Sorter
+worker,petah tikva 1354,lior,200000006,008,114,90,10,Part_time_job,6,Storekeeper
+worker,netanya 1678,naama,200000007,009,115,100,5,Full_time_job,7,Cashier
+worker,hod hasharon 1890,barak,200000008,010,116,110,0,Part_time_job,8,Sorter
+worker,rehovot 2011,tomer,200000009,011,117,120,25,Full_time_job,9,Storekeeper
+worker,ashdod 2345,eran,200000010,012,118,130,30,Part_time_job,1,Cashier
+worker,haifa 2678,ariel,200000011,013,119,140,35,Full_time_job,2,Sorter
+worker,beer sheva 2901,nadav,200000012,014,120,150,40,Part_time_job,3,Storekeeper
+worker,kiryat shmona 3123,eden,200000013,015,121,160,45,Full_time_job,4,Cashier
+worker,ramat gan 3456,elad,200000014,016,122,170,50,Part_time_job,5,Sorter
+worker,bnei brak 3789,noga,200000015,017,123,180,55,Full_time_job,6,Storekeeper
+worker,jerusalem 4011,roi,200000016,018,124,190,60,Part_time_job,7,Cashier
+worker,modiin 4234,galit,200000017,019,125,200,65,Full_time_job,8,Sorter
+worker,kfar saba 4567,tzvika,200000018,020,126,210,70,Part_time_job,9,Storekeeper
+worker,ashkelon 4890,yafit,200000019,021,127,220,75,Full_time_job,1,Cashier
+worker,beersheva 5123,dina,200000020,022,128,230,80,Part_time_job,2,Sorter
