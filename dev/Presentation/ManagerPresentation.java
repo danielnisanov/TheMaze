@@ -55,7 +55,7 @@ public class ManagerPresentation {
             while (!exit) {
                 System.out.println("HR Manager Menu:");
                 System.out.println("Please choose one of the following:");
-                System.out.println("1. List of all the workers in the company");
+                System.out.println("1. List of all the workers");
                 System.out.println("2. Appointment of an additional shift manager");
                 System.out.println("3. Add new worker");
                 System.out.println("4. Termination of an employee's employment period");
@@ -68,7 +68,9 @@ public class ManagerPresentation {
                 System.out.println("11. Present work arrangement");
                 System.out.println("12. Show me past workers");
                 System.out.println("13. Change password");
-                System.out.println("14. Exit");
+                System.out.println("14. Present past shifts ");
+                System.out.println("15. present a worker");
+                System.out.println("16. Exit");
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
 
