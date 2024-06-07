@@ -30,6 +30,10 @@ public class WorkerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // Print loaded branches for debugging
+        System.out.println("Loaded branches: " + branches);
+        // Print loaded managers for debugging
+        System.out.println("Loaded managers: " + managers);
 
         // Associate managers with their branches
         for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
@@ -110,7 +114,8 @@ public class WorkerController {
                 workers.put(ID_number, worker);
             }
         }
-
+        // Print loaded workers for debugging
+        System.out.println("Loaded workers: " + workers);
         return workers;
     }
 
