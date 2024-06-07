@@ -59,12 +59,17 @@ public class SubmitConstraints {
     }
 
     // Creating worker constraints
-    public Map<String, List<String>> WorkerConstraint(JsonObject json,Branch branch) {
-        if(!branch.get_submittion_days().contains(LocalDate.now().getDayOfWeek().getValue()))
-        {
-            System.out.println("Can't submit shifts today");
-            return null;
+    public Map<String, List<String>> WorkerConstraint(JsonObject json, Branch branch) {
+        if (branch == null) {
+            System.out.println("Branch is null. Cannot submit constraints.");
+            return new HashMap<>(); // Return an empty map if branch is null
         }
+
+        if (!branch.get_submittion_days().contains(LocalDate.now().getDayOfWeek().getValue())) {
+            System.out.println("Can't submit shifts today");
+            return new HashMap<>(); // Return an empty map instead of null
+        }
+
         int id = json.get("id").getAsInt();
         Scanner scanner = new Scanner(System.in);
         Map<String, List<String>> constraintMap = new HashMap<>();
