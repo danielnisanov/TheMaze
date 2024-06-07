@@ -29,6 +29,10 @@ public class Worker {
 
 
 
+    public Branch getbranch (Branch branch){
+        return branch;
+    }
+
     public void setJob_status(boolean job_status) {
 
         this.job_status = job_status;

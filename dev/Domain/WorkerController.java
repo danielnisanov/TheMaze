@@ -23,18 +23,32 @@ public class WorkerController {
         branches = new HashMap<>();
         workers = new HashMap<>();
         try {
+            branches = openFileIntoListsBranch(file, branches);
             managers = openFileIntoListsManagers(file, managers);
             workers = openFileIntoListsWorkers(file, workers);
-            branches = openFileIntoListsBranch(file, branches);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(Map.Entry<Integer,HRManager> manager : managers.entrySet()){
-            branches.get(manager.getValue().getBranch()).set_manager(manager.getValue());
+        // Print loaded branches for debugging
+        System.out.println("Loaded branches: " + branches);
+        // Print loaded managers for debugging
+        System.out.println("Loaded managers: " + managers);
+
+        // Associate managers with their branches
+        for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
+            Branch branch = branches.get(manager.getValue().getBranch().getBranchNum());
+            if (branch != null) {
+                branch.set_manager(manager.getValue());
+            } else {
+                System.err.println("Error: Branch " + manager.getValue().getBranch() + " not found for manager " + manager.getKey());
+            }
         }
 
-        for(Map.Entry<Integer,Worker> worker : workers.entrySet()){
-            branches.get(worker.getValue().getBranchNum()).add_worker(worker.getValue());
+        for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
+            Branch branch = branches.get(worker.getValue().getBranchNum());
+            worker.getValue().setBranch(branch);
+            branch.add_worker(worker.getValue());
         }
 
     }
@@ -64,7 +78,7 @@ public class WorkerController {
         return managers;
     }
 
-    private Map<Integer, Worker>  openFileIntoListsWorkers(String file, Map<Integer, Worker> workers) throws FileNotFoundException {
+    private Map<Integer, Worker> openFileIntoListsWorkers(String file, Map<Integer, Worker> workers) throws FileNotFoundException {
         Scanner sc = new Scanner(new File(file));
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -77,26 +91,28 @@ public class WorkerController {
                 double hourly_salary = Double.valueOf(parts[5]);
                 int vaction_days = Integer.valueOf(parts[6]);
                 JobType job_type = JobType.valueOf(parts[7]);
-                int branch = Integer.valueOf(parts[8]);
+                int branchNum = Integer.valueOf(parts[8]);
 
                 Set<Role> roles_permissions = new HashSet<>();
                 for (int i = 9; i < parts.length; i++)
                     roles_permissions.add(Role.valueOf(parts[i]));
-                workers.put(Integer.valueOf(parts[3]), new Worker(address,
-                        name,
-                        ID_number,
-                        bank_account_num,
-                        hourly_salary,
-                        vaction_days,
-                        job_type,
-                        branches.get(branch),
-                        roles_permissions
-                        //job_status
-                ));
 
+                // Get the branch or create a new one if it doesn't exist
+                Branch branch = branches.get(branchNum);
+                if (branch == null) {
+                    branch = new Branch(branchNum);
+                    branches.put(branchNum, branch);
+                }
 
+                // Create the worker
+                Worker worker = new Worker(address, name, ID_number, bank_account_num, hourly_salary, vaction_days,
+                        job_type, branch, roles_permissions);
+
+                // Add worker to the branch
+                branch.add_worker(worker);
+                // Add worker to the workers map
+                workers.put(ID_number, worker);
             }
-
         }
         // Print loaded workers for debugging
         System.out.println("Loaded workers: " + workers);
