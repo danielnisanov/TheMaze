@@ -41,8 +41,8 @@ public class AppointmentManager {
         }
         JsonObject json = new JsonObject();
         json.addProperty("id", id_num);
-        wc.appointment_manager(json);
-        if (wc.Appointment_success(json)) {
+
+        if (wc.appointment_manager(json)) {
             System.out.println("Appointment success");
         }
         else {

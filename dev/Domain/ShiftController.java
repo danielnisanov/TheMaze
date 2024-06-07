@@ -45,6 +45,10 @@ public class ShiftController {
         return branch.getWeeklyWorkArrangement().get((day-1)*2+shift).workers_on_shift.size() > 0;
     }
 
+//    public List<shift> getWeeklyWorkArrangement() {
+//        return new ArrayList<>(weeklyWorkArrangement);
+//    }
+
 
 
 //    public static HashMap<String, String>[][] update_HRConstraints(JsonArray constraintsArray) {

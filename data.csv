@@ -21,7 +21,7 @@ manager,Liat,9,116,908765432
 
 
 
-worker,holon 2378,yossi,323456786,78,60,0,Full_time_job,1,Storekeeper,Sorter,Cashier
+worker,holon 2378,yossi,100000000,78,60,0,Full_time_job,1,Storekeeper,Sorter,Cashier
 worker,tel aviv 1234,dan,000000004,99,50,10,Part_time_job,2,Cashier
 worker,bat yam 5678,levi,000000005,101,60,5,Full_time_job,3,Storekeeper,Sorter
 worker,herzliya 9101,omer,000000006,112,70,15,Part_time_job,4,Cashier
@@ -41,5 +41,3 @@ worker,modiin 4234,galit,000000019,125,200,65,Full_time_job,8,Sorter
 worker,kfar saba 4567,tzvika,000000020,126,210,70,Part_time_job,9,Storekeeper
 worker,ashkelon 4890,yafit,000000021,127,220,75,Full_time_job,1,Cashier
 worker,beersheva 5123,dina,000000022,128,230,80,Part_time_job,2,Sorter
-
-

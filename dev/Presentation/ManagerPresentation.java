@@ -6,12 +6,12 @@ import Domain.WorkerController;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 
 public class ManagerPresentation {
     private static Scanner scanner = new Scanner(System.in);
-
     private HRManager manager = null;
     private WorkerController worker_controler;
     private AppointmentManager appointmentManager;
@@ -19,7 +19,6 @@ public class ManagerPresentation {
     private EmploymentTermination emplymenttermination;
     private UpdateWorkerDetails updatrDetails;
     private SubmitConstraints submitConstraints;
-
 
     public ManagerPresentation(WorkerController worker_controler, AppointmentManager appointmentManager,
                                AddWorker addWorker, EmploymentTermination emplymenttermination, UpdateWorkerDetails updatrDetails, SubmitConstraints submitConstraints) {
@@ -50,7 +49,7 @@ public class ManagerPresentation {
         String password = scanner.nextLine();
 
         if (manager.authenticate(password)) {
-            System.out.println("Access granted. HR menu options:");
+            System.out.println("Access granted.");
             boolean exit = false;
             while (!exit) {
                 System.out.println("HR Manager Menu:");
@@ -70,13 +69,16 @@ public class ManagerPresentation {
                 System.out.println("13. Change password");
                 System.out.println("14. Present past shifts ");
                 System.out.println("15. present a worker");
-                System.out.println("16. Exit");
+                System.out.println("16. End of work day");
+                System.out.println("17. Log out from the user");
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
-                //
+                scanner.nextLine();
+
 
                 switch (choice) {
                     case 1:
+                        System.out.println("i am here");
                         present_workers(manager.getBranch());
                         break;
                     case 2:
@@ -116,6 +118,13 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
+                        break;
+                    case 15:
+                        break;
+                    case 16:
+                        worker_controler.finishDay();
+                        break;
+                    case 17:
                         exit = true;
                         System.out.println("Exiting.");
                         break;
@@ -187,6 +196,4 @@ public class ManagerPresentation {
             System.out.println(workerElement.toString());
         }
     }
-
-
 }

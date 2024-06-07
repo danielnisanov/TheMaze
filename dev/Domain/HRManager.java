@@ -9,6 +9,7 @@ public class HRManager {
     public HRManager(String name, Branch branch, String password, int ID_number) {
         this.name = name;
         this.branch = branch;
+        this.branch.set_manager(this);
         this.ID_number = ID_number;
         this.password = password;
     }
