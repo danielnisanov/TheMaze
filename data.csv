@@ -1,4 +1,3 @@
-
 branch,1
 branch,2
 branch,3
@@ -8,6 +7,7 @@ branch,6
 branch,7
 branch,8
 branch,9
+
 
 manager,Haim,1,123,123456789
 manager,Shira,2,456,223456789
@@ -19,25 +19,8 @@ manager,Orna,7,114,712345678
 manager,Amir,8,115,890876578
 manager,Liat,9,116,908765432
 
-// Managers
-manager,Haim,1,123,1
-manager,Shira,2,456,2
-manager,David,3,789,3
-manager,Rachel,4,101,4
-manager,Michael,5,112,5
-manager,Dan,6,113,6
-manager,Orna,7,114,7
-manager,Amir,8,115,8
-manager,Liat,9,116,9
-manager,Nir,10,117,1
-manager,Gal,11,118,2
-manager,Ido,12,119,3
-manager,Noa,13,120,4
-manager,Gil,14,121,5
-manager,Maya,15,122,6
 
 
-// Workers
 worker,holon 2378,yossi,323456786,78,60,0,Full_time_job,1,Storekeeper,Sorter,Cashier
 worker,tel aviv 1234,dan,000000004,99,50,10,Part_time_job,2,Cashier
 worker,bat yam 5678,levi,000000005,101,60,5,Full_time_job,3,Storekeeper,Sorter
@@ -58,6 +41,3 @@ worker,modiin 4234,galit,000000019,125,200,65,Full_time_job,8,Sorter
 worker,kfar saba 4567,tzvika,000000020,126,210,70,Part_time_job,9,Storekeeper
 worker,ashkelon 4890,yafit,000000021,127,220,75,Full_time_job,1,Cashier
 worker,beersheva 5123,dina,000000022,128,230,80,Part_time_job,2,Sorter
-
-
-

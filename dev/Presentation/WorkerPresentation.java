@@ -37,7 +37,8 @@ public class WorkerPresentation {
         }
 
         // Continue with the menu options
-        while (true) {
+        boolean exit = false;
+        while (!exit) {
             System.out.println("Menu:");
             System.out.println("Please choose one of the following:");
             System.out.println("1. My global salary");
@@ -45,7 +46,7 @@ public class WorkerPresentation {
             System.out.println("3. My starting day");
             System.out.println("4. Submit my constraints");
             System.out.println("5. Present this week work arrangement");
-            System.out.println("6. Exit");
+            System.out.println("6. Log out from the user");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             switch (choice) {
@@ -64,7 +65,9 @@ public class WorkerPresentation {
                 case 5:
                     break;
                 case 6:
-                    return;
+                    exit = true;
+                    System.out.println("Returning to main menu.");
+                    break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }

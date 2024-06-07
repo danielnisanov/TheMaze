@@ -70,7 +70,8 @@ public class ManagerPresentation {
                 System.out.println("13. Change password");
                 System.out.println("14. Present past shifts ");
                 System.out.println("15. present a worker");
-                System.out.println("16. Exit");
+                System.out.println("16. End of work day");
+                System.out.println("17. Log out from the user");
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
                 //
@@ -116,6 +117,12 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
+                        break;
+                    case 15:
+                        break;
+                    case 16:
+                        break;
+                    case 17:
                         exit = true;
                         System.out.println("Exiting.");
                         break;

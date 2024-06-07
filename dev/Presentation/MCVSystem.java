@@ -35,21 +35,28 @@ public class MCVSystem {
 
     }
 
-    public void activate()
-    {
-        System.out.println("Who are you? m - manager , w - worker");
-        char input =  sc.next().charAt(0);
-        switch (input)
-        {
-            case 'm':
-                mp = new ManagerPresentation(worker_controler,appointmentManager,addWorker,emplymenttermination,updatrDetails,submitConstraints);
-                mp.menu();
-                break;
-            case 'w':
-                wp = new WorkerPresentation(worker_controler,submitConstraints);
-                wp.WorkerMenu();
-                break;
+    public void activate() {
+        boolean exitSystem = false;
+        while (!exitSystem) {
+            System.out.println("Who are you? m - manager , w - worker, e - exit system");
+            char input = sc.next().charAt(0);
+            switch (input) {
+                case 'm':
+                    mp = new ManagerPresentation(worker_controler, appointmentManager, addWorker, emplymenttermination, updatrDetails, submitConstraints);
+                    mp.menu();
+                    break;
+                case 'w':
+                    wp = new WorkerPresentation(worker_controler, submitConstraints);
+                    wp.WorkerMenu();
+                    break;
+                case 'e':
+                    exitSystem = true;
+                    System.out.println("Exiting system.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please choose again.");
+                    break;
+            }
         }
-
     }
 }
