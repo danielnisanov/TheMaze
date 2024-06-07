@@ -44,7 +44,8 @@ public class WorkerPresentation {
             System.out.println("2. My vacation days");
             System.out.println("3. My starting day");
             System.out.println("4. Submit my constraints");
-            System.out.println("0. Exit");
+            System.out.println("5. Present this week work arrangement");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             switch (choice) {
@@ -60,7 +61,9 @@ public class WorkerPresentation {
                 case 4:
                     Submit_constraints( worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()));
                     break;
-                case 0:
+                case 5:
+                    break;
+                case 6:
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
