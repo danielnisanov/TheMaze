@@ -17,7 +17,7 @@ public class Branch {
 
     public Branch(int branch_num) {
         this.branch_num = branch_num;
-        this.hr_manager = null;
+        this.hr_manager = null; // Set the hr_manager field with the provided HRManager object
         workers_on_brunch = new HashMap<Integer, Worker>();
         init_branch_week();
         valid_days_for_subbmition = new ArrayList<Integer>();
