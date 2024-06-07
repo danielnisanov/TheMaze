@@ -60,7 +60,7 @@ public class WorkerPresentation {
                     Find_Start_date();
                     break;
                 case 4:
-                    Submit_constraints( worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()));
+                    Submit_constraints(worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()), workerID);
                     break;
                 case 5:
                     break;
@@ -75,9 +75,10 @@ public class WorkerPresentation {
     }
 
 
-    private void Submit_constraints(Branch branch) {
-        boolean success = submitConstraints.WorkerConstraint(json,branch).isEmpty();
-        if (success) {
+    private void Submit_constraints(Branch branch, int workerId) {
+        JsonObject workerIdJson = new JsonObject();
+        workerIdJson.addProperty("id", workerId);
+        if (!submitConstraints.WorkerConstraint(workerIdJson, branch).isEmpty()) {
             System.out.println("Constraints submitted successfully.");
         } else {
             System.out.println("Error occurred while submitting constraints.");

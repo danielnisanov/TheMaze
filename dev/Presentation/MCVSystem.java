@@ -32,7 +32,6 @@ public class MCVSystem {
         updatrDetails  = new UpdateWorkerDetails(worker_controler);
         shift_controler = new ShiftController();
         submitConstraints  = new SubmitConstraints(worker_controler,shift_controler);
-
     }
 
     public void activate() {

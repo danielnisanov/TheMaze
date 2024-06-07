@@ -17,6 +17,7 @@ public class WorkerController {
     private Map<Integer, Branch> branches;
     private Map<Integer, Worker> workers;
     private Map<Integer, Map<String, List<String>>> workerConstraints;//all workers available map<id,unavailable time>
+    private LocalDate currentDate = LocalDate.now();
 
     public WorkerController(String file) {
         managers = new HashMap<>();
@@ -72,7 +73,8 @@ public class WorkerController {
             String line = sc.nextLine();
             String parts[] = line.split(",");
             if (parts[0].equals("manager")) {
-                managers.put(Integer.valueOf(parts[4]), new HRManager(parts[1], Integer.valueOf(parts[2]), parts[3], Integer.valueOf(parts[4])));
+                Branch curr_branch = branches.get(Integer.valueOf(parts[2]));
+                managers.put(Integer.valueOf(parts[4]), new HRManager(parts[1], curr_branch, parts[3], Integer.valueOf(parts[4])));
             }
         }
         return managers;
@@ -131,7 +133,7 @@ public class WorkerController {
         int branchNum = json.get("branch_num").getAsInt();
 
         String roleStr = json.get("roles").getAsString();
-        String roles[] = roleStr.split(",");
+        String[] roles = roleStr.split(",");
 
         JobType jobTypeEnum = JobType.valueOf(jobType);
 
@@ -147,14 +149,15 @@ public class WorkerController {
             branches.put(branchNum, branch);
         }
 
+        Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays, jobTypeEnum, branch, roleSet);
+        branch.add_worker(newWorker);  // Add the worker to the branch
 
+        newWorker.setBranch(branch);  // Set the branch for the worker
 
+        workers.put(id, newWorker);  // Add the worker to the workers map
 
-        Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays,
-                jobTypeEnum, branch, roleSet);
-        branch.add_worker(newWorker);
-        newWorker.setBranch(branch); // Set the Branch object
-        workers.put(id, newWorker);
+        System.out.println("Worker added successfully to branch " + branchNum + " with details: ");
+        System.out.println(json);
     }
 
 
@@ -173,6 +176,10 @@ public class WorkerController {
         return workers;
     }
 
+    public LocalDate getCurrentDate() {
+        return currentDate;
+    }
+
     public HRManager getManager(int id) {
         return managers.get(id);
     }
@@ -183,7 +190,6 @@ public class WorkerController {
 
     public JsonArray present_workers(Branch branch) {
         JsonArray jsonArray = new JsonArray();
-
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
             if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
                 Worker worker = entry.getValue();
@@ -247,7 +253,6 @@ public class WorkerController {
                         return false;
                     }
                 }
-
                 // Check if the worker's job status is active
                 if (worker.getJob_status()) {
                     worker.getRoles_permissions().add(Role.Shift_manager);
@@ -256,12 +261,6 @@ public class WorkerController {
             }
         }
         return false;
-    }
-
-
-    public boolean Appointment_success(JsonObject json) {
-        boolean success = appointment_manager(json);
-        return success;
     }
 
     public boolean Employment_termination(JsonObject json) {
@@ -369,33 +368,26 @@ public class WorkerController {
         return false;
     }
 
-
-    public boolean Update_Bank_Account_Num_success(JsonObject json) {
-        boolean success = Update_bank_account_num(json);
-        return success;
-    }
-
-
     // Finding available workers based on constraints, day, shift, and role
-    public List<Worker> AvailableWorkers(String day, String shiftType, Role role) {
+    public List<Worker> AvailableWorkers(String day, String shiftType, Role role, Branch branch) {
         List<Worker> availableWorkersList = new ArrayList<>();
 
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
             Worker worker = entry.getValue();
             Map<String, List<String>> constraints = worker.getConstraints();
 
-            if (constraints == null || !constraints.containsKey(day) || !constraints.get(day).contains(shiftType)) {
-                if (worker.getRoles_permissions().contains(role)) {
+            if ((branch.getBranchNum() == worker.branch.getBranchNum()) &&
+                    (worker.getRoles_permissions().contains(role)) &&
+                    (constraints == null || !constraints.containsKey(day) || !constraints.get(day).contains(shiftType))) {
                     availableWorkersList.add(worker);
-                }
             }
         }
-        return availableWorkersList;
 
+        return availableWorkersList;
     }
 
     //Checks if a person is a worker
-    public boolean IsWorker(JsonObject json){
+    public boolean IsWorker(JsonObject json) {
         int id = json.get("id").getAsInt();
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
             if (entry.getKey() == id) {
@@ -441,7 +433,20 @@ public class WorkerController {
         return null;
     }
 
-    public void GetWorkerConstraints(Map<String, List<String>> constraintMap, JsonObject json) {
+    public void finishDay() {
+        currentDate = NextDay(currentDate);
+    }
+
+    public static LocalDate NextDay(LocalDate currentDate){
+        // Get the current date
+        System.out.println("Today's date: " + currentDate);
+        LocalDate nextDay = currentDate.plusDays(1);
+        System.out.println("Next day's date: " + nextDay);
+        // Advance to the next day
+        return nextDay;
+    }
+
+    public void SetWorkerConstraints(Map<String, List<String>> constraintMap, JsonObject json) {
         int id = json.get("id").getAsInt();
         if (IsWorker(json)) {
             for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
