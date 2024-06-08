@@ -1,5 +1,8 @@
 package Domain;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 public class ShiftController {
@@ -73,4 +76,25 @@ public class ShiftController {
                 return -1; // Invalid shift
         }
     }
+
+    public JsonArray getShiftHistory(Branch branch) {
+        JsonArray jsonArray = new JsonArray();
+        for (shift shift : branch.getShiftHistory()) {
+            JsonObject jsonShift = new JsonObject();
+            jsonShift.addProperty("shift_date", shift.getShift_date());
+            jsonShift.addProperty("shift_type", shift.getShift_type());
+            JsonArray workersArray = new JsonArray();
+            for (Worker worker : shift.getWorkers_on_shift()) {
+                JsonObject jsonWorker = new JsonObject();
+                jsonWorker.addProperty("worker_name", worker.getName());
+                jsonWorker.addProperty("worker_id", worker.getID_number());
+                // Add more worker attributes as needed
+                workersArray.add(jsonWorker);
+            }
+            jsonShift.add("workers_on_shift", workersArray);
+            jsonArray.add(jsonShift);
+        }
+        return jsonArray;
+    }
 }
+

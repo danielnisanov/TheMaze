@@ -2,6 +2,7 @@ package Presentation;
 
 import Domain.Branch;
 import Domain.HRManager;
+import Domain.ShiftController;
 import Domain.WorkerController;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,6 +21,7 @@ public class ManagerPresentation {
     private EmploymentTermination emplymenttermination;
     private UpdateWorkerDetails updatrDetails;
     private SubmitConstraints submitConstraints;
+    private ShiftController shiftController;
 
     public ManagerPresentation(WorkerController worker_controler, AppointmentManager appointmentManager,
                                AddWorker addWorker, EmploymentTermination emplymenttermination, UpdateWorkerDetails updatrDetails, SubmitConstraints submitConstraints) {
@@ -118,6 +120,7 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
+                        past_shifts(manager.getBranch());
                         break;
                     case 15:
                         Present_Worker(manager.getBranch());
@@ -136,6 +139,14 @@ public class ManagerPresentation {
             }
         } else {
             System.out.println("Invalid password. Access denied.");
+        }
+    }
+
+
+    private void past_shifts(Branch branch){
+        JsonArray jsonArray = shiftController.getShiftHistory(branch);
+        for (JsonElement workerElement : jsonArray) {
+            System.out.println(workerElement.toString());
         }
     }
 
