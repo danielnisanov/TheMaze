@@ -191,7 +191,7 @@ public class WorkerController {
     public JsonArray present_workers(Branch branch) {
         JsonArray jsonArray = new JsonArray();
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
+            if (branch.is_worker_in_branch(entry.getValue().getID_number())) {
                 Worker worker = entry.getValue();
                 JsonObject workerJson = new JsonObject();
                 workerJson.addProperty("id", worker.getID_number());
@@ -213,11 +213,10 @@ public class WorkerController {
         return jsonArray;
     }
 
-    public JsonArray present_past_workers(Branch branch){
+    public JsonArray present_past_workers(Branch branch) {
         JsonArray jsonArray = new JsonArray();
-
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
+            if (branch.is_worker_in_branch(entry.getValue().getID_number())) {
                 Worker worker = entry.getValue();
                 if (!worker.getJob_status()) {
                     JsonObject workerJson = new JsonObject();
@@ -236,9 +235,9 @@ public class WorkerController {
                     jsonArray.add(workerJson);
                 }
             }
-            }
-            return jsonArray;
         }
+        return jsonArray;
+    }
 
 
     public boolean appointment_manager(JsonObject json) {
@@ -379,10 +378,9 @@ public class WorkerController {
             if ((branch.getBranchNum() == worker.branch.getBranchNum()) &&
                     (worker.getRoles_permissions().contains(role)) &&
                     (constraints == null || !constraints.containsKey(day) || !constraints.get(day).contains(shiftType))) {
-                    availableWorkersList.add(worker);
+                availableWorkersList.add(worker);
             }
         }
-
         return availableWorkersList;
     }
 
@@ -437,7 +435,7 @@ public class WorkerController {
         currentDate = NextDay(currentDate);
     }
 
-    public static LocalDate NextDay(LocalDate currentDate){
+    public static LocalDate NextDay(LocalDate currentDate) {
         // Get the current date
         System.out.println("Today's date: " + currentDate);
         LocalDate nextDay = currentDate.plusDays(1);
@@ -457,6 +455,41 @@ public class WorkerController {
             }
         }
 
+    }
+
+
+    public JsonObject present_worker(JsonObject json) {
+        int id = json.get("id").getAsInt();
+
+        Worker worker = null;
+
+        // Find the worker by ID
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            if (entry.getKey() == id) {
+                worker = entry.getValue();
+                break;
+            }
+        }
+        // If worker is found and is currently employed, convert to JsonObject
+        if (worker != null && worker.getJob_status()) {
+            JsonObject workerJson = new JsonObject();
+            workerJson.addProperty("id", worker.getID_number());
+            workerJson.addProperty("name", worker.getName());
+            workerJson.addProperty("address", worker.getAddress());
+            workerJson.addProperty("bank_account", worker.getBank_account_num());
+            workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+            workerJson.addProperty("vacation_days", worker.getVaction_days());
+            workerJson.addProperty("job_type", worker.getJob_type().toString());
+            workerJson.addProperty("branch_num", worker.getBranchNum());
+            workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+            workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+            workerJson.addProperty("total_hours", worker.getTotal_hours());
+            workerJson.addProperty("job_status", worker.getJob_status());
+            return workerJson;
+        }
+
+        // Return null if worker is not found or not currently employed
+        return null;
     }
 
 

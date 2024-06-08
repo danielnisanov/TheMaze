@@ -20,9 +20,9 @@ public class AppointmentManager {
 
         int id_num = scanner.nextInt();
 
-        if(!branch.is_worker_in_branch(id_num))
+        if(!branch.is_worker_in_branch((id_num)))
         {
-            System.out.println("The id number is incorrect");
+            System.out.println("this worker is not in your branch");
             return;
         }
 

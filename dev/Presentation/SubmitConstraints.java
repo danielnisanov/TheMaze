@@ -6,24 +6,20 @@ import com.google.gson.JsonObject;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.List;
-
 
 public class SubmitConstraints {
 
     static Scanner scanner = new Scanner(System.in);
     private WorkerController wc;
-    ShiftController sc;
+    private ShiftController sc;
 
-    public SubmitConstraints(WorkerController wc, ShiftController sc)
-    {
+    public SubmitConstraints(WorkerController wc, ShiftController sc) {
         this.wc = wc;
         this.sc = sc;
     }
 
     public boolean Submit_Constraints(Branch branch) {
-        if(branch.get_submittion_days().contains(wc.getCurrentDate().getDayOfWeek().getValue()))
-        {
+        if (branch.get_submission_days().contains(wc.getCurrentDate().getDayOfWeek().getValue())) {
             System.out.println("Can't close shifts today");
             return false;
         }
@@ -31,11 +27,8 @@ public class SubmitConstraints {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         String[] shifts = {"Morning", "Evening"};
 
-        System.out.println("select day(1-7):");
-        int day = scanner.nextInt() - 1;
-
-        System.out.println("select shift(0-1):");
-        int shift  = scanner.nextInt();
+        int day = getUserInput("Select day (1-7):", 1, 7) - 1;
+        int shift = getUserInput("Select shift (0-1):", 0, 1);
 
         for (Role role : Role.values()) {
             System.out.print("Enter the number of " + role + "s on " + days[day] + " at " + shifts[shift] + ": ");
@@ -43,21 +36,31 @@ public class SubmitConstraints {
 
             for (int i = 0; i < number; i++) {
                 List<Worker> available = wc.AvailableWorkers(days[day], shifts[shift], role, branch);
-                List<Worker> availableWorkersOnBranch = new ArrayList<>();
-                System.out.println("Please choose one of the following workers:");
 
-                int worker_number = 0;
-                for (Worker worker : available) {
-                    availableWorkersOnBranch.add(worker);
-                    System.out.println("(" + worker_number + ") " + worker.getName());
-                    worker_number++;
+                if (available.isEmpty()) {
+                    System.out.println("No available workers for role " + role + " on " + days[day] + " at " + shifts[shift]);
+                    return false;
                 }
 
-                int Choice_worker = scanner.nextInt();
-                Worker selectedWorker = availableWorkersOnBranch.get(Choice_worker);
-                if (!sc.add_worker_to_weekly_arrangement(branch,selectedWorker, days[day], shifts[shift], role)) {
-                    System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift.");
-                    return false;
+                List<Worker> availableWorkersOnBranch = new ArrayList<>(available);
+                boolean workerAssigned = false;
+
+                while (!workerAssigned) {
+                    System.out.println("Please choose one of the following workers:");
+                    for (int j = 0; j < availableWorkersOnBranch.size(); j++) {
+                        System.out.println("(" + j + ") " + availableWorkersOnBranch.get(j).getName());
+                    }
+
+                    int choiceWorker = getUserInput("Enter your choice (0-" + (availableWorkersOnBranch.size() - 1) + "):", 0, availableWorkersOnBranch.size() - 1);
+                    Worker selectedWorker = availableWorkersOnBranch.get(choiceWorker);
+
+                    if (sc.add_worker_to_weekly_arrangement(branch, selectedWorker, days[day], shifts[shift], role)) {
+                        availableWorkersOnBranch.remove(selectedWorker);
+                        workerAssigned = true;
+                    } else {
+                        System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift. Please select another worker.");
+                    }
+
                 }
             }
         }
@@ -65,19 +68,30 @@ public class SubmitConstraints {
         return true;
     }
 
-    // Creating worker constraints
+    private int getUserInput(String prompt, int min, int max) {
+        int input;
+        do {
+            System.out.println(prompt);
+            while (!scanner.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number between " + min + " and " + max + ".");
+                scanner.next();
+            }
+            input = scanner.nextInt();
+        } while (input < min || input > max);
+        return input;
+    }
+
     public Map<String, List<String>> WorkerConstraint(JsonObject workerIdJson, Branch branch) {
         if (branch == null) {
             System.out.println("Branch is null. Cannot submit constraints.");
-            return new HashMap<>(); // Return an empty map if branch is null
+            return new HashMap<>();
         }
 
-        if (!branch.get_submittion_days().contains(wc.getCurrentDate().getDayOfWeek().getValue())) {
+        if (!branch.get_submission_days().contains(wc.getCurrentDate().getDayOfWeek().getValue())) {
             System.out.println("Can't submit shifts today");
-            return new HashMap<>(); // Return an empty map instead of null
+            return new HashMap<>();
         }
 
-        Scanner scanner = new Scanner(System.in);
         Map<String, List<String>> constraintMap = new HashMap<>();
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         String[] shifts = {"Morning", "Evening"};
@@ -89,10 +103,10 @@ public class SubmitConstraints {
                     System.out.println("1. Yes");
                     System.out.println("2. No");
 
-                    int choice = scanner.nextInt();
+                    int choice = getUserInput("", 1, 2);
 
                     if (choice == 1) {
-                        break; // Available for work, so no need to add to constraint map
+                        break;
                     } else if (choice == 2) {
                         constraintMap.computeIfAbsent(days[day], k -> new ArrayList<>()).add(shifts[shift]);
                         break;
@@ -108,5 +122,4 @@ public class SubmitConstraints {
         }
         return constraintMap;
     }
-
 }

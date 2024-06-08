@@ -1,8 +1,6 @@
 package Presentation;
 
-import Domain.Branch;
-import Domain.WorkerController;
-import Domain.JobType;
+import Domain.*;
 import com.google.gson.JsonObject;
 
 import java.util.Scanner;
@@ -11,6 +9,8 @@ public class UpdateWorkerDetails {
     private static WorkerController workerController;
     static Scanner scanner = new Scanner(System.in);
     private WorkerController wc;
+    HRManager hrManager;
+    Worker worker;
 
     public UpdateWorkerDetails(WorkerController wc)
     {
@@ -19,9 +19,9 @@ public class UpdateWorkerDetails {
     public void Update_Job_Type(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
-        if(!branch.is_worker_in_branch(id_num))
+        if(!branch.is_worker_in_branch((id_num)))
         {
-            System.out.println("The id number is incorrect");
+            System.out.println("this worker is not in your branch");
             return;
         }
         // Check if the ID is a 9-digit number
@@ -54,13 +54,41 @@ public class UpdateWorkerDetails {
 
     }
 
+    public JsonObject PresentWorker(Branch branch) {
+        System.out.println("Enter the worker ID");
+        int id_num = scanner.nextInt();
+        if (!branch.is_worker_in_branch((id_num))) {
+            System.out.println("this worker is not in your branch");
+            return null;
+        }
+        // Check if the ID is a 9-digit number
+
+        int temp_id = id_num;
+        int sum = 0;
+        while (temp_id != 0) {
+            temp_id /= 10;
+            sum++;
+        }
+
+        if (sum != 9) {
+            System.out.println("The id number is incorrect");
+            // HRmenu(); // Uncomment this when you add the menu
+            return null; // Exit the method if the ID number is incorrect
+        }
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id_num);
+        return wc.present_worker(json);
+    }
+
+
+
     public void Update_Salary(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
 
         if(!branch.is_worker_in_branch(id_num))
         {
-            System.out.println("The id number is incorrect");
+            System.out.println("this worker is not in your branch");
             return;
         }
 
@@ -73,10 +101,11 @@ public class UpdateWorkerDetails {
         }
 
         if (sum != 9) {
-            System.out.println("The id number is incorrect");
+            System.out.println("The id number is incorrect1");
             // HRmenu(); // Uncomment this when you add the menu
             return; // Exit the method if the ID number is incorrect
         }
+
         System.out.println("Enter the new salary");
         int hourly_salary = scanner.nextInt();
         if (hourly_salary <= 0) {
@@ -101,6 +130,7 @@ public class UpdateWorkerDetails {
     public void Update_branch() {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
+
 
         // Check if the ID is a 9-digit number
         int temp_id = id_num;
@@ -136,40 +166,14 @@ public class UpdateWorkerDetails {
         }
     }
 
-//    public void UpdateBankAccountNum(){
-//        System.out.println("Enter the worker ID");
-//        String id_num = scanner.next();
-//
-//
-//        // Check if the ID is a 9-digit number
-//        if (id_num.length() != 9) {
-//            System.out.println("The id number is incorrect");
-//            return; // Exit the method if the ID number is incorrect
-//        }
-//        int id_num_int = Integer.parseInt(id_num);
-//
-//        System.out.println("Enter the new bank account number");
-//        int bank_num = scanner.nextInt();
-//        if (bank_num <= 0) {
-//            System.out.println("The bank account number must be a positive number");
-//        }
-//        JsonObject json = new JsonObject();
-//        json.addProperty("id", id_num_int);
-//        json.addProperty("bank_num", bank_num);
-//
-//        wc.Update_bank_account_num(json);
-//        if (wc.Update_Bank_Account_Num_success(json)) {
-//            System.out.println("Update bank account number success");
-//        }
-//        else {
-//            System.out.println("Update bank account number failed");
-//        }
-//
-//    }
-
     public void UpdateBankAccountNum(Branch branch) {
         System.out.println("Enter the worker ID");
         String id_num = scanner.next();
+        if(!branch.is_worker_in_branch(Integer.parseInt(id_num)))
+        {
+            System.out.println("this worker is not in your branch");
+            return;
+        }
 
         // Check if the ID is a 9-digit number
         if (id_num.length() != 9) {

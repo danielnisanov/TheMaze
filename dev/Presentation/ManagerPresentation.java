@@ -5,6 +5,7 @@ import Domain.HRManager;
 import Domain.WorkerController;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -64,10 +65,10 @@ public class ManagerPresentation {
                 System.out.println("8. Creating a work arrangement");
                 System.out.println("9. Add new HR manager");
                 System.out.println("10. Update bank account number for worker");
-                System.out.println("11. Present work arrangement");
+                System.out.println("11. Present work arrangement"); // todo
                 System.out.println("12. Show me past workers");
                 System.out.println("13. Change password");
-                System.out.println("14. Present past shifts ");
+                System.out.println("14. Present past shifts "); //todo
                 System.out.println("15. present a worker");
                 System.out.println("16. End of work day");
                 System.out.println("17. Log out from the user");
@@ -78,7 +79,6 @@ public class ManagerPresentation {
 
                 switch (choice) {
                     case 1:
-                        System.out.println("i am here");
                         present_workers(manager.getBranch());
                         break;
                     case 2:
@@ -120,6 +120,7 @@ public class ManagerPresentation {
                     case 14:
                         break;
                     case 15:
+                        Present_Worker(manager.getBranch());
                         break;
                     case 16:
                         worker_controler.finishDay();
@@ -146,6 +147,23 @@ public class ManagerPresentation {
         System.out.println("Password updated successfully.");
     }
 
+    private void Present_Worker(Branch branch) {
+        JsonObject json = worker_controler.present_worker(updatrDetails.PresentWorker(branch));
+        System.out.println("{");
+        System.out.println("  \"id\": " + json.get("id").getAsString() + ",");
+        System.out.println("  \"name\": \"" + json.get("name").getAsString() + "\",");
+        System.out.println("  \"address\": \"" + json.get("address").getAsString() + "\",");
+        System.out.println("  \"bank_account\": " + json.get("bank_account").getAsInt() + ",");
+        System.out.println("  \"hourly_salary\": " + json.get("hourly_salary").getAsDouble() + ",");
+        System.out.println("  \"vacation_days\": " + json.get("vacation_days").getAsInt() + ",");
+        System.out.println("  \"job_type\": \"" + json.get("job_type").getAsString() + "\",");
+        System.out.println("  \"branch_num\": " + json.get("branch_num").getAsInt() + ",");
+        System.out.println("  \"roles\": \"" + json.get("roles").getAsString() + "\",");
+        System.out.println("  \"starting_day\": \"" + json.get("starting_day").getAsString() + "\",");
+        System.out.println("  \"total_hours\": " + json.get("total_hours").getAsDouble() + ",");
+        System.out.println("  \"job_status\": " + json.get("job_status").getAsBoolean());
+        System.out.println("}");
+    }
 
     private void UpdateBankAccountNum(Branch branch) {
         updatrDetails.UpdateBankAccountNum(branch);
@@ -159,22 +177,28 @@ public class ManagerPresentation {
     }
 
     private void Appointment_Manager(Branch branch) {
+
         appointmentManager.Appointment_Manager(branch);
     }
 
     private void add_worker() {
+
         addWorker.add_worker();
     }
 
     private void Employment_Termination(Branch branch) {
+
         emplymenttermination.Employment_Termination(branch);
     }
 
     private void Update_Salary(Branch branch) {
+
         updatrDetails.Update_Salary(branch);
     }
 
     private void Update_Job_Type(Branch branch) {
+
+
         updatrDetails.Update_Job_Type(branch);
     }
 
@@ -196,4 +220,6 @@ public class ManagerPresentation {
             System.out.println(workerElement.toString());
         }
     }
+
+
 }
