@@ -214,9 +214,6 @@ public class Menu {
 
 
         private void loadInitialData() {
-//        csvReader.loadCategories("dev/Data/categories.csv", categoryPresentation);
-//        csvReader.loadProducts("dev/Data/products.csv", productPresentation);
-//        csvReader.loadItems("dev/Data/items.csv", productPresentation);
             csvReader.loadCategories("categories.csv", categoryPresentation);
             csvReader.loadProducts("products.csv", productPresentation);
             csvReader.loadItems("items.csv", productPresentation);

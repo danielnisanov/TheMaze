@@ -62,11 +62,5 @@ public class Category {
     public String toString(){
         return categoryName;
     }
-//    public String toString() {
-//        return "Category{" +
-//                "categoryName='" + categoryName + '\'' +
-//                ", subList=" + subList +
-//                '}';
-//    }
 }
 

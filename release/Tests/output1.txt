@@ -5,7 +5,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Reports Menu:
 1. Create an inventory report
 2. Create damaged products report
@@ -13,8 +13,8 @@ Select an option:
 4. Display an exist report
 5. Remove an exist report
 6. Return to Main Menu
-Select an option: Enter category name: Enter sub category name: Enter sub sub category name:
-Report{reportID='1', reportDate=2024-06-05}
+Select an option: Enter category name: Enter sub category name: Enter sub sub category name: 
+Report{reportID='1', reportDate=2024-06-08}
 The products in the category:  are:
 catalog number:183648443, name:Tnuva milk, area:B, manufacturer:DairyCo, quantity:0, damaged quanttity:0
 catalog number:183648420, name:L eggs, area:C, manufacturer:Farmer's Best, quantity:0, damaged quanttity:0
@@ -35,7 +35,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Reports Menu:
 1. Create an inventory report
 2. Create damaged products report
@@ -43,8 +43,8 @@ Select an option:
 4. Display an exist report
 5. Remove an exist report
 6. Return to Main Menu
-Select an option: Enter category name: Enter sub category name: Enter sub sub category name:
-Report{reportID='2', reportDate=2024-06-05}
+Select an option: Enter category name: Enter sub category name: Enter sub sub category name: 
+Report{reportID='2', reportDate=2024-06-08}
 The products in the category: Fruits are:
 catalog number:183648445, name:Small orange, area:A, manufacturer:Fruit Farm, quantity:0, damaged quanttity:0
 catalog number:183648442, name:Red apple, area:A, manufacturer:Fruit Farm, quantity:9, damaged quanttity:0
@@ -56,7 +56,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Products and Items Menu:
 1. Add new product
 2. Display an existing product
@@ -78,7 +78,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Products and Items Menu:
 1. Add new product
 2. Display an existing product
@@ -100,7 +100,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Products and Items Menu:
 1. Add new product
 2. Display an existing product
@@ -122,7 +122,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Reports Menu:
 1. Create an inventory report
 2. Create damaged products report
@@ -130,11 +130,11 @@ Select an option:
 4. Display an exist report
 5. Remove an exist report
 6. Return to Main Menu
-Select an option:
-Report{reportID='3', reportDate=2024-06-05}
+Select an option: 
+Report{reportID='3', reportDate=2024-06-08}
 The damaged items are:
-Product name: Sheri tomato, Item ID: 1
 Product name: Sheri tomato, Item ID: 2
+Product name: Sheri tomato, Item ID: 1
 Product name: Sheri tomato, Item ID: 3
 
 
@@ -143,7 +143,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Products and Items Menu:
 1. Add new product
 2. Display an existing product
@@ -166,7 +166,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Products and Items Menu:
 1. Add new product
 2. Display an existing product
@@ -189,7 +189,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Products and Items Menu:
 1. Add new product
 2. Display an existing product
@@ -212,7 +212,7 @@ Menu:
 2. Products and Items Menu
 3. Reports Menu
 4. Exit
-Select an option:
+Select an option: 
  Reports Menu:
 1. Create an inventory report
 2. Create damaged products report
@@ -220,8 +220,8 @@ Select an option:
 4. Display an exist report
 5. Remove an exist report
 6. Return to Main Menu
-Select an option:
-Report{reportID='4', reportDate=2024-06-05}
+Select an option: 
+Report{reportID='4', reportDate=2024-06-08}
 The damaged items are:
 
 

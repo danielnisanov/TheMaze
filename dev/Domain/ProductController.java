@@ -39,8 +39,8 @@ public class ProductController {
         if(minQuantity < 0 ) throw new Exception("Product minQuantity is negative.");
         if (costPrice < 0 ) throw new Exception("Product costPrice is negative.");
         if (sellingPrice < 0 ) throw new Exception("Product sellingPrice is negative.");
-        if (discount <= 0 || discount > 1) throw new Exception("Product discount is illegal.");
-        if (sale <= 0 || sale > 1) throw new Exception("Product sale is illegal.");
+        if (discount < 0 || discount > 1) throw new Exception("Product discount is illegal.");
+        if (sale < 0 || sale > 1) throw new Exception("Product sale is illegal.");
 
         Product product = new Product(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
         productsList.put(product.getName(), product);
