@@ -51,6 +51,7 @@ public class Branch {
         return branch_num;
     }
 
+
     public void setBranchNum(int num) {
         branch_num = num;
     }
@@ -76,6 +77,10 @@ public class Branch {
     }
 
     public ArrayList<shift> getShiftHistory() {
+        return shiftHistory;
+    }
+
+    public ArrayList<shift> setShiftHistory(ArrayList<shift> shiftHistory){
         return shiftHistory;
     }
 

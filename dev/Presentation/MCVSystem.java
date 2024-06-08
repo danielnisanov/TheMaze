@@ -41,7 +41,7 @@ public class MCVSystem {
             char input = sc.next().charAt(0);
             switch (input) {
                 case 'm':
-                    mp = new ManagerPresentation(worker_controler, appointmentManager, addWorker, emplymenttermination, updatrDetails, submitConstraints);
+                    mp = new ManagerPresentation(worker_controler, appointmentManager, addWorker, emplymenttermination, updatrDetails, submitConstraints,shift_controler);
                     mp.menu();
                     break;
                 case 'w':

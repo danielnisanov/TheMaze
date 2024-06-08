@@ -30,43 +30,47 @@ public class SubmitConstraints {
         int day = getUserInput("Select day (1-7):", 1, 7) - 1;
         int shift = getUserInput("Select shift (0-1):", 0, 1);
 
-        for (Role role : Role.values()) {
-            System.out.print("Enter the number of " + role + "s on " + days[day] + " at " + shifts[shift] + ": ");
-            int number = scanner.nextInt();
+        for (day=0; day< 7; day++) {
+            for (shift = 0; shift < 2; shift++) {
+                for (Role role : Role.values()) {
+                    System.out.print("Enter the number of " + role + "s on " + days[day] + " at " + shifts[shift] + ": ");
+                    int number = scanner.nextInt();
 
-            for (int i = 0; i < number; i++) {
-                List<Worker> available = wc.AvailableWorkers(days[day], shifts[shift], role, branch);
+                    for (int i = 0; i < number; i++) {
+                        List<Worker> available = wc.AvailableWorkers(days[day], shifts[shift], role, branch);
 
-                if (available.isEmpty()) {
-                    System.out.println("No available workers for role " + role + " on " + days[day] + " at " + shifts[shift]);
-                    return false;
-                }
+                        if (available.isEmpty()) {
+                            System.out.println("No available workers for role " + role + " on " + days[day] + " at " + shifts[shift]);
+                            return false;
+                        }
 
-                List<Worker> availableWorkersOnBranch = new ArrayList<>(available);
-                boolean workerAssigned = false;
+                        List<Worker> availableWorkersOnBranch = new ArrayList<>(available);
+                        boolean workerAssigned = false;
 
-                while (!workerAssigned) {
-                    System.out.println("Please choose one of the following workers:");
-                    for (int j = 0; j < availableWorkersOnBranch.size(); j++) {
-                        System.out.println("(" + j + ") " + availableWorkersOnBranch.get(j).getName());
+                        while (!workerAssigned) {
+                            System.out.println("Please choose one of the following workers:");
+                            for (int j = 0; j < availableWorkersOnBranch.size(); j++) {
+                                System.out.println("(" + j + ") " + availableWorkersOnBranch.get(j).getName());
+                            }
+
+                            int choiceWorker = getUserInput("Enter your choice (0-" + (availableWorkersOnBranch.size() - 1) + "):", 0, availableWorkersOnBranch.size() - 1);
+                            Worker selectedWorker = availableWorkersOnBranch.get(choiceWorker);
+
+                            if (sc.add_worker_to_weekly_arrangement(branch, selectedWorker, days[day], shifts[shift], role)) {
+                                availableWorkersOnBranch.remove(selectedWorker);
+                                workerAssigned = true;
+                            } else {
+                                System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift. Please select another worker.");
+                            }
+
+                        }
                     }
-
-                    int choiceWorker = getUserInput("Enter your choice (0-" + (availableWorkersOnBranch.size() - 1) + "):", 0, availableWorkersOnBranch.size() - 1);
-                    Worker selectedWorker = availableWorkersOnBranch.get(choiceWorker);
-
-                    if (sc.add_worker_to_weekly_arrangement(branch, selectedWorker, days[day], shifts[shift], role)) {
-                        availableWorkersOnBranch.remove(selectedWorker);
-                        workerAssigned = true;
-                    } else {
-                        System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift. Please select another worker.");
-                    }
-
                 }
             }
         }
 
-        return true;
-    }
+                return true;
+            }
 
     private int getUserInput(String prompt, int min, int max) {
         int input;

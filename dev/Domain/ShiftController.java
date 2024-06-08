@@ -3,8 +3,6 @@ package Domain;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.List;
-
 public class ShiftController {
 
     public ShiftController() {
@@ -29,7 +27,7 @@ public class ShiftController {
         if (currentShift.workers_on_shift.contains(worker)) {
             return false; // Worker is already assigned to this shift
         }
-
+        branch.getShiftHistory().add(currentShift);
         currentShift.workers_on_shift.add(worker);
 
         // Save a copy of the shift to history
@@ -77,7 +75,7 @@ public class ShiftController {
         }
     }
 
-    public JsonArray getShiftHistory(Branch branch) {
+    public JsonArray presentShiftHistory(Branch branch) {
         JsonArray jsonArray = new JsonArray();
         for (shift shift : branch.getShiftHistory()) {
             JsonObject jsonShift = new JsonObject();
@@ -96,5 +94,11 @@ public class ShiftController {
         }
         return jsonArray;
     }
+
+    public void present(Branch branch){
+        branch.getShiftHistory().toString();
+    }
+
 }
+
 

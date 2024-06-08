@@ -8,7 +8,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 
@@ -23,8 +22,8 @@ public class ManagerPresentation {
     private SubmitConstraints submitConstraints;
     private ShiftController shiftController;
 
-    public ManagerPresentation(WorkerController worker_controler, AppointmentManager appointmentManager,
-                               AddWorker addWorker, EmploymentTermination emplymenttermination, UpdateWorkerDetails updatrDetails, SubmitConstraints submitConstraints) {
+    public ManagerPresentation(WorkerController worker_controler, AppointmentManager appointmentManager, AddWorker addWorker,
+                               EmploymentTermination emplymenttermination, UpdateWorkerDetails updatrDetails, SubmitConstraints submitConstraints, ShiftController shiftController) {
 
         this.worker_controler = worker_controler;
         this.appointmentManager = appointmentManager;
@@ -111,6 +110,7 @@ public class ManagerPresentation {
                         UpdateBankAccountNum(manager.getBranch());
                         break;
                     case 11:
+                        present_workers_arrangement();
                         // Implement logic to present work arrangement
                         break;
                     case 12:
@@ -120,7 +120,8 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
-                        past_shifts(manager.getBranch());
+                        shiftController.present(manager.getBranch());
+//                        past_shifts(manager.getBranch());
                         break;
                     case 15:
                         Present_Worker(manager.getBranch());
@@ -144,10 +145,13 @@ public class ManagerPresentation {
 
 
     private void past_shifts(Branch branch){
-        JsonArray jsonArray = shiftController.getShiftHistory(branch);
+        JsonArray jsonArray = shiftController.presentShiftHistory(branch);
         for (JsonElement workerElement : jsonArray) {
             System.out.println(workerElement.toString());
         }
+    }
+    private void present_workers_arrangement(){
+        manager.getBranch().getWeeklyWorkArrangement().toString();
     }
 
     private void changePassword() {
