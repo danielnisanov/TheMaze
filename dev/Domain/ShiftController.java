@@ -28,6 +28,7 @@ public class ShiftController {
             return false; // Worker is already assigned to this shift
         }
         branch.getShiftHistory().add(currentShift);
+        branch.getWeeklyWorkArrangement().add(currentShift);
         currentShift.workers_on_shift.add(worker);
 
         // Save a copy of the shift to history
