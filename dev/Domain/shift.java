@@ -7,7 +7,6 @@ public class shift {
     public String shift_type;
     public List<Worker> workers_on_shift;
 
-
     public shift(int shift_date, String shift_type, List<Worker> workers_on_shift) {
         this.shift_date = shift_date;
         this.shift_type = shift_type;

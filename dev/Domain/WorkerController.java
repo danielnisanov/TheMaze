@@ -23,7 +23,6 @@ public class WorkerController {
         managers = new HashMap<>();
         branches = new HashMap<>();
         workers = new HashMap<>();
-
         try {
             branches = openFileIntoListsBranch(file, branches);
             managers = openFileIntoListsManagers(file, managers);
@@ -32,12 +31,25 @@ public class WorkerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(Map.Entry<Integer,HRManager> manager : managers.entrySet()){
-            branches.get(manager.getValue().getBranch().getBranchNum()).set_manager(manager.getValue());
+        // Print loaded branches for debugging
+        System.out.println("Loaded branches: " + branches);
+        // Print loaded managers for debugging
+        System.out.println("Loaded managers: " + managers);
+
+        // Associate managers with their branches
+        for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
+            Branch branch = branches.get(manager.getValue().getBranch().getBranchNum());
+            if (branch != null) {
+                branch.set_manager(manager.getValue());
+            } else {
+                System.err.println("Error: Branch " + manager.getValue().getBranch() + " not found for manager " + manager.getKey());
+            }
         }
 
-        for(Map.Entry<Integer,Worker> worker : workers.entrySet()){
-            branches.get(worker.getValue().getBranchNum()).add_worker(worker.getValue());
+        for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
+            Branch branch = branches.get(worker.getValue().getBranchNum());
+            worker.getValue().setBranch(branch);
+            branch.add_worker(worker.getValue());
         }
 
     }
@@ -68,7 +80,7 @@ public class WorkerController {
         return managers;
     }
 
-    private Map<Integer, Worker>  openFileIntoListsWorkers(String file, Map<Integer, Worker> workers) throws FileNotFoundException {
+    private Map<Integer, Worker> openFileIntoListsWorkers(String file, Map<Integer, Worker> workers) throws FileNotFoundException {
         Scanner sc = new Scanner(new File(file));
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -81,26 +93,28 @@ public class WorkerController {
                 double hourly_salary = Double.valueOf(parts[5]);
                 int vaction_days = Integer.valueOf(parts[6]);
                 JobType job_type = JobType.valueOf(parts[7]);
-                int branch = Integer.valueOf(parts[8]);
+                int branchNum = Integer.valueOf(parts[8]);
 
                 Set<Role> roles_permissions = new HashSet<>();
                 for (int i = 9; i < parts.length; i++)
                     roles_permissions.add(Role.valueOf(parts[i]));
-                workers.put(Integer.valueOf(parts[3]), new Worker(address,
-                        name,
-                        ID_number,
-                        bank_account_num,
-                        hourly_salary,
-                        vaction_days,
-                        job_type,
-                        branches.get(branch),
-                        roles_permissions
-                        //job_status
-                ));
 
+                // Get the branch or create a new one if it doesn't exist
+                Branch branch = branches.get(branchNum);
+                if (branch == null) {
+                    branch = new Branch(branchNum);
+                    branches.put(branchNum, branch);
+                }
 
+                // Create the worker
+                Worker worker = new Worker(address, name, ID_number, bank_account_num, hourly_salary, vaction_days,
+                        job_type, branch, roles_permissions);
+
+                // Add worker to the branch
+                branch.add_worker(worker);
+                // Add worker to the workers map
+                workers.put(ID_number, worker);
             }
-
         }
         // Print loaded workers for debugging
         System.out.println("Loaded workers: " + workers);
@@ -177,7 +191,7 @@ public class WorkerController {
     public JsonArray present_workers(Branch branch) {
         JsonArray jsonArray = new JsonArray();
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
+            if (branch.is_worker_in_branch(entry.getValue().getID_number())) {
                 Worker worker = entry.getValue();
                 JsonObject workerJson = new JsonObject();
                 workerJson.addProperty("id", worker.getID_number());
@@ -199,11 +213,10 @@ public class WorkerController {
         return jsonArray;
     }
 
-    public JsonArray present_past_workers(Branch branch){
+    public JsonArray present_past_workers(Branch branch) {
         JsonArray jsonArray = new JsonArray();
-
         for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            if(branch.is_worker_in_branch(entry.getValue().getID_number())) {
+            if (branch.is_worker_in_branch(entry.getValue().getID_number())) {
                 Worker worker = entry.getValue();
                 if (!worker.getJob_status()) {
                     JsonObject workerJson = new JsonObject();
@@ -222,9 +235,9 @@ public class WorkerController {
                     jsonArray.add(workerJson);
                 }
             }
-            }
-            return jsonArray;
         }
+        return jsonArray;
+    }
 
 
     public boolean appointment_manager(JsonObject json) {
@@ -365,10 +378,9 @@ public class WorkerController {
             if ((branch.getBranchNum() == worker.branch.getBranchNum()) &&
                     (worker.getRoles_permissions().contains(role)) &&
                     (constraints == null || !constraints.containsKey(day) || !constraints.get(day).contains(shiftType))) {
-                    availableWorkersList.add(worker);
+                availableWorkersList.add(worker);
             }
         }
-
         return availableWorkersList;
     }
 
@@ -423,7 +435,7 @@ public class WorkerController {
         currentDate = NextDay(currentDate);
     }
 
-    public static LocalDate NextDay(LocalDate currentDate){
+    public static LocalDate NextDay(LocalDate currentDate) {
         // Get the current date
         System.out.println("Today's date: " + currentDate);
         LocalDate nextDay = currentDate.plusDays(1);
@@ -443,6 +455,41 @@ public class WorkerController {
             }
         }
 
+    }
+
+
+    public JsonObject present_worker(JsonObject json) {
+        int id = json.get("id").getAsInt();
+
+        Worker worker = null;
+
+        // Find the worker by ID
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            if (entry.getKey() == id) {
+                worker = entry.getValue();
+                break;
+            }
+        }
+        // If worker is found and is currently employed, convert to JsonObject
+        if (worker != null && worker.getJob_status()) {
+            JsonObject workerJson = new JsonObject();
+            workerJson.addProperty("id", worker.getID_number());
+            workerJson.addProperty("name", worker.getName());
+            workerJson.addProperty("address", worker.getAddress());
+            workerJson.addProperty("bank_account", worker.getBank_account_num());
+            workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+            workerJson.addProperty("vacation_days", worker.getVaction_days());
+            workerJson.addProperty("job_type", worker.getJob_type().toString());
+            workerJson.addProperty("branch_num", worker.getBranchNum());
+            workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+            workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+            workerJson.addProperty("total_hours", worker.getTotal_hours());
+            workerJson.addProperty("job_status", worker.getJob_status());
+            return workerJson;
+        }
+
+        // Return null if worker is not found or not currently employed
+        return null;
     }
 
 

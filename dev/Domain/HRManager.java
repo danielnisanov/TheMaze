@@ -21,6 +21,7 @@ public class HRManager {
         this.branch = new Branch(branch);
     }
 
+
     public String getName() {
         return name;
     }
@@ -64,4 +65,10 @@ public class HRManager {
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
+
+//    // Method to check if a worker is in the same branch
+//    public boolean isWorkerInSameBranch(Worker worker) {
+//        return this.branch != null && worker.getBranch() != null &&
+//                this.branch.getBranchNum() == worker.getBranch().getBranchNum();
+//    }
 }
