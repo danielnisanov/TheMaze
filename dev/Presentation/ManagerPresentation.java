@@ -1,13 +1,11 @@
 package Presentation;
 
-import Domain.Branch;
-import Domain.HRManager;
-import Domain.ShiftController;
-import Domain.WorkerController;
+import Domain.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -111,7 +109,8 @@ public class ManagerPresentation {
                         UpdateBankAccountNum(manager.getBranch());
                         break;
                     case 11:
-                        present_arrangement(manager.getBranch());
+                        Present_arrangement(manager.branch);
+//                        present_arrangement(manager.getBranch());
                         // Implement logic to present work arrangement
                         break;
                     case 12:
@@ -121,6 +120,7 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
+//                        present(manager.branch);
                         past_shifts(manager.getBranch());
                         break;
                     case 15:
@@ -142,6 +142,7 @@ public class ManagerPresentation {
             System.out.println("Invalid password. Access denied.");
         }
     }
+
 
 
     private void past_shifts(Branch branch){
@@ -233,39 +234,44 @@ public class ManagerPresentation {
         }
     }
 
-    private void present_arrangement(Branch branch) {
-        JsonObject scheduleJson = shiftController.presentWorkSchedule(branch);
-        JsonArray weeklyArrangement = scheduleJson.getAsJsonArray("weeklyArrangement");
-
-        System.out.println("Work Schedule for Branch " + branch.getBranchNum() + ":");
-        for (JsonElement dayElement : weeklyArrangement) {
-            JsonObject dayObject = dayElement.getAsJsonObject();
-            String day = dayObject.get("day").getAsString();
-            System.out.println(day + ":");
-
-            JsonArray shiftsArray = dayObject.getAsJsonArray("shifts");
-            for (JsonElement shiftElement : shiftsArray) {
-                JsonObject shiftObject = shiftElement.getAsJsonObject();
-                String shiftType = shiftObject.get("type").getAsString();
-                System.out.println("  " + shiftType + " Shift:");
-
-                JsonArray workersArray = shiftObject.getAsJsonArray("workers");
-                if (workersArray.size() == 0) {
-                    System.out.println("    No workers assigned.");
-                } else {
-                    for (JsonElement workerElement : workersArray) {
-                        JsonObject workerObject = workerElement.getAsJsonObject();
-                        int workerId = workerObject.get("id").getAsInt();
-                        String workerName = workerObject.get("name").getAsString();
-                        String workerRole = workerObject.get("role").getAsString();
-                        System.out.println("    Worker ID: " + workerId + ", Name: " + workerName + ", Role: " + workerRole);
-                    }
-                }
-            }
+    private void Present_arrangement(Branch branch) {
+        List<shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
+        for (shift s : weeklyWorkArrangement) {
+            System.out.println(s);
         }
+    }
+
+//    private void present_arrangement(Branch branch) {
+//        JsonObject scheduleJson = shiftController.presentWorkSchedule(branch);
+//        JsonArray weeklyArrangement = scheduleJson.getAsJsonArray("weeklyArrangement");
+//
+//        System.out.println("Work Schedule for Branch " + branch.getBranchNum() + ":");
+//        for (JsonElement dayElement : weeklyArrangement) {
+//            JsonObject dayObject = dayElement.getAsJsonObject();
+//            String day = dayObject.get("day").getAsString();
+//            System.out.println(day + ":");
+//
+//            JsonArray shiftsArray = dayObject.getAsJsonArray("shifts");
+//            for (JsonElement shiftElement : shiftsArray) {
+//                JsonObject shiftObject = shiftElement.getAsJsonObject();
+//                String shiftType = shiftObject.get("type").getAsString();
+//                System.out.println("  " + shiftType + " Shift:");
+//
+//                JsonArray workersArray = shiftObject.getAsJsonArray("workers");
+//                if (workersArray.size() == 0) {
+//                    System.out.println("    No workers assigned.");
+//                } else {
+//                    for (JsonElement workerElement : workersArray) {
+//                        JsonObject workerObject = workerElement.getAsJsonObject();
+//                        int workerId = workerObject.get("id").getAsInt();
+//                        String workerName = workerObject.get("name").getAsString();
+//                        String workerRole = workerObject.get("role").getAsString();
+//                        System.out.println("    Worker ID: " + workerId + ", Name: " + workerName + ", Role: " + workerRole);
+//                    }
+//                }
+//            }
+//        }
     }
 
 
 
-
-}

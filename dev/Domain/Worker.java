@@ -134,6 +134,10 @@ public class Worker {
         return roles_permissions;
     }
 
+    public void setRoles_permissions(Set<Role> role){
+        this.roles_permissions = role;
+    }
+
 
     public Worker(String address, String name, int ID_number, int bank_account_num, double hourly_salary, int vaction_days, JobType job_type,
                   Branch branch, Set<Role> roles_permissions) {

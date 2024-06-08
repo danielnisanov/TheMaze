@@ -44,5 +44,18 @@ public class shift {
         this.workers_on_shift = workers_on_shift;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Day: ").append(shift_date).append(", Shift: ").append(shift_type).append(", Workers: [");
+        for (Worker worker : workers_on_shift) {
+            sb.append(worker.getName()).append(" (ID: ").append(worker.getID_number()).append("), ");
+        }
+        if (!workers_on_shift.isEmpty()) {
+            sb.setLength(sb.length() - 2); // Remove the trailing comma and space
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
 
 }

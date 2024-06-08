@@ -84,9 +84,6 @@ public class Branch {
         return shiftHistory;
     }
 
-    public void add_shift(shift st) {
-        shiftHistory.add(st);
-    }
 
     public void init_branch_week() {
         for (int i = 0; i < 7; i++) {
