@@ -31,6 +31,7 @@ public class ManagerPresentation {
         this.emplymenttermination = emplymenttermination;
         this.updatrDetails = updatrDetails;
         this.submitConstraints = submitConstraints;
+        this.shiftController = shiftController;
     }
 
 
@@ -69,7 +70,7 @@ public class ManagerPresentation {
                 System.out.println("11. Present work arrangement"); // todo
                 System.out.println("12. Show me past workers");
                 System.out.println("13. Change password");
-                System.out.println("14. Present past shifts "); //todo
+                System.out.println("14. Present past shifts ");
                 System.out.println("15. present a worker");
                 System.out.println("16. End of work day");
                 System.out.println("17. Log out from the user");
@@ -110,7 +111,7 @@ public class ManagerPresentation {
                         UpdateBankAccountNum(manager.getBranch());
                         break;
                     case 11:
-                        present_workers_arrangement();
+                        present_arrangement(manager.getBranch());
                         // Implement logic to present work arrangement
                         break;
                     case 12:
@@ -120,8 +121,7 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
-                        shiftController.present(manager.getBranch());
-//                        past_shifts(manager.getBranch());
+                        past_shifts(manager.getBranch());
                         break;
                     case 15:
                         Present_Worker(manager.getBranch());
@@ -149,9 +149,6 @@ public class ManagerPresentation {
         for (JsonElement workerElement : jsonArray) {
             System.out.println(workerElement.toString());
         }
-    }
-    private void present_workers_arrangement(){
-        manager.getBranch().getWeeklyWorkArrangement().toString();
     }
 
     private void changePassword() {
@@ -235,6 +232,40 @@ public class ManagerPresentation {
             System.out.println(workerElement.toString());
         }
     }
+
+    private void present_arrangement(Branch branch) {
+        JsonObject scheduleJson = shiftController.presentWorkSchedule(branch);
+        JsonArray weeklyArrangement = scheduleJson.getAsJsonArray("weeklyArrangement");
+
+        System.out.println("Work Schedule for Branch " + branch.getBranchNum() + ":");
+        for (JsonElement dayElement : weeklyArrangement) {
+            JsonObject dayObject = dayElement.getAsJsonObject();
+            String day = dayObject.get("day").getAsString();
+            System.out.println(day + ":");
+
+            JsonArray shiftsArray = dayObject.getAsJsonArray("shifts");
+            for (JsonElement shiftElement : shiftsArray) {
+                JsonObject shiftObject = shiftElement.getAsJsonObject();
+                String shiftType = shiftObject.get("type").getAsString();
+                System.out.println("  " + shiftType + " Shift:");
+
+                JsonArray workersArray = shiftObject.getAsJsonArray("workers");
+                if (workersArray.size() == 0) {
+                    System.out.println("    No workers assigned.");
+                } else {
+                    for (JsonElement workerElement : workersArray) {
+                        JsonObject workerObject = workerElement.getAsJsonObject();
+                        int workerId = workerObject.get("id").getAsInt();
+                        String workerName = workerObject.get("name").getAsString();
+                        String workerRole = workerObject.get("role").getAsString();
+                        System.out.println("    Worker ID: " + workerId + ", Name: " + workerName + ", Role: " + workerRole);
+                    }
+                }
+            }
+        }
+    }
+
+
 
 
 }
