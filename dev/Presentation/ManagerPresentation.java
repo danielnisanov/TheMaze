@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 
 public class ManagerPresentation {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private HRManager manager = null;
-    private WorkerController worker_controler;
+    private final WorkerController worker_controler;
     private AppointmentManager appointmentManager;
     private AddWorker addWorker;
     private EmploymentTermination emplymenttermination;
@@ -65,8 +65,8 @@ public class ManagerPresentation {
                 System.out.println("8. Creating a work arrangement");
                 System.out.println("9. Add new HR manager");
                 System.out.println("10. Update bank account number for worker");
-                System.out.println("11. Present work arrangement"); // todo
-                System.out.println("12. Show me past workers");
+                System.out.println("11. Present work arrangement");
+                System.out.println("12. Present past workers");
                 System.out.println("13. Change password");
                 System.out.println("14. Present past shifts ");
                 System.out.println("15. present a worker");
@@ -110,8 +110,6 @@ public class ManagerPresentation {
                         break;
                     case 11:
                         Present_arrangement(manager.branch);
-//                        present_arrangement(manager.getBranch());
-                        // Implement logic to present work arrangement
                         break;
                     case 12:
                         print_past_workers(manager.getBranch());
@@ -241,36 +239,7 @@ public class ManagerPresentation {
         }
     }
 
-//    private void present_arrangement(Branch branch) {
-//        JsonObject scheduleJson = shiftController.presentWorkSchedule(branch);
-//        JsonArray weeklyArrangement = scheduleJson.getAsJsonArray("weeklyArrangement");
-//
-//        System.out.println("Work Schedule for Branch " + branch.getBranchNum() + ":");
-//        for (JsonElement dayElement : weeklyArrangement) {
-//            JsonObject dayObject = dayElement.getAsJsonObject();
-//            String day = dayObject.get("day").getAsString();
-//            System.out.println(day + ":");
-//
-//            JsonArray shiftsArray = dayObject.getAsJsonArray("shifts");
-//            for (JsonElement shiftElement : shiftsArray) {
-//                JsonObject shiftObject = shiftElement.getAsJsonObject();
-//                String shiftType = shiftObject.get("type").getAsString();
-//                System.out.println("  " + shiftType + " Shift:");
-//
-//                JsonArray workersArray = shiftObject.getAsJsonArray("workers");
-//                if (workersArray.size() == 0) {
-//                    System.out.println("    No workers assigned.");
-//                } else {
-//                    for (JsonElement workerElement : workersArray) {
-//                        JsonObject workerObject = workerElement.getAsJsonObject();
-//                        int workerId = workerObject.get("id").getAsInt();
-//                        String workerName = workerObject.get("name").getAsString();
-//                        String workerRole = workerObject.get("role").getAsString();
-//                        System.out.println("    Worker ID: " + workerId + ", Name: " + workerName + ", Role: " + workerRole);
-//                    }
-//                }
-//            }
-//        }
+
     }
 
 

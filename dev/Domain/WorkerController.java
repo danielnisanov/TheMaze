@@ -16,7 +16,6 @@ public class WorkerController {
     private Map<Integer, HRManager> managers;
     private Map<Integer, Branch> branches;
     private Map<Integer, Worker> workers;
-    private Map<Integer, Map<String, List<String>>> workerConstraints;//all workers available map<id,unavailable time>
     private LocalDate currentDate = LocalDate.now();
 
     public WorkerController(String file) {
@@ -31,10 +30,6 @@ public class WorkerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // Print loaded branches for debugging
-        System.out.println("Loaded branches: " + branches);
-        // Print loaded managers for debugging
-        System.out.println("Loaded managers: " + managers);
 
         // Associate managers with their branches
         for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
@@ -117,7 +112,6 @@ public class WorkerController {
             }
         }
         // Print loaded workers for debugging
-        System.out.println("Loaded workers: " + workers);
         return workers;
     }
 
@@ -182,6 +176,10 @@ public class WorkerController {
 
     public HRManager getManager(int id) {
         return managers.get(id);
+    }
+
+    public Worker getWorker(int id) {
+        return workers.get(id);
     }
 
     public Branch getBranch(int id) {

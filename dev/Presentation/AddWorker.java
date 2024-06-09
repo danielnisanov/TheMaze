@@ -106,8 +106,6 @@ public class AddWorker {
         json.addProperty("roles", role.toString());
         wc.add_worker(json);
 
-        System.out.println("Worker added successfully with details: " );
-        System.out.println(json);
     }
 
     public void add_manager() {

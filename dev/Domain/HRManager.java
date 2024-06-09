@@ -66,9 +66,4 @@ public class HRManager {
         this.password = newPassword;
     }
 
-//    // Method to check if a worker is in the same branch
-//    public boolean isWorkerInSameBranch(Worker worker) {
-//        return this.branch != null && worker.getBranch() != null &&
-//                this.branch.getBranchNum() == worker.getBranch().getBranchNum();
-//    }
 }

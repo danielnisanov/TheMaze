@@ -3,7 +3,6 @@ package Domain;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.List;
 
 public class ShiftController {
 
@@ -31,7 +30,6 @@ public class ShiftController {
         }
 
         currentShift.workers_on_shift.add(worker);
-        branch.getWeeklyWorkArrangement().add(currentShift);
         if (!branch.getShiftHistory().contains(currentShift)) {
             branch.getShiftHistory().add(currentShift);
         }
@@ -98,62 +96,6 @@ public class ShiftController {
         }
         return jsonArray;
     }
-
-
-//    public JsonObject presentWorkSchedule(Branch branch) {
-//        JsonObject schedule = new JsonObject();
-//        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-//        String[] shifts = {"Morning", "Evening"};
-//
-//        JsonArray weeklyArrangement = new JsonArray();
-//        List<shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
-//
-//        for (int i = 0; i < weeklyWorkArrangement.size(); i += 2) {
-//            int dayIndex = i / 2;
-//            shift morningShift = weeklyWorkArrangement.get(i);
-//            shift eveningShift = (i + 1 < weeklyWorkArrangement.size()) ? weeklyWorkArrangement.get(i + 1) : null;
-//
-//            JsonObject daySchedule = new JsonObject();
-//            daySchedule.addProperty("day", days[dayIndex]);
-//
-//            JsonObject morningShiftJson = shiftToJson(morningShift, shifts[0]);
-//            JsonObject eveningShiftJson = shiftToJson(eveningShift, shifts[1]);
-//
-//            JsonArray dayShifts = new JsonArray();
-//            dayShifts.add(morningShiftJson);
-//            if (eveningShift != null) {
-//                dayShifts.add(eveningShiftJson);
-//            }
-//
-//            daySchedule.add("shifts", dayShifts);
-//
-//            weeklyArrangement.add(daySchedule);
-//        }
-//
-//        schedule.add("weeklyArrangement", weeklyArrangement);
-//
-//        return schedule;
-//    }
-//
-//    private JsonObject shiftToJson(shift shift, String shiftType) {
-//        JsonObject shiftJson = new JsonObject();
-//        shiftJson.addProperty("type", shiftType);
-//
-//        JsonArray workersJsonArray = new JsonArray();
-//        if (shift != null) {
-//            for (Worker worker : shift.getWorkers_on_shift()) {
-//                JsonObject workerJson = new JsonObject();
-//                workerJson.addProperty("id", worker.getID_number());
-//                workerJson.addProperty("name", worker.getName());
-//                workersJsonArray.add(workerJson);
-//            }
-//        }
-//
-//        shiftJson.add("workers", workersJsonArray);
-//
-//        return shiftJson;
-//    }
-
 
 }
 

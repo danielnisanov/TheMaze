@@ -9,8 +9,7 @@ public class UpdateWorkerDetails {
     private static WorkerController workerController;
     static Scanner scanner = new Scanner(System.in);
     private WorkerController wc;
-    HRManager hrManager;
-    Worker worker;
+
 
     public UpdateWorkerDetails(WorkerController wc)
     {
@@ -72,7 +71,6 @@ public class UpdateWorkerDetails {
 
         if (sum != 9) {
             System.out.println("The id number is incorrect");
-            // HRmenu(); // Uncomment this when you add the menu
             return null; // Exit the method if the ID number is incorrect
         }
         JsonObject json = new JsonObject();
@@ -102,7 +100,6 @@ public class UpdateWorkerDetails {
 
         if (sum != 9) {
             System.out.println("The id number is incorrect1");
-            // HRmenu(); // Uncomment this when you add the menu
             return; // Exit the method if the ID number is incorrect
         }
 

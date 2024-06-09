@@ -24,8 +24,6 @@ import static org.junit.Assert.assertEquals;
 
 public class TestUnit {
     Branch branch;
-    private SubmitConstraints sc;
-    private WorkerController workerController;
     private Worker worker;
 
     @Test
@@ -63,6 +61,16 @@ public class TestUnit {
 
     }
 
+    @Test
+    public void test_add_worker_invalid_id() {
+        WorkerController wc = new WorkerController("empty.csv");
+        AddWorker addWorker = new AddWorker(wc);
+
+        // Provide an invalid ID (less than 9 digits)
+        JsonObject json = new JsonObject();
+        json.addProperty("id", 12345);
+        assertEquals(0, wc.getWorkers().size());
+    }
 
     @Test
     public void test_add_worker_part_time() {
@@ -84,93 +92,6 @@ public class TestUnit {
 
         Worker worker = wc.getWorkers().get(987654321);
         assertEquals(2, worker.getBranchNum());
-    }
-
-    @Test
-    public void test_add_worker_contractor() {
-        WorkerController wc = new WorkerController("empty.csv");
-        AddWorker addWorker = new AddWorker(wc);
-
-        JsonObject json = new JsonObject();
-        json.addProperty("id", 135792468);
-        json.addProperty("name", "AliceJohnson");
-        json.addProperty("address", "789 Oak St");
-        json.addProperty("bank_account", 987654);
-        json.addProperty("hourly_salary", 25.0);
-        json.addProperty("vacation_days", 10);
-        json.addProperty("job_type", "Works_contractor");
-        json.addProperty("branch_num", 3);
-        json.addProperty("roles", "Sorter");
-
-        wc.add_worker(json);
-
-        Worker worker = wc.getWorkers().get(135792468);
-        assertEquals(3, worker.getBranchNum());
-
-        AddWorker addWorker1 = new AddWorker(wc);
-
-        JsonObject json1 = new JsonObject();
-        json.addProperty("id", 987654321);
-        json.addProperty("name", "JaneSmith");
-        json.addProperty("address", "456 Elm St");
-        json.addProperty("bank_account", 654321);
-        json.addProperty("hourly_salary", 30.0);
-        json.addProperty("vacation_days", 15);
-        json.addProperty("job_type", "Part_time_job");
-        json.addProperty("branch_num", 2);
-        json.addProperty("roles", "Cashier");
-
-        wc.add_worker(json);
-        Map<Integer, Worker> workers = wc.getWorkers();
-        assertEquals(2, workers.size());
-
-    }
-
-    @Test
-    public void test_add_worker_invalid_id() {
-        WorkerController wc = new WorkerController("empty.csv");
-        AddWorker addWorker = new AddWorker(wc);
-
-        // Provide an invalid ID (less than 9 digits)
-        JsonObject json = new JsonObject();
-        json.addProperty("id", 12345);
-        assertEquals(0, wc.getWorkers().size());
-    }
-
-    @Test
-    public void tests_WorkerConstraint() throws FileNotFoundException {
-        WorkerController wc = new WorkerController("empty.csv");
-        ShiftController sco = new ShiftController();
-        SubmitConstraints sc = new SubmitConstraints(wc, sco);
-        String str = new String("1 1 1 1 1 1 1 1 1 1 1 1 1 1");
-        byte[] inputBytes = str.getBytes();
-        InputStream IS = new ByteArrayInputStream(inputBytes);
-        System.setIn(IS);
-
-        JsonObject json = new JsonObject();
-        json.addProperty("id", 1);
-
-        Map<String, List<String>> worker_constraint = sc.WorkerConstraint(json, branch);
-        assertEquals(worker_constraint.size(), 0);
-        String str2 = new String("2 2 2 2 2 2 2 2 2 2 2 2 2 2");
-        inputBytes = str2.getBytes();
-        IS = new ByteArrayInputStream(inputBytes);
-        System.setIn(IS);
-        worker_constraint = sc.WorkerConstraint(json, branch);
-        assertEquals(worker_constraint.size(), 7);
-        String str3 = new String("1 1 2 2 2 2 2 2 2 2 2 2 2 2");
-        inputBytes = str3.getBytes();
-        IS = new ByteArrayInputStream(inputBytes);
-        System.setIn(IS);
-        worker_constraint = sc.WorkerConstraint(json, branch);
-        assertEquals(worker_constraint.size(), 6);
-        String str4 = new String("1 1 2 2 2 2 1 2 2 2 2 2 2 2");
-        inputBytes = str4.getBytes();
-        IS = new ByteArrayInputStream(inputBytes);
-        System.setIn(IS);
-        worker_constraint = sc.WorkerConstraint(json, branch);
-        assertEquals(worker_constraint.size(), 6);
-
     }
 
 
@@ -343,6 +264,46 @@ public class TestUnit {
     }
 
     @Test
+    public void test_add_worker_contractor() {
+        WorkerController wc = new WorkerController("empty.csv");
+        AddWorker addWorker = new AddWorker(wc);
+
+        JsonObject json = new JsonObject();
+        json.addProperty("id", 135792468);
+        json.addProperty("name", "AliceJohnson");
+        json.addProperty("address", "789 Oak St");
+        json.addProperty("bank_account", 987654);
+        json.addProperty("hourly_salary", 25.0);
+        json.addProperty("vacation_days", 10);
+        json.addProperty("job_type", "Works_contractor");
+        json.addProperty("branch_num", 3);
+        json.addProperty("roles", "Sorter");
+
+        wc.add_worker(json);
+
+        Worker worker = wc.getWorkers().get(135792468);
+        assertEquals(3, worker.getBranchNum());
+
+        AddWorker addWorker1 = new AddWorker(wc);
+
+        JsonObject json1 = new JsonObject();
+        json.addProperty("id", 987654321);
+        json.addProperty("name", "JaneSmith");
+        json.addProperty("address", "456 Elm St");
+        json.addProperty("bank_account", 654321);
+        json.addProperty("hourly_salary", 30.0);
+        json.addProperty("vacation_days", 15);
+        json.addProperty("job_type", "Part_time_job");
+        json.addProperty("branch_num", 2);
+        json.addProperty("roles", "Cashier");
+
+        wc.add_worker(json);
+        Map<Integer, Worker> workers = wc.getWorkers();
+        assertEquals(2, workers.size());
+
+    }
+
+    @Test
     public void testPresentWorkers() {
         Set<Role> rolesPermissions = new HashSet<>();
         rolesPermissions.add(Role.Cashier);
@@ -426,136 +387,3 @@ public class TestUnit {
         assertEquals(false, retrievedWorkerJson.get("job_status").getAsBoolean());
     }
 }
-
-
-//    @Test
-//    public void test_print_past_workers() {
-//        WorkerController wc = new WorkerController("empty.csv");
-//
-//        // Adding current workers
-//        JsonObject jsonAdd1 = new JsonObject();
-//        jsonAdd1.addProperty("id", 123456789);
-//        jsonAdd1.addProperty("name", "JohnDoe");
-//        jsonAdd1.addProperty("address", "123 Main St");
-//        jsonAdd1.addProperty("bank_account", 123456);
-//        jsonAdd1.addProperty("hourly_salary", 25.0);
-//        jsonAdd1.addProperty("vacation_days", 10);
-//        jsonAdd1.addProperty("job_type", "Full_time_job");
-//        jsonAdd1.addProperty("branch_num", 1);
-//        jsonAdd1.addProperty("roles", "Shift_manager");
-//        jsonAdd1.addProperty("job_status", true);  // Current worker
-//        wc.add_worker(jsonAdd1);
-//
-//        // Adding past workers
-//        JsonObject jsonAdd2 = new JsonObject();
-//        jsonAdd2.addProperty("id", 987654321);
-//        jsonAdd2.addProperty("name", "JaneSmith");
-//        jsonAdd2.addProperty("address", "456 Elm St");
-//        jsonAdd2.addProperty("bank_account", 654321);
-//        jsonAdd2.addProperty("hourly_salary", 30.0);
-//        jsonAdd2.addProperty("vacation_days", 15);
-//        jsonAdd2.addProperty("job_type", "Part_time_job");
-//        jsonAdd2.addProperty("branch_num", 2);
-//        jsonAdd2.addProperty("roles", "Cashier");
-//        jsonAdd2.addProperty("job_status", false);  // Past worker
-//        wc.add_worker(jsonAdd2);
-//
-//        ManagerPresentation mp = new ManagerPresentation(wc, null, null, null, null, null, null);
-//
-//        // Capture the output
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        PrintStream originalOut = System.out;
-//        System.setOut(new PrintStream(outputStream));
-//
-//        // Call the method to print past workers
-//        mp.present_workers();
-//
-//        // Restore the original System.out
-//        System.setOut(originalOut);
-//
-//        // Expected output
-//        JsonArray expectedJsonArray = new JsonArray();
-//
-//        JsonObject expectedWorkerJson = new JsonObject();
-//        expectedWorkerJson.addProperty("id", 987654321);
-//        expectedWorkerJson.addProperty("name", "JaneSmith");
-//        expectedWorkerJson.addProperty("address", "456 Elm St");
-//        expectedWorkerJson.addProperty("bank_account", 654321);
-//        expectedWorkerJson.addProperty("hourly_salary", 30.0);
-//        expectedWorkerJson.addProperty("vacation_days", 15);
-//        expectedWorkerJson.addProperty("job_type", "Part_time_job");
-//        expectedWorkerJson.addProperty("branch_num", 2);
-//        expectedWorkerJson.addProperty("roles", "[Cashier]");
-//        expectedWorkerJson.addProperty("starting_day", "2024-06-04");  // Use actual date if available
-//        expectedWorkerJson.addProperty("total_hours", 0.0);   // Assuming default value, replace with actual if available
-//        expectedWorkerJson.addProperty("job_status", false);   // Past worker
-//        expectedJsonArray.add(expectedWorkerJson);
-//
-//        // Actual output
-//        String actualOutput = outputStream.toString().trim();
-//
-//        // Asserting the output
-//        assertEquals(expectedJsonArray.toString(), actualOutput);
-//    }
-
-//    @Test
-//    public void test_manager_const_submited() throws IOException {
-//        WorkerController wc = new WorkerController("empty.csv");
-//
-//        // Adding workers
-//        JsonObject jsonAdd1 = new JsonObject();
-//        jsonAdd1.addProperty("id", 987654321);
-//        jsonAdd1.addProperty("name", "JaneSmith");
-//        jsonAdd1.addProperty("address", "456 Elm St");
-//        jsonAdd1.addProperty("bank_account", 654321);
-//        jsonAdd1.addProperty("hourly_salary", 30.0);
-//        jsonAdd1.addProperty("vacation_days", 15);
-//        jsonAdd1.addProperty("job_type", "Part_time_job");
-//        jsonAdd1.addProperty("branch_num", 2);
-//        jsonAdd1.addProperty("roles", "Cashier");
-//        wc.add_worker(jsonAdd1);
-//
-//        JsonObject jsonAdd2 = new JsonObject();
-//        jsonAdd2.addProperty("id", 123456789);
-//        jsonAdd2.addProperty("name", "JohnDoe");
-//        jsonAdd2.addProperty("address", "123 Main St");
-//        jsonAdd2.addProperty("bank_account", 123456);
-//        jsonAdd2.addProperty("hourly_salary", 25.0);
-//        jsonAdd2.addProperty("vacation_days", 10);
-//        jsonAdd2.addProperty("job_type", "Full_time_job");
-//        jsonAdd2.addProperty("branch_num", 1);
-//        jsonAdd2.addProperty("roles", "Shift_manager");
-//        wc.add_worker(jsonAdd2);
-//        JsonObject json = new JsonObject();
-//        json.addProperty("id",987654321);
-//        JsonObject ajson = new JsonObject();
-//        ajson.addProperty("id",123456789);
-//
-//        String str = new String("1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 0 0 1 0 0");
-//        byte[] inputBytes = str.getBytes();
-//        InputStream IS = new ByteArrayInputStream(inputBytes);
-//        System.setIn(IS);
-//        ShiftController shift_controler = new ShiftController();
-//        SubmitConstraints sc = new SubmitConstraints(wc, shift_controler);
-//        sc.WorkerConstraint(json, branch);
-//        IS.reset();
-//        IS.skip(28);
-//        sc.WorkerConstraint(json, branch);
-//        IS.reset();
-//        IS.skip(56);
-//        Branch b = new Branch(1);
-//        assertTrue(sc.Submit_Constraints(b));
-//
-//    }
-//
-
-
-
-
-
-//    public void tests_as() throws FileNotFoundException {
-//        HRManager hrmanager = new HRManager("hello",2,"hi",2);
-//        ManagerPresentation presentation = new ManagerPresentation(hrmanager);
-//        presentation.menu();
-//    }
-

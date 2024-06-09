@@ -1,14 +1,15 @@
 package Presentation;
 
-import Domain.Branch;
-import Domain.WorkerController;
+import Domain.*;
 import com.google.gson.JsonObject;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class WorkerPresentation {
     JsonObject json = new JsonObject();
+    private Worker worker = null;
 
     private static Scanner scanner = new Scanner(System.in);
     private WorkerController worker_controler;
@@ -28,7 +29,10 @@ public class WorkerPresentation {
         while (!isValid) {
             System.out.print("Enter your worker ID number: ");
             workerID = scanner.nextInt();
+            worker = worker_controler.getWorker(workerID);
+
             json.addProperty("id", workerID);
+
             if (worker_controler.IsWorker(json)) {
                 isValid = true;
             } else {
@@ -45,7 +49,7 @@ public class WorkerPresentation {
             System.out.println("2. My vacation days");
             System.out.println("3. My starting day");
             System.out.println("4. Submit my constraints");
-            System.out.println("5. Present this week work arrangement");
+            System.out.println("5. Present work arrangement");
             System.out.println("6. Log out from the user");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
@@ -63,6 +67,7 @@ public class WorkerPresentation {
                     Submit_constraints(worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()), workerID);
                     break;
                 case 5:
+                    Present_arrangement(worker.getBranch());
                     break;
                 case 6:
                     exit = true;
@@ -109,6 +114,13 @@ public class WorkerPresentation {
             System.out.println("Error occurred");
         } else {
             System.out.println("Your start date is: " + startDate.toString());
+        }
+    }
+
+    private void Present_arrangement(Branch branch) {
+        List<shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
+        for (shift s : weeklyWorkArrangement) {
+            System.out.println(s);
         }
     }
 }

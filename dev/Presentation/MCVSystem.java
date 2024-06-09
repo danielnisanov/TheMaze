@@ -1,11 +1,8 @@
 package Presentation;
 
-import Domain.HRManager;
 import Domain.ShiftController;
 import Domain.Worker;
 import Domain.WorkerController;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MCVSystem {
@@ -15,13 +12,13 @@ public class MCVSystem {
     private WorkerPresentation wp;
 
 
-    private WorkerController worker_controler;
-    private ShiftController shift_controler;
-    private AppointmentManager appointmentManager;
-    private AddWorker addWorker;
-    private EmploymentTermination emplymenttermination;
-    private UpdateWorkerDetails updatrDetails;
-    private SubmitConstraints submitConstraints;
+    private final WorkerController worker_controler;
+    private final ShiftController shift_controler;
+    private final AppointmentManager appointmentManager;
+    private final AddWorker addWorker;
+    private final EmploymentTermination emplymenttermination;
+    private final UpdateWorkerDetails updatrDetails;
+    private final SubmitConstraints submitConstraints;
 
 
     public MCVSystem(String file) {
