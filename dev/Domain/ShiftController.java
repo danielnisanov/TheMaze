@@ -23,7 +23,7 @@ public class ShiftController {
             throw new IndexOutOfBoundsException("Index " + shiftArrayIndex + " out of bounds for length " + branch.getWeeklyWorkArrangement().size());
         }
 
-        shift currentShift = branch.getWeeklyWorkArrangement().get(shiftArrayIndex);
+        Shift currentShift = branch.getWeeklyWorkArrangement().get(shiftArrayIndex);
 
         if (currentShift.workers_on_shift.contains(worker)) {
             return false; // Worker is already assigned to this shift
@@ -39,6 +39,26 @@ public class ShiftController {
         worker.setTotal_hours(cur_total_hours + 8);
         return true;
     }
+
+    public boolean clearShiftWorkers(Branch branch, String day, String shiftType) {
+        int dayIndex = getDayIndex(day);
+        int shiftIndex = getShiftIndex(shiftType);
+
+        if (dayIndex == -1 || shiftIndex == -1) {
+            return false; // Invalid day or shift
+        }
+
+        int shiftArrayIndex = dayIndex * 2 + shiftIndex;
+
+        if (shiftArrayIndex < 0 || shiftArrayIndex >= branch.getWeeklyWorkArrangement().size()) {
+            throw new IndexOutOfBoundsException("Index " + shiftArrayIndex + " out of bounds for length " + branch.getWeeklyWorkArrangement().size());
+        }
+
+        Shift currentShift = branch.getWeeklyWorkArrangement().get(shiftArrayIndex);
+        currentShift.workers_on_shift.clear();
+        return true;
+    }
+
 
     public boolean is_shift_already_booked(int day, int shift, Branch branch) {
         int shiftArrayIndex = (day - 1) * 2 + shift;
@@ -79,7 +99,7 @@ public class ShiftController {
 
     public JsonArray presentShiftHistory(Branch branch) {
         JsonArray jsonArray = new JsonArray();
-        for (shift shift : branch.getShiftHistory()) {
+        for (Shift shift : branch.getShiftHistory()) {
             JsonObject jsonShift = new JsonObject();
             jsonShift.addProperty("shift_date", shift.getShift_date());
             jsonShift.addProperty("shift_type", shift.getShift_type());

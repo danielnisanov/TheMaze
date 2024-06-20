@@ -24,50 +24,79 @@ public class SubmitConstraints {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         String[] shifts = {"Morning", "Evening"};
 
-        int day = getUserInput("Select day (1-7):", 1, 7) - 1;
-        int shift = getUserInput("Select shift (0-1):", 0, 1);
+        while (true) {
+            System.out.println("For which day do you want to build an arrangement:");
+            for (int i = 0; i < days.length; i++) {
+                System.out.println((i + 1) + ") " + days[i]);
+            }
+            System.out.println("8) I finished building the arrangement.");
+            int dayChoice = getUserInput("Enter your choice (1-8):", 1, 8) - 1;
 
-        for (day=0; day< 7; day++) {
-            for (shift = 0; shift < 2; shift++) {
-                for (Role role : Role.values()) {
-                    System.out.print("Enter the number of " + role + "s on " + days[day] + " at " + shifts[shift] + ": ");
-                    int number = scanner.nextInt();
+            if (dayChoice == 7) {
+                break; // Exit loop if the user chooses "I finished building the arrangement."
+            }
 
-                    for (int i = 0; i < number; i++) {
-                        List<Worker> available = wc.AvailableWorkers(days[day], shifts[shift], role, branch);
+            String selectedDay = days[dayChoice];
 
-                        if (available.isEmpty()) {
-                            System.out.println("No available workers for role " + role + " on " + days[day] + " at " + shifts[shift]);
-                            return false;
+            System.out.println("For which shift do you want to build a constraint:");
+            System.out.println("1) Morning");
+            System.out.println("2) Evening");
+            int shiftChoice = getUserInput("Enter your choice (1-2):", 1, 2) - 1;
+
+            String selectedShift = shifts[shiftChoice];
+
+            // Clear current workers for the selected shift before assigning new ones
+            if (!sc.clearShiftWorkers(branch, selectedDay, selectedShift)) {
+                System.out.println("Failed to clear existing workers for " + selectedDay + " " + selectedShift + " shift.");
+                return false;
+            }
+
+            for (Role role : Role.values()) {
+                int number;
+                while (true) {
+                    System.out.print("Enter the number of " + role + "s on " + selectedDay + " at " + selectedShift + ": ");
+                    number = scanner.nextInt();
+                    if (role == Role.Shift_manager && number == 0) {
+                        System.out.println("Each shift must have a shift manager.");
+                    } else {
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < number; i++) {
+                    List<Worker> available = wc.AvailableWorkers(selectedDay, selectedShift, role, branch);
+
+                    if (available.isEmpty()) {
+                        System.out.println("No available workers for role " + role + " on " + selectedDay + " at " + selectedShift);
+                        return false;
+                    }
+
+                    List<Worker> availableWorkersOnBranch = new ArrayList<>(available);
+                    boolean workerAssigned = false;
+
+                    while (!workerAssigned) {
+                        System.out.println("Please choose one of the following workers:");
+                        for (int j = 0; j < availableWorkersOnBranch.size(); j++) {
+                            System.out.println("(" + j + ") " + availableWorkersOnBranch.get(j).getName());
                         }
 
-                        List<Worker> availableWorkersOnBranch = new ArrayList<>(available);
-                        boolean workerAssigned = false;
+                        int choiceWorker = getUserInput("Enter your choice (0-" + (availableWorkersOnBranch.size() - 1) + "):", 0, availableWorkersOnBranch.size() - 1);
+                        Worker selectedWorker = availableWorkersOnBranch.get(choiceWorker);
 
-                        while (!workerAssigned) {
-                            System.out.println("Please choose one of the following workers:");
-                            for (int j = 0; j < availableWorkersOnBranch.size(); j++) {
-                                System.out.println("(" + j + ") " + availableWorkersOnBranch.get(j).getName());
-                            }
-
-                            int choiceWorker = getUserInput("Enter your choice (0-" + (availableWorkersOnBranch.size() - 1) + "):", 0, availableWorkersOnBranch.size() - 1);
-                            Worker selectedWorker = availableWorkersOnBranch.get(choiceWorker);
-
-                            if (sc.add_worker_to_weekly_arrangement(branch, selectedWorker, days[day], shifts[shift], role)) {
-                                availableWorkersOnBranch.remove(selectedWorker);
-                                workerAssigned = true;
-                            } else {
-                                System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift. Please select another worker.");
-                            }
-
+                        if (sc.add_worker_to_weekly_arrangement(branch, selectedWorker, selectedDay, selectedShift, role)) {
+                            availableWorkersOnBranch.remove(selectedWorker);
+                            workerAssigned = true;
+                        } else {
+                            System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift. Please select another worker.");
                         }
                     }
                 }
             }
         }
 
-                return true;
-            }
+        return true;
+    }
+
 
     private int getUserInput(String prompt, int min, int max) {
         int input;
@@ -97,24 +126,41 @@ public class SubmitConstraints {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         String[] shifts = {"Morning", "Evening"};
 
-        for (int day = 0; day < 7; day++) {
-            for (int shift = 0; shift < 2; shift++) {
-                while (true) {
-                    System.out.println("Do you want to work on " + days[day] + " shift " + shifts[shift] + "?");
-                    System.out.println("1. Yes");
-                    System.out.println("2. No");
+        while (true) {
+            System.out.println("Choose a day for which you have a constraint:");
+            for (int i = 0; i < days.length; i++) {
+                System.out.println((i + 1) + ") " + days[i]);
+            }
+            System.out.println("8) I have no more constraints");
 
-                    int choice = getUserInput("", 1, 2);
+            int dayChoice = getUserInput("Enter your choice (1-8):", 1, 8) - 1;
 
-                    if (choice == 1) {
-                        break;
-                    } else if (choice == 2) {
-                        constraintMap.computeIfAbsent(days[day], k -> new ArrayList<>()).add(shifts[shift]);
-                        break;
-                    } else {
-                        System.out.println("Invalid choice. Please select 1 for Yes or 2 for No.");
-                    }
-                }
+            if (dayChoice == 7) {
+                break; // Exit loop if the user chooses "I have no more constraints"
+            }
+
+            String selectedDay = days[dayChoice];
+
+            System.out.println("When do you have a constraint?");
+            System.out.println("1) Morning");
+            System.out.println("2) Evening");
+            System.out.println("3) Both");
+
+            int shiftChoice = getUserInput("Enter your choice (1-3):", 1, 3);
+
+            switch (shiftChoice) {
+                case 1:
+                    constraintMap.computeIfAbsent(selectedDay, k -> new ArrayList<>()).add(shifts[0]);
+                    break;
+                case 2:
+                    constraintMap.computeIfAbsent(selectedDay, k -> new ArrayList<>()).add(shifts[1]);
+                    break;
+                case 3:
+                    constraintMap.computeIfAbsent(selectedDay, k -> new ArrayList<>()).add(shifts[0]);
+                    constraintMap.computeIfAbsent(selectedDay, k -> new ArrayList<>()).add(shifts[1]);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select 1, 2, or 3.");
             }
         }
 
@@ -123,6 +169,7 @@ public class SubmitConstraints {
         }
         return constraintMap;
     }
+
 
 
 }

@@ -160,7 +160,6 @@ public class ManagerPresentation {
 
     private void Present_Worker(Branch branch) {
         JsonObject json = worker_controler.present_worker(updatrDetails.PresentWorker(branch));
-        System.out.println("{");
         System.out.println("  \"id\": " + json.get("id").getAsString() + ",");
         System.out.println("  \"name\": \"" + json.get("name").getAsString() + "\",");
         System.out.println("  \"address\": \"" + json.get("address").getAsString() + "\",");
@@ -173,7 +172,6 @@ public class ManagerPresentation {
         System.out.println("  \"starting_day\": \"" + json.get("starting_day").getAsString() + "\",");
         System.out.println("  \"total_hours\": " + json.get("total_hours").getAsDouble() + ",");
         System.out.println("  \"job_status\": " + json.get("job_status").getAsBoolean());
-        System.out.println("}");
     }
 
     private void UpdateBankAccountNum(Branch branch) {
@@ -233,8 +231,8 @@ public class ManagerPresentation {
     }
 
     private void Present_arrangement(Branch branch) {
-        List<shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
-        for (shift s : weeklyWorkArrangement) {
+        List<Shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
+        for (Shift s : weeklyWorkArrangement) {
             System.out.println(s);
         }
     }

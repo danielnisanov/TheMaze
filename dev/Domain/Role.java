@@ -6,4 +6,5 @@ public enum Role {
     Sorter,
     Shift_manager,
     Guard,
+    Truck_driver,
 }

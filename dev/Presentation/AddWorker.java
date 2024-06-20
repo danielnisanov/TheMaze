@@ -107,6 +107,9 @@ public class AddWorker {
         json.addProperty("roles", role.toString());
         wc.add_worker(json);
 
+        System.out.println("Worker added successfully to branch " + branch_num );
+
+
     }
 
     public void add_manager() {

@@ -2,19 +2,19 @@ package Domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class shift {
+public class Shift {
     public int shift_date;
     public String shift_type;
     public List<Worker> workers_on_shift;
 
-    public shift(int shift_date, String shift_type, List<Worker> workers_on_shift) {
+    public Shift(int shift_date, String shift_type, List<Worker> workers_on_shift) {
         this.shift_date = shift_date;
         this.shift_type = shift_type;
         this.workers_on_shift = workers_on_shift;
 
     }
     // Copy constructor
-    public shift(shift other) {
+    public Shift(Shift other) {
         this.shift_date = other.shift_date;
         this.shift_type = other.shift_type;
         this.workers_on_shift = new ArrayList<>(other.workers_on_shift);

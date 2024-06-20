@@ -150,8 +150,6 @@ public class WorkerController {
 
         workers.put(id, newWorker);  // Add the worker to the workers map
 
-        System.out.println("Worker added successfully to branch " + branchNum + " with details: ");
-        System.out.println(json);
     }
 
 
