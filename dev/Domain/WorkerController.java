@@ -161,7 +161,13 @@ public class WorkerController {
         int branch_num = json.get("branch_num").getAsInt();
 
         Branch branch = branches.get(branch_num);
+        if (branch == null) {
+            branch = new Branch(branch_num);
+            branches.put(branch_num, branch);
+        }
+
         HRManager newManager = new HRManager(name, branch, String.valueOf(ID_number), ID_number);
+        branch.set_manager(newManager);
         managers.put(ID_number, newManager);
     }
 

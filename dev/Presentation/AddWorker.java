@@ -15,6 +15,7 @@ public class AddWorker {
     private WorkerController wc;
 
     public AddWorker(WorkerController wc) {
+
         this.wc = wc;
     }
 
