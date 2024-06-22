@@ -51,8 +51,8 @@ public class ReportController {
     }
 
     public ReportOfDamaged createDamagedReport()  {
-        Map<Item, String> damagedProd = product_controller.getDamagedItems();
-        ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDate.now(), damagedProd);
+        Map<Item, String> damagedItems = product_controller.getDamagedItems();
+        ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDate.now(), damagedItems);
         reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;

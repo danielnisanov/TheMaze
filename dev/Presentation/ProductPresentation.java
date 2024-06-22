@@ -66,8 +66,10 @@ public class ProductPresentation {
         System.out.print("Enter product name from the list: ");
         String name = scanner.nextLine();
         try {
-            Product product = productController.getProduct(name);
-            System.out.println(product.toString());
+//            Product product = productController.getProduct(name);
+//            System.out.println(product.toString());
+            System.out.println(productController.viewProduct(name));
+
         } catch (Exception e) {
             System.out.println("Error viewing product: " + e.getMessage());
         }
@@ -119,8 +121,9 @@ public class ProductPresentation {
         System.out.print("Enter item id: ");
         int itemid = Integer.parseInt(scanner.nextLine());
         try {
-            Item item = productController.getProduct(name).getItem(itemid);
-            System.out.println(item.toString());
+//            Item item = productController.getProduct(name).getItem(itemid);
+//            System.out.println(item.toString());
+             System.out.println(productController.viewItem(name, itemid));
         } catch (Exception e) {
             System.out.println("Error viewing item: " + e.getMessage());
         }
@@ -132,7 +135,8 @@ public class ProductPresentation {
         System.out.print("Enter item id: ");
         int itemid = Integer.parseInt(scanner.nextLine());
         try {
-            productController.getProduct(name).removeItem(itemid);
+//            productController.getProduct(name).removeItem(itemid);
+            productController.removeItem(name, itemid);
             System.out.println("Item removed successfully.");
         } catch (Exception e) {
             System.out.println("Error removing item: " + e.getMessage());
@@ -145,7 +149,8 @@ public class ProductPresentation {
         System.out.print("Enter product discount: ");
         double discount = Double.parseDouble(scanner.nextLine());
         try {
-            productController.getProduct(name).setDiscount(discount);
+           // productController.getProduct(name).setDiscount(discount);
+            productController.updateProductDiscount(name, discount);
             System.out.println("Product discount updated successfully.");
         } catch (Exception e) {
             System.out.println("Error updating product discount: " + e.getMessage());
@@ -158,7 +163,9 @@ public class ProductPresentation {
         System.out.print("Enter product sale: ");
         double sale = Double.parseDouble(scanner.nextLine());
         try {
-            productController.getProduct(name).setSale(sale);
+         //   productController.getProduct(name).setSale(sale);
+            productController.updateProductSale(name, sale);
+
             System.out.println("Product sale updated successfully.");
         } catch (Exception e) {
             System.out.println("Error updating product sale: " + e.getMessage());
@@ -171,7 +178,9 @@ public class ProductPresentation {
         System.out.print("Enter item id: ");
         int itemid = Integer.parseInt(scanner.nextLine());
         try {
-            productController.getProduct(name).moveItem(itemid);
+        //    productController.getProduct(name).moveItem(itemid);
+            productController.moveItemToShelf(name, itemid);
+
             System.out.println("Item moved to shelf successfully.");
         } catch (Exception e) {
             System.out.println("Error moving item: " + e.getMessage());
@@ -184,7 +193,9 @@ public class ProductPresentation {
         System.out.print("Enter item id: ");
         int itemid = Integer.parseInt(scanner.nextLine());
         try {
-            boolean onShelf = productController.getProduct(name).isOnShelf(itemid);
+          //  boolean onShelf = productController.getProduct(name).isOnShelf(itemid);
+            boolean onShelf = productController.checkItemLocation(name, itemid);
+
             if (onShelf) {
                 System.out.println("The item is on shelf.");
             } else {
@@ -201,7 +212,9 @@ public class ProductPresentation {
         System.out.print("Enter item id: ");
         int itemid = Integer.parseInt(scanner.nextLine());
         try {
-            productController.getProduct(name).getItem(itemid).setDamaged(true);
+        //    productController.getProduct(name).getItem(itemid).setDamaged(true);
+            productController.updateItemDamaged(name,itemid);
+
             System.out.println("Updating item damaged successfully.");
         } catch (Exception e) {
             System.out.println("Error updating item damaged: " + e.getMessage());
@@ -212,7 +225,4 @@ public class ProductPresentation {
         productController.showAllItems();
     }
 
-    public ProductController getProductController() {
-        return productController;
-    }
 }

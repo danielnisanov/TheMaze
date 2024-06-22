@@ -45,7 +45,8 @@ public class ProductController {
         Product product = new Product(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
         productsList.put(product.getName(), product);
     }
-    public Product getProduct (String name){
+    public Product getProduct (String name) throws Exception {
+        proIsExist(name);
         return productsList.get(name);
     }
 
@@ -68,7 +69,6 @@ public class ProductController {
     public void removeItem(String name, int itemNum) throws Exception{
         proIsExist(name);
         productsList.get(name).removeItem(itemNum);
-
     }
 
     public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory) {
@@ -88,6 +88,7 @@ public class ProductController {
     }
 
     public Map<Item, String> getDamagedItems(){
+
         Map<Item, String> damagedItemsList = new HashMap<>();
         for (Product product: productsList.values() ){
             for (Item item: product.getItems().values()){
@@ -133,7 +134,58 @@ public class ProductController {
         }
     }
 
-    public void restart() {
+    public String viewProduct(String name) throws Exception{
+        proIsExist(name);
+        Product product = getProduct(name);
+         return product.toString();
+    }
+
+    public String viewItem(String name, int itemID) throws Exception {
+        proIsExist(name);
+        Product product = getProduct(name);
+        product.isExists(itemID);
+        Item item = product.getItem(itemID);
+        return item.toString();
+    }
+
+    public void updateProductDiscount(String name, double discount) throws Exception{
+        proIsExist(name);
+        Product product = getProduct(name);
+        product.setDiscount(discount);
+    }
+
+    public void updateProductSale(String name, double sale) throws Exception{
+        proIsExist(name);
+        Product product = getProduct(name);
+        product.setSale(sale);
+    }
+
+    public void moveItemToShelf(String name, int itemID) throws Exception{
+        proIsExist(name);
+        Product product = getProduct(name);
+        product.isExists(itemID);
+        Item item = product.getItem(itemID);
+        item.setOnShelf(true);
+    }
+
+
+    public boolean checkItemLocation(String name, int itemID) throws Exception{
+        proIsExist(name);
+        Product product = getProduct(name);
+        product.isExists(itemID);
+        Item item = product.getItem(itemID);
+        return item.isOnShelf();
+    }
+
+    public void updateItemDamaged(String name, int itemID) throws Exception{
+        proIsExist(name);
+        Product product = getProduct(name);
+        product.isExists(itemID);
+        Item item = product.getItem(itemID);
+        item.setDamaged(true);
+    }
+
+        public void restart() {
         productsList.clear();
     }
 
