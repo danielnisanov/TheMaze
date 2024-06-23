@@ -44,7 +44,7 @@ public class WorkerController {
         for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
             Branch branch = branches.get(worker.getValue().getBranchNum());
             worker.getValue().setBranch(branch);
-            branch.add_worker(worker.getValue());
+            branch.add_worker_brunch(worker.getValue());
         }
 
     }
@@ -106,7 +106,7 @@ public class WorkerController {
                         job_type, branch, roles_permissions);
 
                 // Add worker to the branch
-                branch.add_worker(worker);
+                branch.add_worker_brunch(worker);
                 // Add worker to the workers map
                 workers.put(ID_number, worker);
             }
@@ -136,7 +136,8 @@ public class WorkerController {
             roleSet.add(Role.valueOf(role.trim()));
         }
 
-        Branch branch = branches.get(branchNum);
+        Branch
+                branch = branches.get(branchNum);
         if (branch == null) {
             // If the branch doesn't exist, create a new one
             branch = new Branch(branchNum);
@@ -144,7 +145,7 @@ public class WorkerController {
         }
 
         Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays, jobTypeEnum, branch, roleSet);
-        branch.add_worker(newWorker);  // Add the worker to the branch
+        branch.add_worker_brunch(newWorker);  // Add the worker to the branch
 
         newWorker.setBranch(branch);  // Set the branch for the worker
 

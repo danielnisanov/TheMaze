@@ -154,7 +154,7 @@ public class Worker {
         this.job_type = job_type;
         this.starting_day = LocalDate.from(LocalDateTime.now()); // Get the current date
         this.branch = branch;
-        branch.add_worker(this);
+        branch.add_worker_brunch(this);
         this.roles_permissions = roles_permissions;
 
 
