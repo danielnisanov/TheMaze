@@ -6,6 +6,7 @@ public class Report {
     protected int reportID;
     protected LocalDate reportDate;
 
+
     public Report(int reportID, LocalDate reportDate) {
         this.reportID = reportID;
         this.reportDate = reportDate;

@@ -12,6 +12,7 @@ public class ReportOfExpired extends Report{
         this.expiredItems = expiredItems;
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
