@@ -98,9 +98,10 @@ public class Menu {
         System.out.println("1. Create an inventory report");
         System.out.println("2. Create damaged products report");
         System.out.println("3. Create an expired products report");
-        System.out.println("4. Display an exist report");
-        System.out.println("5. Remove an exist report");
-        System.out.println("6. Return to Main Menu");
+        System.out.println("4. Create missing products report");
+        System.out.println("5. Display an exist report");
+        System.out.println("6. Remove an exist report");
+        System.out.println("7. Return to Main Menu");
         System.out.print("Select an option: ");
     }
 
@@ -199,12 +200,15 @@ public class Menu {
                 reportPresentation.createExpiredReport();
                 break;
             case 4:
-                reportPresentation.displayReport();
+                reportPresentation.createMissingReport();
                 break;
             case 5:
+                reportPresentation.displayReport();
+                break;
+            case 6:
                 reportPresentation.removeReport();
                 break;
-            case  6:
+            case 7:
                 MainMenu();
                 break;
             default:

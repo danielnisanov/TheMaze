@@ -87,6 +87,43 @@ public class ProductController {
         return products;
     }
 
+    public List<Product> getMissingProductsByCategory(String category, String subCategory, String subSubCategory) {
+        List<Product> products = new ArrayList<>();
+        if (category != null && !category.equals("")) {
+            if (subCategory != null && !subCategory.equals("")) {
+                if (subSubCategory != null && !subSubCategory.equals("")) {
+                    for (Product p : productsList.values())
+                        if (p.getCat().equals(category) && p.getSubCat().equals(subCategory) && p.getSubSubCat().equals(subSubCategory)) {
+                            if (p.getCurrentQuantity() <= p.getMinQuantity())
+                                products.add(p);
+                        }
+                }
+                else {
+                    for (Product p : productsList.values()) {
+                        if (p.getCat().equals(category) && p.getSubCat().equals(subCategory)) {
+                            if (p.getCurrentQuantity() <= p.getMinQuantity())
+                                products.add(p);
+                        }
+                    }
+                }
+            }
+            else {
+                for (Product p : productsList.values()) {
+                    if (p.getCat().equals(category)) {
+                        if (p.getCurrentQuantity() <= p.getMinQuantity())
+                            products.add(p);
+                    }
+                }
+            }
+        }
+        else
+            for (Product p : productsList.values()) {
+                if (p.getCurrentQuantity() <= p.getMinQuantity())
+                    products.add(p);
+            }
+        return products;
+    }
+
     public Map<Item, String> getDamagedItems(){
 
         Map<Item, String> damagedItemsList = new HashMap<>();

@@ -1,9 +1,6 @@
 package Presentation;
 
-import Domain.ReportController;
-import Domain.ReportByCategory;
-import Domain.ReportOfDamaged;
-import Domain.ReportOfExpired;
+import Domain.*;
 
 import java.util.Scanner;
 
@@ -37,6 +34,18 @@ public class ReportPresentation {
     public void createExpiredReport() {
         ReportOfExpired report = reportController.createExpiredReport();
         System.out.println();
+        System.out.println(report.toString());
+    }
+
+    public void createMissingReport(){
+        System.out.print("Enter category name: ");
+        String categoryName = scanner.nextLine();
+        System.out.print("Enter sub category name: ");
+        String subCategoryName = scanner.nextLine();
+        System.out.print("Enter sub sub category name: ");
+        String subSubCategoryName = scanner.nextLine();
+        System.out.println();
+        ReportOfMissing report = reportController.createMissingReport(categoryName, subCategoryName, subSubCategoryName);
         System.out.println(report.toString());
     }
 

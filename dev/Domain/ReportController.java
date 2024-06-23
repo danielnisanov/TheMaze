@@ -67,4 +67,12 @@ public class ReportController {
         return report;
     }
 
+    public ReportOfMissing createMissingReport( String categoryName, String subCategoryName, String subSubCategoryName) {
+        List<Product> byCategoryPro = product_controller.getMissingProductsByCategory(categoryName, subCategoryName, subSubCategoryName);
+        ReportOfMissing report = new ReportOfMissing(reportIndex, LocalDate.now(), byCategoryPro);
+        reports.put(Integer.toString(reportIndex), report);
+        reportIndex++;
+        return report;
+    }
+
 }
