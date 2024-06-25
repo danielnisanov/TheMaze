@@ -19,7 +19,7 @@ public class AddWorker {
         this.wc = wc;
     }
 
-    public void add_worker() {
+    public void Add_Worker() {
         System.out.println("Please enter the id_number of the new worker:");
         int id_num = scanner.nextInt();
 
@@ -112,7 +112,7 @@ public class AddWorker {
 
     }
 
-    public void add_manager() {
+    public void AddManager() {
         System.out.println("Please enter the name of the new manager:");
         String name = scanner.nextLine();
         // Check if the name is non-empty and only contains letters and spaces

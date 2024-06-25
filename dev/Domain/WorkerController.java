@@ -279,10 +279,7 @@ public class WorkerController {
         return false;
     }
 
-    public boolean termination_success(JsonObject json) {
-        boolean success = Employment_termination(json);
-        return success;
-    }
+
 
     public boolean update_salary(JsonObject json) {
         int id = json.get("id").getAsInt();

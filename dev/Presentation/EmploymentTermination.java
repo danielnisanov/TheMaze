@@ -13,7 +13,7 @@ public class EmploymentTermination {
         this.workerController = workerController;
     }
 
-    public void Employment_Termination(Branch branch) {
+    public void employment_Termination(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
 
@@ -25,7 +25,7 @@ public class EmploymentTermination {
 
         JsonObject json = new JsonObject();
         json.addProperty("id", id_num);
-        if (workerController.termination_success(json)) {
+        if (workerController.Employment_termination(json)) {
             System.out.println("Employment termination successful");
         } else {
             System.out.println("Employment termination failed");

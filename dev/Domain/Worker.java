@@ -160,18 +160,6 @@ public class Worker {
 
     }
 
-    public void update_account_num(int new_account_num) {
-        this.bank_account_num = new_account_num;
-    }
-
-    // Add a method to add a role to the employee
-    public void addRole(Role role) {
-        if (roles_permissions == null) {
-            roles_permissions = new HashSet<>();
-        }
-        roles_permissions.add(role);
-    }
-
     @Override
     public String toString() {
         return "Domain.Worker{" +
