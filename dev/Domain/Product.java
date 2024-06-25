@@ -1,8 +1,6 @@
 package Domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -26,7 +24,13 @@ public class Product {
     private String cat;
     private String subCat;
     private String subSubCat;
-    private Map<String,Item> items;
+   // private Map<String,Item> items; //TODO DELETE
+    private ItemRepository itemRepo;
+
+
+    public ItemRepository getItemRepo() {
+        return itemRepo;
+    }
 
     public Product(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) {
         this.itemIndex = 0;
@@ -45,15 +49,59 @@ public class Product {
         this.cat = cat;
         this.subCat = subCat;
         this.subSubCat = subSubCat;
-        items = new HashMap<>();
+     //   items = new HashMap<>(); //TODO DELETE
+        itemRepo = new ItemRepository();
+
     }
 
-    public void isExists(int id) throws Exception{
-        if (!items.containsKey(Integer.toString(id))){
-            throw new Exception("Item with id " + id + " doesn't exist.");
+
+    public void addItem(LocalDate expirationDate, boolean onShelf) throws Exception{
+        if (expirationDate == null){
+            throw new Exception("expirationDate is missing.");
+        }
+        itemIndex++;
+        Item newItem = new Item(itemIndex, expirationDate,false, onShelf );
+        itemRepo.add(newItem);
+        if (onShelf)
+            shelfQuantity++;
+        else
+            warehouseQuantity++;
+        currentQuantity++;
+    }
+
+    public void removeItem(int id) throws Exception{
+        if (itemRepo.get((Integer.toString(id))).isOnShelf())
+            shelfQuantity--;
+        else
+            warehouseQuantity--;
+        itemRepo.remove(Integer.toString(id));
+        currentQuantity--;
+        if (currentQuantity <= minQuantity){
+            System.out.println("Please note, the quantity of items from this product has reached the minimum quantity:" + minQuantity);
         }
     }
 
+    public Item getItem(int id) throws Exception {
+        return itemRepo.get(Integer.toString(id));
+
+    }
+
+//    public boolean isOnShelf(int id) throws Exception {
+//        return itemRepo.isOnShelf(id);
+//
+//        isExists(id);
+//        for (Map.Entry<String, Item> entry : items.entrySet()) {
+//            if (entry.getValue().getItemID() == id) {
+//                return entry.getValue().isOnShelf();
+//            }
+//        }
+//        return false;
+//    }
+
+
+
+
+    //FIXME DAO
     public Map<Item, String> findExpiredItems ()  {
         LocalDate today = LocalDate.now();
         Map<Item, String>  expiredItems = new HashMap<>();
@@ -65,6 +113,7 @@ public class Product {
         return expiredItems;
     }
 
+    //FIXME DAO
     public int getNumDamagedItems(){
         int counter = 0;
             for (Item item: this.getItems().values()){
@@ -88,57 +137,17 @@ public class Product {
         return sellingPrice*discount*0.01;
     }
 
-    public boolean isOnShelf(int id) throws Exception {
-        isExists(id);
-        for (Map.Entry<String, Item> entry : items.entrySet()) {
-            if (entry.getValue().getItemID() == id) {
-                return entry.getValue().isOnShelf();
-            }
-        }
-        return false;
-    }
 
     public void setDiscount(double discount) {
             this.discount = discount;
     }
 
-    public void updateDamagedItem(int id, boolean damaged) throws Exception {
-        isExists(id);
-        items.get((Integer.toString(id))).setDamaged(damaged);
-    }
-
-    public void addItem(LocalDate expirationDate, boolean onShelf) throws Exception{
-        if (expirationDate == null){
-            throw new Exception("expirationDate is missing.");
-        }
-        itemIndex++;
-        Item newItem = new Item(itemIndex, expirationDate,false, onShelf );
-        items.put((Integer.toString(itemIndex)), newItem);
-        if (onShelf)
-            shelfQuantity++;
-        else
-            warehouseQuantity++;
-        currentQuantity++;
-    }
-
-    public Item getItem(int id) throws Exception {
-        isExists(id);
-        return items.get(Integer.toString(id));
-    }
+//    public void updateDamagedItem(int id, boolean damaged) throws Exception {
+//        isExists(id);
+//        items.get((Integer.toString(id))).setDamaged(damaged);
+//    }
 
 
-    public void removeItem(int id) throws Exception{
-        isExists(id);
-        if (items.get((Integer.toString(id))).isOnShelf())
-            shelfQuantity--;
-        else
-            warehouseQuantity--;
-        items.remove((Integer.toString(id)));
-        currentQuantity--;
-        if (currentQuantity <= minQuantity){
-            System.out.println("Please note, the quantity of items from this product has reached the minimum quantity:" + minQuantity);
-        }
-    }
 
     public void setItemIndex(int itemIndex) {
         this.itemIndex = itemIndex;
@@ -200,9 +209,9 @@ public class Product {
         this.subSubCat = subSubCat;
     }
 
-    public void setItems(Map<String, Item> items) {
-        this.items = items;
-    }
+//    public void setItems(Map<String, Item> items) {
+//        this.items = items;
+//    }
 
     public int getItemIndex() {
         return itemIndex;
@@ -264,18 +273,19 @@ public class Product {
         return subSubCat;
     }
 
-    public Map<String, Item> getItems() {
-        return items;
-    }
+//    public Map<String, Item> getItems() {
+//        return items;
+//    }
 
-    public void moveItem(int id) throws Exception{
-        isExists(id);
-        if (!items.get((Integer.toString(id))).isOnShelf()) {
-            items.get((Integer.toString(id))).setOnShelf(true);
-            shelfQuantity++;
-            warehouseQuantity--;
-        }
-    }
+
+//    public void moveItem(int id) throws Exception{
+//        isExists(id);
+//        if (!items.get((Integer.toString(id))).isOnShelf()) {
+//            items.get((Integer.toString(id))).setOnShelf(true);
+//            shelfQuantity++;
+//            warehouseQuantity--;
+//        }
+//    }
 
     @Override
     public String toString() {
@@ -293,7 +303,7 @@ public class Product {
                 ", cat='" + cat + '\'' +
                 ", subCat='" + subCat + '\'' +
                 ", subSubCat='" + subSubCat + '\'' +
-                ", items=" + items +
+                ", " + itemRepo.toString() +
                 '}';
     }
 

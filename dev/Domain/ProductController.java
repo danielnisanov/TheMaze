@@ -10,7 +10,8 @@ import java.util.Map;
 
 public class ProductController {
 
-    private Map<String,Product> productsList;
+    private Map<String,Product> productsList; //TODO DELETE
+    private ProductRepository productRepo;
 
     private static ProductController product_controller;
     private static CategoryController category_controller;
@@ -43,34 +44,49 @@ public class ProductController {
         if (sale < 0 || sale > 1) throw new Exception("Product sale is illegal.");
 
         Product product = new Product(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
-        productsList.put(product.getName(), product);
-    }
-    public Product getProduct (String name) throws Exception {
-        proIsExist(name);
-        return productsList.get(name);
-    }
+       // productsList.put(product.getName(), product);
 
+        productRepo.add(product);
+    }
 
     public void removeProduct(String name) throws Exception{
-        proIsExist(name);
-        productsList.remove(name);
+//        proIsExist(name);
+        //productsList.remove(name);
+        productRepo.remove(name);
     }
+
+    public Product getProduct (String name) throws Exception {
+//        proIsExist(name);
+//        return productsList.get(name);
+        return productRepo.get(name);
+
+    }
+
+
 
     public void addItem(String name, LocalDate expirationDate, boolean onShelf) throws Exception{
-        proIsExist(name);
-        productsList.get(name).addItem(expirationDate, onShelf);
-    }
-
-    public Item getItem(String name, int itemNum) throws Exception{
-        proIsExist(name);
-        return productsList.get(name).getItem(itemNum);
+        //proIsExist(name);
+        //productsList.get(name).addItem(expirationDate, onShelf);
+        productRepo.proIsExist(name);
+        productRepo.get(name).addItem(expirationDate, onShelf);
     }
 
     public void removeItem(String name, int itemNum) throws Exception{
-        proIsExist(name);
-        productsList.get(name).removeItem(itemNum);
+//        proIsExist(name);
+//        productsList.get(name).removeItem(itemNum);
+
+        productRepo.proIsExist(name);
+        productRepo.get(name).removeItem(itemNum);
+
     }
 
+    public Item getItem(String name, int itemNum) throws Exception{
+        productRepo.proIsExist(name);
+        return productRepo.get(name).getItem(itemNum);
+    }
+
+
+    //FIXME DAO
     public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory) {
         List<Product> products = new ArrayList<>();
         if (category != null && !category.equals("")) {
@@ -87,6 +103,7 @@ public class ProductController {
         return products;
     }
 
+    //FIXME DAO
     public List<Product> getMissingProductsByCategory(String category, String subCategory, String subSubCategory) {
         List<Product> products = new ArrayList<>();
         if (category != null && !category.equals("")) {
@@ -124,6 +141,8 @@ public class ProductController {
         return products;
     }
 
+
+    //FIXME DAO
     public Map<Item, String> getDamagedItems(){
 
         Map<Item, String> damagedItemsList = new HashMap<>();
@@ -137,7 +156,7 @@ public class ProductController {
         return damagedItemsList;
     }
 
-
+    //FIXME DAO
     public Map<Item, String> getExpiredItems(){
         Map<Item, String> expiredItemsList = new HashMap<>();
         for (Product product: productsList.values() ){
@@ -149,19 +168,21 @@ public class ProductController {
         return expiredItemsList;
     }
 
+    //TODO DELETE
+//    public void proIsExist (String name) throws Exception{
+//        if(!productsList.containsKey(name)){
+//            throw new Exception("Product "+ name +" doesn't exist.");
+//        }
+//    }
 
-    public void proIsExist (String name) throws Exception{
-        if(!productsList.containsKey(name)){
-            throw new Exception("Product "+ name +" doesn't exist.");
-        }
-    }
-
+    //FIXME DAO
     public void showProducts(){
         for (Product p: productsList.values()){
             System.out.println(p.getName());
         }
     }
 
+    //FIXME DAO
     public void showAllItems(){
         for (Product p: productsList.values()){
             Map<String, Item> items =  p.getItems();
@@ -172,58 +193,39 @@ public class ProductController {
     }
 
     public String viewProduct(String name) throws Exception{
-        proIsExist(name);
-        Product product = getProduct(name);
-         return product.toString();
+        Product product = productRepo.get(name);
+        return product.toString();
     }
 
     public String viewItem(String name, int itemID) throws Exception {
-        proIsExist(name);
-        Product product = getProduct(name);
-        product.isExists(itemID);
-        Item item = product.getItem(itemID);
+        Product product = productRepo.get(name);
+        Item item =  product.getItemRepo().get(Integer.toString(itemID));
         return item.toString();
     }
 
     public void updateProductDiscount(String name, double discount) throws Exception{
-        proIsExist(name);
-        Product product = getProduct(name);
-        product.setDiscount(discount);
+        productRepo.updateDiscount(name, discount);
     }
 
     public void updateProductSale(String name, double sale) throws Exception{
-        proIsExist(name);
-        Product product = getProduct(name);
-        product.setSale(sale);
+        productRepo.updateSale(name, sale);
     }
 
     public void moveItemToShelf(String name, int itemID) throws Exception{
-        proIsExist(name);
-        Product product = getProduct(name);
-        product.isExists(itemID);
-        Item item = product.getItem(itemID);
-        item.setOnShelf(true);
+        Product product = productRepo.get(name);
+        product.getItemRepo().moveItemToShelf(Integer.toString(itemID));
     }
 
 
     public boolean checkItemLocation(String name, int itemID) throws Exception{
-        proIsExist(name);
-        Product product = getProduct(name);
-        product.isExists(itemID);
-        Item item = product.getItem(itemID);
-        return item.isOnShelf();
+        Product product = productRepo.get(name);
+        return product.getItemRepo().checkItemLocation(Integer.toString(itemID));
     }
 
     public void updateItemDamaged(String name, int itemID) throws Exception{
-        proIsExist(name);
-        Product product = getProduct(name);
-        product.isExists(itemID);
-        Item item = product.getItem(itemID);
-        item.setDamaged(true);
+        Product product = productRepo.get(name);
+        product.getItemRepo().updateItemDamaged(Integer.toString(itemID));
     }
 
-        public void restart() {
-        productsList.clear();
-    }
 
 }
