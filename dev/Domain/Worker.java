@@ -22,7 +22,6 @@ public class Worker {
     public boolean job_status = true;
     private Map<String, List<String>> constraints = null;
 
-    private WorkerDAO workerDAO = new WorkerDAO();
 
     public boolean getJob_status() {
         return job_status;
@@ -188,16 +187,6 @@ public class Worker {
         return branch;
     }
 
-    public void save() {
-        workerDAO.insertWorker(this);
-    }
 
-    public void update() {
-        workerDAO.updateWorker(this);
-    }
-
-    public void delete() {
-        workerDAO.deleteWorker(this.getID_number());
-    }
 
 }
