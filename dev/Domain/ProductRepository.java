@@ -8,7 +8,6 @@ public class ProductRepository implements IRepository<Product>{
 
     //private DAO //TODO
 
-
     @Override
     public void add(Product product) throws Exception{
         if(products.containsKey(product.getName())) {

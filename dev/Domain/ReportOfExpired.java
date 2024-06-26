@@ -12,7 +12,6 @@ public class ReportOfExpired extends Report{
         this.expiredItems = expiredItems;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -26,7 +25,6 @@ public class ReportOfExpired extends Report{
                     .append(entry.getKey().getItemID())
                     .append("\n");
         }
-
         return sb.toString();
     }
 }
