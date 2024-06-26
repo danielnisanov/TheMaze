@@ -6,6 +6,7 @@ import java.util.Map;
 public class CategoryController {
 
     private Map<String, Category> categoriesList;
+    private CategoryRepository categoryRepo;
 
     private static CategoryController category_controller;
 
@@ -20,13 +21,8 @@ public class CategoryController {
     }
 
     public void addCategory(String categoryName) throws Exception {
-        if (categoriesList.containsKey(categoryName)){
-            throw new Exception("This Category is already exist.");
-        }
-        else{
-            Category newcategory = new Category(categoryName);
-            categoriesList.put(categoryName, newcategory);
-        }
+        Category newcategory = new Category(categoryName);
+        categoryRepo.add(newcategory);
     }
 
     public void removeCategory(String categoryName) throws Exception {

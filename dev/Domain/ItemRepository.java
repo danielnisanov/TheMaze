@@ -7,7 +7,10 @@ public class ItemRepository implements IRepository <Item>{
     private Map<String,Item> items;
 
     @Override
-    public void add(Item item) {
+    public void add(Item item) throws Exception{
+        if(items.containsKey(item.getItemID())) {
+            throw new Exception("Item " + item.getItemID() + " already exist.");
+        }
         items.put((Integer.toString(item.getItemID())), item);
     }
 

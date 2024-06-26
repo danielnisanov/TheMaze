@@ -10,7 +10,10 @@ public class ProductRepository implements IRepository<Product>{
 
 
     @Override
-    public void add(Product product) {
+    public void add(Product product) throws Exception{
+        if(products.containsKey(product.getName())) {
+            throw new Exception("Product " + product.getName() + " already exist.");
+        }
         products.put(product.getName(), product);
     }
 
