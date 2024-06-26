@@ -44,7 +44,7 @@ public class WorkerController {
         for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
             Branch branch = branches.get(worker.getValue().getBranchNum());
             worker.getValue().setBranch(branch);
-            branch.add_worker(worker.getValue());
+            branch.add_worker_brunch(worker.getValue());
         }
 
     }
@@ -106,7 +106,7 @@ public class WorkerController {
                         job_type, branch, roles_permissions);
 
                 // Add worker to the branch
-                branch.add_worker(worker);
+                branch.add_worker_brunch(worker);
                 // Add worker to the workers map
                 workers.put(ID_number, worker);
             }
@@ -116,7 +116,7 @@ public class WorkerController {
     }
 
 
-    public void add_worker(JsonObject json) {
+    public boolean add_worker(JsonObject json) {
         String address = json.get("address").getAsString();
         String name = json.get("name").getAsString();
         int id = json.get("id").getAsInt();
@@ -137,20 +137,21 @@ public class WorkerController {
         }
 
         Branch branch = branches.get(branchNum);
-        if (branch == null) {
-            // If the branch doesn't exist, create a new one
-            branch = new Branch(branchNum);
-            branches.put(branchNum, branch);
-        }
 
         Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays, jobTypeEnum, branch, roleSet);
-        branch.add_worker(newWorker);  // Add the worker to the branch
+        branch.add_worker_brunch(newWorker);  // Add the worker to the branch
 
         newWorker.setBranch(branch);  // Set the branch for the worker
 
-        workers.put(id, newWorker);  // Add the worker to the workers map
-
+        if (workers.containsKey(id)) {
+            // Worker already exists, return false
+            return false;
+        } else {
+            workers.put(id, newWorker);  // Add the worker to the workers map
+            return true;
+        }
     }
+
 
 
     public void add_manager(JsonObject json) {
@@ -278,10 +279,7 @@ public class WorkerController {
         return false;
     }
 
-    public boolean termination_success(JsonObject json) {
-        boolean success = Employment_termination(json);
-        return success;
-    }
+
 
     public boolean update_salary(JsonObject json) {
         int id = json.get("id").getAsInt();

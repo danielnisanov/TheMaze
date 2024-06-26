@@ -19,7 +19,7 @@ public class AddWorker {
         this.wc = wc;
     }
 
-    public void add_worker() {
+    public void Add_Worker() {
         System.out.println("Please enter the id_number of the new worker:");
         int id_num = scanner.nextInt();
 
@@ -105,14 +105,20 @@ public class AddWorker {
         json.addProperty("job_type", job_type.toString());
         json.addProperty("branch_num", branch_num);
         json.addProperty("roles", role.toString());
-        wc.add_worker(json);
+        if (wc.add_worker(json)){
+            System.out.println("Worker added successfully to branch " + branch_num );
 
-        System.out.println("Worker added successfully to branch " + branch_num );
+        }
+        else {
+            System.out.println("Failed to add worker");
+
+        }
+
 
 
     }
 
-    public void add_manager() {
+    public void AddManager() {
         System.out.println("Please enter the name of the new manager:");
         String name = scanner.nextLine();
         // Check if the name is non-empty and only contains letters and spaces

@@ -15,7 +15,7 @@ public class UpdateWorkerDetails {
     {
         this.wc = wc;
     }
-    public void Update_Job_Type(Branch branch) {
+    public void updateJobType(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
         if(!branch.is_worker_in_branch((id_num)))
@@ -80,7 +80,7 @@ public class UpdateWorkerDetails {
 
 
 
-    public void Update_Salary(Branch branch) {
+    public void updateSalary(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
 
@@ -124,7 +124,7 @@ public class UpdateWorkerDetails {
 
     }
 
-    public void Update_branch() {
+    public void updateBranch() {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
 

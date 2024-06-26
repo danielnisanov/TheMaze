@@ -1,7 +1,6 @@
 package Presentation;
 
 import Domain.ShiftController;
-import Domain.Worker;
 import Domain.WorkerController;
 import java.util.Scanner;
 
@@ -31,7 +30,7 @@ public class MCVSystem {
         submitConstraints  = new SubmitConstraints(worker_controler,shift_controler);
     }
 
-    public void activate() {
+    public void Activate() {
         boolean exitSystem = false;
         while (!exitSystem) {
             System.out.println("Who are you? m - manager , w - worker, e - exit system");

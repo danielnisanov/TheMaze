@@ -64,8 +64,8 @@ public class Branch {
         return workers_on_brunch;
     }
 
-    public void add_worker(Worker value) {
-        workers_on_brunch.put(value.getID_number(), value);
+    public void add_worker_brunch(Worker worker) {
+        workers_on_brunch.put(worker.getID_number(), worker);
     }
 
     public boolean is_worker_in_branch(int id) {

@@ -1,13 +1,10 @@
 package test;
 import Domain.*;
-import Presentation.SubmitConstraints;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.junit.Test;
 
-import java.io.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import Presentation.AddWorker;
@@ -43,7 +40,7 @@ public class TestUnit {
 
         WorkerController wc = new WorkerController("empty.csv");
         AddWorker addWorker = new AddWorker(wc);
-        addWorker.add_worker();
+        addWorker.Add_Worker();
 
         Map<Integer, Worker> workers = wc.getWorkers();
         assertEquals(1, workers.size());

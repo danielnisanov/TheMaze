@@ -192,7 +192,7 @@ public class ManagerPresentation {
 
     private void add_worker() {
 
-        addWorker.add_worker();
+        addWorker.Add_Worker();
     }
 
     private void Employment_Termination(Branch branch) {
@@ -202,17 +202,17 @@ public class ManagerPresentation {
 
     private void Update_Salary(Branch branch) {
 
-        updatrDetails.Update_Salary(branch);
+        updatrDetails.updateSalary(branch);
     }
 
     private void Update_Job_Type(Branch branch) {
 
 
-        updatrDetails.Update_Job_Type(branch);
+        updatrDetails.updateJobType(branch);
     }
 
     private void Update_branch() {
-        updatrDetails.Update_branch();
+        updatrDetails.updateBranch();
     }
 
     private void Create_work_arrangement(Branch branch) {
@@ -220,7 +220,7 @@ public class ManagerPresentation {
     }
 
     private void add_new_manager() {
-        addWorker.add_manager();
+        addWorker.AddManager();
     }
 
     public void print_past_workers(Branch branch){

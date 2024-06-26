@@ -1,9 +1,6 @@
 package Domain;
 
-import Data.WorkerDAO;
-
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +22,6 @@ public class Worker {
     public boolean job_status = true;
     private Map<String, List<String>> constraints = null;
 
-    private WorkerDAO workerDAO = new WorkerDAO();
 
     public boolean getJob_status() {
         return job_status;
@@ -154,22 +150,10 @@ public class Worker {
         this.job_type = job_type;
         this.starting_day = LocalDate.from(LocalDateTime.now()); // Get the current date
         this.branch = branch;
-        branch.add_worker(this);
+        branch.add_worker_brunch(this);
         this.roles_permissions = roles_permissions;
 
 
-    }
-
-    public void update_account_num(int new_account_num) {
-        this.bank_account_num = new_account_num;
-    }
-
-    // Add a method to add a role to the employee
-    public void addRole(Role role) {
-        if (roles_permissions == null) {
-            roles_permissions = new HashSet<>();
-        }
-        roles_permissions.add(role);
     }
 
     @Override
@@ -203,16 +187,6 @@ public class Worker {
         return branch;
     }
 
-    public void save() {
-        workerDAO.insertWorker(this);
-    }
 
-    public void update() {
-        workerDAO.updateWorker(this);
-    }
-
-    public void delete() {
-        workerDAO.deleteWorker(this.getID_number());
-    }
 
 }

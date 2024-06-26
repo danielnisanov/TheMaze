@@ -25,7 +25,7 @@ public class EmploymentTermination {
 
         JsonObject json = new JsonObject();
         json.addProperty("id", id_num);
-        if (workerController.termination_success(json)) {
+        if (workerController.Employment_termination(json)) {
             System.out.println("Employment termination successful");
         } else {
             System.out.println("Employment termination failed");
