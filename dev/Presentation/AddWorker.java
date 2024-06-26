@@ -105,9 +105,15 @@ public class AddWorker {
         json.addProperty("job_type", job_type.toString());
         json.addProperty("branch_num", branch_num);
         json.addProperty("roles", role.toString());
-        wc.add_worker(json);
+        if (wc.add_worker(json)){
+            System.out.println("Worker added successfully to branch " + branch_num );
 
-        System.out.println("Worker added successfully to branch " + branch_num );
+        }
+        else {
+            System.out.println("Failed to add worker");
+
+        }
+
 
 
     }

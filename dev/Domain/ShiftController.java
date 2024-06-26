@@ -3,11 +3,14 @@ package Domain;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 
 public class ShiftController {
 
     public ShiftController() {
     }
+
 
     public boolean add_worker_to_weekly_arrangement(Branch branch, Worker worker, String day, String shiftType, Role role) {
         int dayIndex = getDayIndex(day);

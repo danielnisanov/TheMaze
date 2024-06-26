@@ -197,7 +197,7 @@ public class ManagerPresentation {
 
     private void Employment_Termination(Branch branch) {
 
-        emplymenttermination.employment_Termination(branch);
+        emplymenttermination.Employment_Termination(branch);
     }
 
     private void Update_Salary(Branch branch) {

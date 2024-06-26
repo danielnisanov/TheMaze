@@ -116,7 +116,7 @@ public class WorkerController {
     }
 
 
-    public void add_worker(JsonObject json) {
+    public boolean add_worker(JsonObject json) {
         String address = json.get("address").getAsString();
         String name = json.get("name").getAsString();
         int id = json.get("id").getAsInt();
@@ -136,22 +136,22 @@ public class WorkerController {
             roleSet.add(Role.valueOf(role.trim()));
         }
 
-        Branch
-                branch = branches.get(branchNum);
-        if (branch == null) {
-            // If the branch doesn't exist, create a new one
-            branch = new Branch(branchNum);
-            branches.put(branchNum, branch);
-        }
+        Branch branch = branches.get(branchNum);
 
         Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays, jobTypeEnum, branch, roleSet);
         branch.add_worker_brunch(newWorker);  // Add the worker to the branch
 
         newWorker.setBranch(branch);  // Set the branch for the worker
 
-        workers.put(id, newWorker);  // Add the worker to the workers map
-
+        if (workers.containsKey(id)) {
+            // Worker already exists, return false
+            return false;
+        } else {
+            workers.put(id, newWorker);  // Add the worker to the workers map
+            return true;
+        }
     }
+
 
 
     public void add_manager(JsonObject json) {

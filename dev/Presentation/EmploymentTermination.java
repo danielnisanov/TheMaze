@@ -13,7 +13,7 @@ public class EmploymentTermination {
         this.workerController = workerController;
     }
 
-    public void employment_Termination(Branch branch) {
+    public void Employment_Termination(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
 
