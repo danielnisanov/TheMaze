@@ -8,6 +8,7 @@ public class BranchsDAO implements IDAO<Branch> {
     @Override
     public void Insert(Branch obj) {
 
+
     }
 
     @Override
