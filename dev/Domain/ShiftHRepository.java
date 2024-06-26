@@ -1,8 +1,8 @@
 package Domain;
 
-public class ShiftHRepository implements IRepository{
+public class ShiftHRepository implements IRepository<Shift>{
     @Override
-    public void Insert() {
+    public void Insert(Shift shift) {
 
     }
 

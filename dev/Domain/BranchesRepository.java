@@ -1,6 +1,6 @@
 package Domain;
 
-public class BranchesRepository implements IRepository <Branch>{
+public class BranchesRepository implements IRepository<Branch>{
 
     @Override
     public void Insert(Branch branch) {

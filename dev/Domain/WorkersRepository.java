@@ -1,8 +1,8 @@
 package Domain;
 
-public class WorkersRepository implements IRepository {
+public class WorkersRepository implements IRepository<Worker> {
     @Override
-    public void Insert() {
+    public void Insert(Worker worker) {
 
     }
 

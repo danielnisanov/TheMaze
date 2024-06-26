@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import java.util.Scanner;
 
 public class UpdateWorkerDetails {
-    private static WorkerController workerController;
     static Scanner scanner = new Scanner(System.in);
     private WorkerController wc;
 

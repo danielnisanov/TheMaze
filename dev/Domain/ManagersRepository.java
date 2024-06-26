@@ -1,8 +1,8 @@
 package Domain;
 
-public class ManagersRepository  implements IRepository{
+public class ManagersRepository  implements IRepository<HRManager>{
     @Override
-    public void Insert() {
+    public void Insert(HRManager hrManager) {
 
     }
 
