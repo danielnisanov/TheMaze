@@ -44,37 +44,23 @@ public class ProductController {
         if (sale < 0 || sale > 1) throw new Exception("Product sale is illegal.");
 
         Product product = new Product(catNum, name, area, manufacturer, minQuantity, costPrice, sellingPrice, discount, sale, cat, subCat, subSubCat);
-       // productsList.put(product.getName(), product);
-
         productRepo.add(product);
     }
 
     public void removeProduct(String name) throws Exception{
-//        proIsExist(name);
-        //productsList.remove(name);
         productRepo.remove(name);
     }
 
     public Product getProduct (String name) throws Exception {
-//        proIsExist(name);
-//        return productsList.get(name);
         return productRepo.get(name);
-
     }
 
-
-
     public void addItem(String name, LocalDate expirationDate, boolean onShelf) throws Exception{
-        //proIsExist(name);
-        //productsList.get(name).addItem(expirationDate, onShelf);
         productRepo.proIsExist(name);
         productRepo.get(name).addItem(expirationDate, onShelf);
     }
 
     public void removeItem(String name, int itemNum) throws Exception{
-//        proIsExist(name);
-//        productsList.get(name).removeItem(itemNum);
-
         productRepo.proIsExist(name);
         productRepo.get(name).removeItem(itemNum);
 
@@ -101,6 +87,8 @@ public class ProductController {
                 if (p.getCat().equals(category)) products.add(p);
         } else products = new ArrayList<>(productsList.values());
         return products;
+
+        productRepo.
     }
 
     //FIXME DAO

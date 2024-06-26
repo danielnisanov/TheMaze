@@ -5,9 +5,8 @@ import java.util.Map;
 
 public class CategoryController {
 
-    private Map<String, Category> categoriesList;
+  //  private Map<String, Category> categoriesList;
     private CategoryRepository categoryRepo;
-
     private static CategoryController category_controller;
 
     public static CategoryController getInstance() {
@@ -16,144 +15,116 @@ public class CategoryController {
         return category_controller;
     }
 
-    private CategoryController() {
-        categoriesList = new HashMap<>();
+//    private CategoryController() {
+//        categoriesList = new HashMap<>();
+//    }
+
+    public CategoryController() {
+        categoryRepo = new CategoryRepository();
+       // this.categoryRepo = categoryRepo;
     }
 
-    public void addCategory(String categoryName) throws Exception {
-        Category newcategory = new Category(categoryName);
+    public void addCategory(String name) throws Exception {
+        Category newcategory = new Category(name);
         categoryRepo.add(newcategory);
     }
 
-    public void removeCategory(String categoryName) throws Exception {
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("This Category isn't exist.");
-        }
-        else{
-            categoriesList.remove(categoryName);
-        }
+    public void removeCategory(String name) throws Exception {
+        categoryRepo.remove(name);
     }
 
-    public Category getCategory (String categoryName) throws Exception{
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("This Category isn't exist.");
-        }
-        else{
-            return categoriesList.get(categoryName);
-        }
+    public Category getCategory (String name) throws Exception{
+        return categoryRepo.get(name);
     }
 
     public void addSubCategory(String subCategoryName, String categoryName ) throws Exception {
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("The Category isn't exist.");
-        }
-        else{
-            categoriesList.get(categoryName).addSubCategory(subCategoryName);
-        }
+        categoryRepo.get(categoryName).addSubCategory(subCategoryName);
     }
 
     public void removeSubCategory(String subCategoryName, String categoryName ) throws Exception {
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("The Category isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-            throw new Exception("This SubCategory isn't exist.");
-        }
-        else{
-            categoriesList.get(categoryName).getSubList().remove(subCategoryName);
-        }
+        categoryRepo.get(categoryName).removeSubCategory(subCategoryName);
     }
 
     public SubCategory getSubCategory (String subCategoryName, String categoryName) throws Exception{
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("The Category isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-            throw new Exception("This SubCategory isn't exist.");
-        }
-        else{
-            return categoriesList.get(categoryName).getSubList().get(subCategoryName);
-        }
+        return categoryRepo.get(categoryName).getSubCategory(subCategoryName);
     }
 
 
     public void addSubSubCategory(String subSubCategoryName, String subCategoryName, String categoryName ) throws Exception {
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("The Category isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-            throw new Exception("The SubCategory isn't exist.");
-        }
-        else{
-            Category c = categoriesList.get(categoryName);
-            SubCategory s = c.getSubCategory(subCategoryName);
-            s.addSubSubCategory(subSubCategoryName);
-        }
+//        if (!categoriesList.containsKey(categoryName)){
+//            throw new Exception("The Category isn't exist.");
+//        }
+//        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
+//            throw new Exception("The SubCategory isn't exist.");
+//        }
+//        else{
+//            Category c = categoriesList.get(categoryName);
+//            SubCategory s = c.getSubCategory(subCategoryName);
+//            s.addSubSubCategory(subSubCategoryName);
+//        }
+        Category c = categoryRepo.get(categoryName);
+        SubCategory s = c.getSubCategory(subCategoryName);
+        s.addSubSubCategory(subSubCategoryName);
     }
 
     public void removeSubSubCategory(String subSubCategoryName, String subCategoryName, String categoryName ) throws Exception {
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("The Category isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-            throw new Exception("The SubCategory isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().containsKey(subSubCategoryName)){
-            throw new Exception("This SubSubCategory isn't exist.");
-        }
-        else{
-            Category c = categoriesList.get(categoryName);
-            SubCategory s = c.getSubCategory(subCategoryName);
-            s.removeSubSubCategory(subSubCategoryName);
-        }
+//        if (!categoriesList.containsKey(categoryName)){
+//            throw new Exception("The Category isn't exist.");
+//        }
+//        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
+//            throw new Exception("The SubCategory isn't exist.");
+//        }
+//        else if (!categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().containsKey(subSubCategoryName)){
+//            throw new Exception("This SubSubCategory isn't exist.");
+//        }
+//        else{
+//            Category c = categoriesList.get(categoryName);
+//            SubCategory s = c.getSubCategory(subCategoryName);
+//            s.removeSubSubCategory(subSubCategoryName);
+//        }
+
+        Category c = categoryRepo.get(categoryName);
+        SubCategory s = c.getSubCategory(subCategoryName);
+        s.removeSubSubCategory(subSubCategoryName);
     }
 
-    public SubSubCategory subSubCategoryName (String subSubCategoryName, String subCategoryName, String categoryName) throws Exception{
-        if (!categoriesList.containsKey(categoryName)){
-            throw new Exception("The Category isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-            throw new Exception("The SubCategory isn't exist.");
-        }
-        else if (!categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().containsKey(subSubCategoryName)){
-            throw new Exception("This SubSubCategory isn't exist.");
-        }
-        else{
-            return categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().get(subSubCategoryName);
-        }
-    }
-
-    public void setCategoriesList(Map<String, Category> categoriesList) {
-        this.categoriesList = categoriesList;
-    }
+//    public SubSubCategory subSubCategoryName (String subSubCategoryName, String subCategoryName, String categoryName) throws Exception{
+//        if (!categoriesList.containsKey(categoryName)){
+//            throw new Exception("The Category isn't exist.");
+//        }
+//        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
+//            throw new Exception("The SubCategory isn't exist.");
+//        }
+//        else if (!categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().containsKey(subSubCategoryName)){
+//            throw new Exception("This SubSubCategory isn't exist.");
+//        }
+//        else{
+//            return categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().get(subSubCategoryName);
+//        }
+//    }
 
 
-    public static void setCategory_controller(CategoryController category_controller) {
-        CategoryController.category_controller = category_controller;
+    public CategoryRepository getCategoryRepo() {
+        return categoryRepo;
     }
 
-    public Map<String, Category> getCategoriesList() {
-        return categoriesList;
+    public void setCategoryRepo(CategoryRepository categoryRepo) {
+        this.categoryRepo = categoryRepo;
     }
+
     public void showCategories(){
-        for (Category c: categoriesList.values()){
-            System.out.println(c.toString());
-        }
+//        for (Category c: categoriesList.values()){
+//            System.out.println(c.toString());
+//        }
+        categoryRepo.showCategories();
     }
 
-    public void showSubCategories(String categoryName){
-        Map<String,SubCategory> sublist= categoriesList.get(categoryName).getSubList();
-        for (SubCategory s: sublist.values()){
-            System.out.println(s.toString());
-        }
+    public void showSubCategories(String categoryName)throws Exception{
+//        Map<String,SubCategory> sublist= categoriesList.get(categoryName).getSubList();
+//        for (SubCategory s: sublist.values()){
+//            System.out.println(s.toString());
+//        }
+        Category c = categoryRepo.get(categoryName);
+        categoryRepo.showSubCategories(c);
     }
-
-    public static CategoryController getCategory_controller() {
-        return category_controller;
-    }
-
-    public void restart() {
-        categoriesList.clear();
-    }
-
 }

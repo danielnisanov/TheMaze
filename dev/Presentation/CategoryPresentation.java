@@ -53,6 +53,7 @@ public class CategoryPresentation {
     }
 
     public void addSubSubCategory() {
+        try{
         categoryController.showCategories();
         System.out.print("Enter category name: ");
         String categoryName = scanner.nextLine();
@@ -61,7 +62,6 @@ public class CategoryPresentation {
         String subCategoryName = scanner.nextLine();
         System.out.print("Enter sub-sub-category name: ");
         String subSubCategoryName = scanner.nextLine();
-        try {
             categoryController.addSubSubCategory(subSubCategoryName, subCategoryName, categoryName);
             System.out.println("Sub-sub-category added successfully.");
         } catch (Exception e) {
