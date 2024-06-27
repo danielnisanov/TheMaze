@@ -7,17 +7,17 @@ public class ManagersRepository  implements IRepository<HRManager>{
     }
 
     @Override
-    public void Update() {
+    public void Update(HRManager hrManager, int id, String update_type) {
 
     }
 
     @Override
-    public void Delete() {
+    public void Delete(HRManager hrManager) {
 
     }
 
     @Override
-    public void Find() {
+    public void Find(int id) {
 
     }
 }
