@@ -7,17 +7,17 @@ public class WorkersRepository implements IRepository<Worker> {
     }
 
     @Override
-    public void Update() {
+    public void Update(Worker worker, int id, String update_type) {
 
     }
 
     @Override
-    public void Delete() {
+    public void Delete(Worker worker) {
 
     }
 
     @Override
-    public void Find() {
+    public void Find(int id) {
 
     }
 }

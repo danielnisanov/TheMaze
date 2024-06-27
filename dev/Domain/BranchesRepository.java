@@ -8,17 +8,17 @@ public class BranchesRepository implements IRepository<Branch>{
     }
 
     @Override
-    public void Update() {
+    public void Update(Branch branch, int branch_num, String update_type) {
 
     }
 
     @Override
-    public void Delete() {
+    public void Delete(Branch branch) {
 
     }
 
     @Override
-    public void Find() {
+    public void Find(int branch_num) {
 
     }
 }

@@ -1,23 +1,23 @@
 package Domain;
 
-public class WorkArrangementRepository implements IRepository<Worker> {
+public class WorkArrangementRepository implements IRepository<Shift> {
     @Override
-    public void Insert(Worker worker) {
+    public void Insert(Shift shift) {
 
     }
 
     @Override
-    public void Update() {
+    public void Update(Shift shift, int shift_date , String shift_type) {
 
     }
 
     @Override
-    public void Delete() {
+    public void Delete(Shift shift) {
 
     }
 
     @Override
-    public void Find() {
+    public void Find(int shift_date) {
 
     }
 }
