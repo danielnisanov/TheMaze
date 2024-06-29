@@ -1,24 +1,27 @@
 package Domain;
 
+import java.sql.SQLException;
+
 public class BranchesRepository implements IRepository<Branch>{
 
-    @Override
-    public void Insert(Branch branch) {
 
+    @Override
+    public boolean Insert(Branch obj) {
+        return false;
     }
 
     @Override
-    public void Update(Branch branch, int branch_num, String update_type) {
-
+    public boolean Update(int num, String field, String change) throws SQLException {
+        return false;
     }
 
     @Override
-    public void Delete(Branch branch) {
-
+    public boolean Delete(int id) {
+        return false;
     }
 
     @Override
-    public void Find(int branch_num) {
-
+    public boolean Find(int num) throws SQLException {
+        return false;
     }
 }

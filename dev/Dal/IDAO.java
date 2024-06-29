@@ -1,7 +1,13 @@
 package Dal;
 
+import Domain.Worker;
+
+import java.sql.SQLException;
+
 public interface IDAO<T> {
-    public void Insert(T obj);
-    public  void Delete();
-    public  void Find();
+    void Insert(T obj) throws SQLException;
+    void Delete(int num) throws SQLException;
+    T Find(int num) throws SQLException; // Changed to return T
+    boolean Update(int num,String field, String change)  throws SQLException;
 }
+

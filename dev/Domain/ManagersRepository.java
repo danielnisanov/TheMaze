@@ -1,23 +1,26 @@
 package Domain;
 
+import java.sql.SQLException;
+
 public class ManagersRepository  implements IRepository<HRManager>{
-    @Override
-    public void Insert(HRManager hrManager) {
 
+    @Override
+    public boolean Insert(HRManager obj) {
+        return false;
     }
 
     @Override
-    public void Update(HRManager hrManager, int id, String update_type) {
-
+    public boolean Update(int num, String field, String change) throws SQLException {
+        return false;
     }
 
     @Override
-    public void Delete(HRManager hrManager) {
-
+    public boolean Delete(int id) {
+        return false;
     }
 
     @Override
-    public void Find(int id) {
-
+    public boolean Find(int num) throws SQLException {
+        return false;
     }
 }

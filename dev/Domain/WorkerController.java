@@ -17,6 +17,7 @@ public class WorkerController {
     private Map<Integer, Branch> branches;
     private Map<Integer, Worker> workers;
     private LocalDate currentDate = LocalDate.now();
+    WorkersRepository Worker_data= new WorkersRepository();
 
     public WorkerController(String file) {
         managers = new HashMap<>();
@@ -139,17 +140,13 @@ public class WorkerController {
         Branch branch = branches.get(branchNum);
 
         Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays, jobTypeEnum, branch, roleSet);
+        Worker_data.Insert(newWorker);
+
         branch.add_worker_brunch(newWorker);  // Add the worker to the branch
 
         newWorker.setBranch(branch);  // Set the branch for the worker
 
-        if (workers.containsKey(id)) {
-            // Worker already exists, return false
-            return false;
-        } else {
-            workers.put(id, newWorker);  // Add the worker to the workers map
-            return true;
-        }
+    return true;
     }
 
 
@@ -267,16 +264,7 @@ public class WorkerController {
 
     public boolean Employment_termination(JsonObject json) {
         int id = json.get("id").getAsInt();
-        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
-            if (entry.getKey() == id) {
-                Worker worker = entry.getValue();
-                if (worker.getJob_status()) {
-                    worker.setJob_status(false);
-                    return true;
-                }
-            }
-        }
-        return false;
+        return Worker_data.Delete(id);
     }
 
 
@@ -491,6 +479,12 @@ public class WorkerController {
         // Return null if worker is not found or not currently employed
         return null;
     }
+
+//    public boolean DelateWorker(JsonObject json){
+//        int id = json.get("id").getAsInt();
+//        return Worker_data.Delete(id);
+//
+//    }
 
 
 }

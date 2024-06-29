@@ -1,8 +1,10 @@
 package Domain;
 
+import java.sql.SQLException;
+
 public interface IRepository<T> {
-    public void Insert(T obj);
-    public  void Update(T obj,int id, String string);
-    public  void Delete(T obj);
-    public  void Find(int id);
+    public boolean Insert(T obj);
+    boolean Update(int num,String field, String change)  throws SQLException;
+    public  boolean Delete(int id);
+    boolean Find(int num) throws SQLException;
 }

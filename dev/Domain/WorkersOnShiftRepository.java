@@ -1,23 +1,26 @@
 package Domain;
 
+import java.sql.SQLException;
+
 public class WorkersOnShiftRepository implements IRepository<Worker> {
-    @Override
-    public void Insert(Worker worker) {
 
+    @Override
+    public boolean Insert(Worker obj) {
+        return false;
     }
 
     @Override
-    public void Update(Worker worker, int id, String update_type) {
-
+    public boolean Update(int num, String field, String change) throws SQLException {
+        return false;
     }
 
     @Override
-    public void Delete(Worker worker) {
-
+    public boolean Delete(int id) {
+        return false;
     }
 
     @Override
-    public void Find(int id) {
-
+    public boolean Find(int num) throws SQLException {
+        return false;
     }
 }

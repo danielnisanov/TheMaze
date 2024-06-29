@@ -1,23 +1,26 @@
 package Domain;
 
+import java.sql.SQLException;
+
 public class ShiftHRepository implements IRepository<Shift>{
-    @Override
-    public void Insert(Shift shift) {
 
+    @Override
+    public boolean Insert(Shift obj) {
+        return false;
     }
 
     @Override
-    public void Update(Shift shift, int shift_date , String shift_type) {
-
+    public boolean Update(int num, String field, String change) throws SQLException {
+        return false;
     }
 
     @Override
-    public void Delete(Shift shift) {
-
+    public boolean Delete(int id) {
+        return false;
     }
 
     @Override
-    public void Find(int shift_date) {
-
+    public boolean Find(int num) throws SQLException {
+        return false;
     }
 }

@@ -22,7 +22,6 @@ public class Worker {
     public boolean job_status = true;
     private Map<String, List<String>> constraints = null;
 
-
     public boolean getJob_status() {
         return job_status;
     }
@@ -174,19 +173,16 @@ public class Worker {
                 '}';
     }
 
-    public Map<String, List<String>> getConstraints() {
-        return constraints;
 
-    }
     public void setConstraints(Map<String, List<String>> constraints) {
         this.constraints = constraints;
 
     }
 
-    public Branch getBranch() {
-        return branch;
+    public Map<String, List<String>> getConstraints() {
+        return constraints;
     }
 
 
 
-}
+    }
