@@ -1,8 +1,10 @@
 package Domain;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 public class BranchesRepository implements IRepository<Branch>{
+        private Map<Integer, Branch> branches;
 
 
     @Override

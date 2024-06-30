@@ -6,16 +6,13 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     private final String dataPath;
-    private final String userName;
-    private final String password;
 
-    public DatabaseConnection(String dataPath, String userName, String password) {
+    public DatabaseConnection(String dataPath) {
         this.dataPath = dataPath;
-        this.userName = userName;
-        this.password = password;
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(dataPath, userName, password);
+        return DriverManager.getConnection("jdbc:sqlite:" + dataPath);
     }
 }
+

@@ -40,7 +40,7 @@ public class ManagerPresentation {
 
             int id = scanner.nextInt();
 
-            manager = worker_controler.getManager(id);
+            manager = worker_controler.get_Manager(id);
             if (manager == null) {
                 System.out.print("Invalid ID, please insert a valid ID");
             }
@@ -154,8 +154,10 @@ public class ManagerPresentation {
         scanner.nextLine();  // Consume the leftover newline
         System.out.print("Enter the new password: ");
         String newPassword = scanner.nextLine();
-        manager.changePassword(newPassword);
-        System.out.println("Password updated successfully.");
+        int id = manager.getID_number();
+        if (worker_controler.ChangePassword(id, "password", newPassword)) {
+            System.out.println("Password updated successfully.");
+        }
     }
 
     private void Present_Worker(Branch branch) {

@@ -116,7 +116,7 @@ public class TestUnit {
         jsonUpdate.addProperty("hourly_salary", 50.0);
 
         // Updating the salary
-        boolean success = wc.update_salary_success(jsonUpdate);
+        boolean success = wc.update_salary(jsonUpdate);
 
         // Asserting the update was successful
         assertTrue(success);
@@ -150,7 +150,7 @@ public class TestUnit {
         jsonUpdate.addProperty("job_type", "Full_time_job");
 
         // Updating the job type
-        boolean success = wc.update_job_type_success(jsonUpdate);
+        boolean success = wc.Update_job_type(jsonUpdate);
 
         // Asserting the update was successful
         assertTrue(success);
@@ -184,7 +184,7 @@ public class TestUnit {
         jsonUpdate.addProperty("branch_num", "4");
 
         // Updating the job type
-        boolean success = wc.update_branch_success(jsonUpdate);
+        boolean success = wc.Update_Branch(jsonUpdate);
 
         // Asserting the update was successful
         assertTrue(success);

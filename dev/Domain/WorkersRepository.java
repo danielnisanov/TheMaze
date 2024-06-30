@@ -1,8 +1,14 @@
 package Domain;
 
 import Dal.WorkersDAO;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WorkersRepository implements IRepository<Worker> {
@@ -37,7 +43,7 @@ public class WorkersRepository implements IRepository<Worker> {
         if (worker != null && worker.getJob_status()) {
             worker.setJob_status(false);
             try {
-                workersDAO.Update(id, "false", "job_status");
+                workersDAO.Update(id, "job_status", "false");
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -47,7 +53,7 @@ public class WorkersRepository implements IRepository<Worker> {
                 worker = workersDAO.Find(id);
                 if (worker != null && worker.getJob_status()) {
                     worker.setJob_status(false);
-                    workersDAO.Update(id, "false", "job_status");
+                    workersDAO.Update(id, "job_status", "false");
                     workers.put(id, worker);
                     return true;
                 }
@@ -62,7 +68,7 @@ public class WorkersRepository implements IRepository<Worker> {
     @Override
     public boolean Update(int id, String field, String value) {
         Worker worker = workers.get(id);
-        if (worker != null) {
+        if (worker != null) { // if we found the worker in the repository
             try {
                 boolean updated = workersDAO.Update(id, field, value);
                 if (updated) {
@@ -74,12 +80,12 @@ public class WorkersRepository implements IRepository<Worker> {
             }
         } else {
             try {
-                worker = workersDAO.Find(id);
+                worker = workersDAO.Find(id); // if we did not find the worker in the repository
                 if (worker != null) {
-                    boolean updated = workersDAO.Update(id, field, value);
+                    boolean updated = workersDAO.Update(id, field, value); // update in the DAO
                     if (updated) {
                         updateWorkerField(worker, field, value);
-                        workers.put(id, worker);
+                        workers.put(id, worker); // add to workers
                         return true;
                     }
                 }
@@ -110,10 +116,10 @@ public class WorkersRepository implements IRepository<Worker> {
 //                }
 //                worker.setBranch(branch);
                 break;
-            case "job_status":
+            case "job_status": // fire a worker
                 worker.setJob_status(Boolean.parseBoolean(value));
                 break;
-            case "roles":
+            case "roles": // update worker roles - add Shift_manager
                 worker.getRoles_permissions().add(Role.Shift_manager);
                 break;
         }
@@ -125,5 +131,252 @@ public class WorkersRepository implements IRepository<Worker> {
         return workers.containsKey(id) || workersDAO.Find(id) != null;
     }
 
+    public Map<Integer, Worker> get_Workers() {
+        getAllWorkers();
+        return workers;
+    }
 
+    public Worker get_Worker(int id) {
+        Worker worker = workers.get(id);
+
+        if (worker == null) { // I did not find the worker in workers
+            try {
+                worker = workersDAO.Find(id); // look for him in DAO
+                if (worker != null) { // found him in workers table
+                    workers.put(id, worker); // add him to workers
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return worker;
+    }
+
+    public void getAllWorkers() {
+        try {
+            List<Worker> allWorkers = workersDAO.getAllWorkers();
+            for (Worker worker : allWorkers) {
+                if (workers.get(worker.getID_number()) != null) {
+                    workers.put(worker.getID_number(), worker);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JsonArray PresentWorkers(Branch branch) {
+        getAllWorkers();
+
+        JsonArray jsonArray = new JsonArray();
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            if (branch.is_worker_in_branch(entry.getValue().getID_number())) {
+                Worker worker = entry.getValue();
+                if (worker.getJob_status()){
+                    JsonObject workerJson = new JsonObject();
+                    workerJson.addProperty("id", worker.getID_number());
+                    workerJson.addProperty("name", worker.getName());
+                    workerJson.addProperty("address", worker.getAddress());
+                    workerJson.addProperty("bank_account", worker.getBank_account_num());
+                    workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+                    workerJson.addProperty("vacation_days", worker.getVaction_days());
+                    workerJson.addProperty("job_type", worker.getJob_type().toString());
+                    workerJson.addProperty("branch_num", worker.getBranchNum());
+                    workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+                    workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+                    workerJson.addProperty("total_hours", worker.getTotal_hours());
+                    workerJson.addProperty("job_status", worker.getJob_status());
+                    jsonArray.add(workerJson);
+                }
+
+            }
+        }
+
+        return jsonArray;
+    }
+
+    public JsonArray PresentPastWorkers(Branch branch) {
+        getAllWorkers();
+
+        JsonArray jsonArray = new JsonArray();
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            if (branch.is_worker_in_branch(entry.getValue().getID_number())) {
+                Worker worker = entry.getValue();
+                if (!worker.getJob_status()) {
+                    JsonObject workerJson = new JsonObject();
+                    workerJson.addProperty("id", worker.getID_number());
+                    workerJson.addProperty("name", worker.getName());
+                    workerJson.addProperty("address", worker.getAddress());
+                    workerJson.addProperty("bank_account", worker.getBank_account_num());
+                    workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+                    workerJson.addProperty("vacation_days", worker.getVaction_days());
+                    workerJson.addProperty("job_type", worker.getJob_type().toString());
+                    workerJson.addProperty("branch_num", worker.getBranchNum());
+                    workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+                    workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+                    workerJson.addProperty("total_hours", worker.getTotal_hours());
+                    workerJson.addProperty("job_status", worker.getJob_status());
+                    jsonArray.add(workerJson);
+                }
+            }
+        }
+        return jsonArray;
+    }
+    public List<Worker> Available_Workers(String day, String shiftType, Role role, Branch branch) {
+        List<Worker> availableWorkersList = new ArrayList<>();
+
+        getAllWorkers();
+
+        for (Map.Entry<Integer, Worker> entry : workers.entrySet()) {
+            Worker worker = entry.getValue();
+            Map<String, List<String>> constraints = worker.getConstraints();
+
+            if ((branch.getBranchNum() == worker.branch.getBranchNum()) &&
+                    (worker.getRoles_permissions().contains(role)) &&
+                    (constraints == null || !constraints.containsKey(day) || !constraints.get(day).contains(shiftType))) {
+                availableWorkersList.add(worker);
+            }
+        }
+        return availableWorkersList;
+    }
+
+    public void Set_Worker_Constraints(Map<String, List<String>> constraintMap, int id) {
+        Worker worker = workers.get(id);
+
+        if (worker == null) { // I did not find the worker in workers
+            try {
+                worker = workersDAO.Find(id); // look for him in DAO
+                if (worker != null) { // found him in workers table
+                    workers.put(id, worker); // add him to workers
+                    worker.setConstraints(constraintMap);
+                    workersDAO.updateConstraints(id, constraintMap); // update constraint in DAO
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (worker != null) { // if i found in workers
+            worker.setConstraints(constraintMap); // set his constraints
+            try {
+                workersDAO.updateConstraints(id, constraintMap); // update constraint in DAO
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    public boolean Is_Worker(int id) {
+        Worker worker = workers.get(id);
+        if (worker == null) {
+            try {
+                worker = workersDAO.Find(id);
+                if (worker != null) {
+                    workers.put(id, worker); // Cache the worker
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return worker != null && worker.getJob_status();
+    }
+
+
+    public double FindGlobalSalary(int id)  {
+        Worker worker = workers.get(id);
+        if (worker == null) { // I did not find the worker in workers
+            try {
+                worker = workersDAO.Find(id); // look for him in DAO
+                if (worker != null) { // found him in workers table
+                    workers.put(id, worker); // add him to workers
+                    return worker.Global_salary(worker.getHourly_salary(), worker.getTotal_hours());
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (worker != null) { // if i found him in workers
+            return worker.Global_salary(worker.getHourly_salary(), worker.getTotal_hours());
+        }
+        return -1;
+    }
+
+    public int FindVactionDay(int id) {
+        Worker worker = workers.get(id);
+        if (worker == null) { // I did not find the worker in workers
+            try {
+                worker = workersDAO.Find(id); // look for him in DAO
+                if (worker != null) { // found him in workers table
+                    workers.put(id, worker); // add him to workers
+                    return worker.getVaction_days();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (worker != null) { // if i found him in workers
+            return worker.getVaction_days();
+        }
+        return 0;
+
+    }
+
+    public LocalDate FindStartDate(int id) {
+        Worker worker = workers.get(id);
+        if (worker == null) { // I did not find the worker in workers
+            try {
+                worker = workersDAO.Find(id); // look for him in DAO
+                if (worker != null) { // found him in workers table
+                    workers.put(id, worker); // add him to workers
+                    return worker.getStarting_day();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (worker != null) { // if i found him in workers
+            return worker.getStarting_day();
+        }
+        return null;
+
+    }
+    public JsonObject PresentWorker(int id) {
+        Worker worker = workers.get(id);
+        if (worker == null) { // I did not find the worker in workers
+            try {
+                worker = workersDAO.Find(id); // look for him in DAO
+                if (worker != null) { // found him in workers table
+                    workers.put(id, worker); // add him to workers
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        // If worker is found and is currently employed, convert to JsonObject
+        if (worker != null && worker.getJob_status()) {
+            JsonObject workerJson = new JsonObject();
+            workerJson.addProperty("id", worker.getID_number());
+            workerJson.addProperty("name", worker.getName());
+            workerJson.addProperty("address", worker.getAddress());
+            workerJson.addProperty("bank_account", worker.getBank_account_num());
+            workerJson.addProperty("hourly_salary", worker.getHourly_salary());
+            workerJson.addProperty("vacation_days", worker.getVaction_days());
+            workerJson.addProperty("job_type", worker.getJob_type().toString());
+            workerJson.addProperty("branch_num", worker.getBranchNum());
+            workerJson.addProperty("roles", worker.getRoles_permissions().toString());
+            workerJson.addProperty("starting_day", worker.getStarting_day().toString());
+            workerJson.addProperty("total_hours", worker.getTotal_hours());
+            workerJson.addProperty("job_status", worker.getJob_status());
+            return workerJson;
+        }
+
+        // Return null if worker is not found or not currently employed
+        return null;
+    }
 }

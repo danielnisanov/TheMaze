@@ -67,7 +67,7 @@ public class WorkerPresentation {
                     Submit_constraints(worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()), workerID);
                     break;
                 case 5:
-                    Present_arrangement(worker.getBranch());
+                    Present_arrangement(worker.getbranch());
                     break;
                 case 6:
                     exit = true;

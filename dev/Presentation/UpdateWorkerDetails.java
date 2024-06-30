@@ -42,7 +42,7 @@ public class UpdateWorkerDetails {
         json.addProperty("id", id_num);
         json.addProperty("job_type", job_type.toString());
         wc.Update_job_type(json);
-        if (wc.update_job_type_success(json)) {
+        if (wc.Update_job_type(json)) {
             System.out.println("Update job type success");
         }
         else{
@@ -114,7 +114,7 @@ public class UpdateWorkerDetails {
         json.addProperty("hourly_salary", hourly_salary);
 
         wc.update_salary(json);
-        if (wc.update_salary_success(json)) {
+        if (wc.update_salary(json)) {
             System.out.println("Update salary success");
         }
         else{
@@ -154,7 +154,7 @@ public class UpdateWorkerDetails {
         json.addProperty("branch_num", branch_num);
 
         wc.Update_Branch(json);
-        if (wc.update_branch_success(json)) {
+        if (wc.Update_Branch(json)) {
             System.out.println("Update branch success");
         }
         else {

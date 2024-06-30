@@ -9,7 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class WorkersDAO implements IDAO<Worker> {
     private DatabaseConnection dbConnection;
@@ -47,7 +51,7 @@ public class WorkersDAO implements IDAO<Worker> {
 
     @Override
     public void Delete(int id) throws SQLException {
-        Update(id, "false", "job_status");
+        Update(id, "job_status", "false");
 
     }
 
@@ -122,7 +126,7 @@ public class WorkersDAO implements IDAO<Worker> {
                     updated = stmt.executeUpdate() > 0;
                 }
                 break;
-            case "roles":
+            case "roles": // update worker roles - add Shift_manager
                 rolesDAO.addRole(id, Role.Shift_manager);
                 updated = true;
                 break;
@@ -138,4 +142,42 @@ public class WorkersDAO implements IDAO<Worker> {
         }
         return updated;
     }
+
+    public List<Worker> getAllWorkers() throws SQLException {
+        List<Worker> workersList = new ArrayList<>();
+        String query = "SELECT * FROM workers";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Set<Role> roles = rolesDAO.findRoles(rs.getInt("ID_number"));
+                Worker worker = new Worker(
+                        rs.getString("address"),
+                        rs.getString("name"),
+                        rs.getInt("ID_number"),
+                        rs.getInt("bank_account_num"),
+                        rs.getDouble("hourly_salary"),
+                        rs.getInt("vacation_days"),
+                        JobType.valueOf(rs.getString("job_type")),
+                        new Branch(rs.getInt("branch")),
+                        roles
+                );
+                worker.setTotal_hours(rs.getDouble("total_hours"));
+                worker.setJob_status(rs.getBoolean("job_status"));
+                workersList.add(worker);
+            }
+        }
+        return workersList;
+    }
+    public void updateConstraints(int id, Map<String, List<String>> constraints) throws SQLException {
+        String query = "UPDATE workers SET constraints = ? WHERE ID_number = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setObject(1, constraints); // Assuming a suitable method to serialize the map
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        }
+    }
+
 }

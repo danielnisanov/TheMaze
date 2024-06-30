@@ -28,7 +28,7 @@ public class Worker {
 
 
 
-    public Branch getbranch (Branch branch){
+    public Branch getbranch (){
         return branch;
     }
 
