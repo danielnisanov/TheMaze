@@ -35,4 +35,11 @@ public class SubCategoryRepository implements IRepository<SubCategory> {
             throw new Exception("SubCategory "+ name +" doesn't exist.");
         }
     }
+
+    public boolean containSubCat (String name) {
+        if(!subCategories.containsKey(name)){
+            return false;
+        }
+        return true;
+    }
 }

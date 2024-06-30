@@ -1,4 +1,4 @@
-productName,dateExpirationDate,boolOnShelf
+productName,expirationDate,onShelf
 Sheri tomato,2020-09-10,false
 Sheri tomato,2027-09-10,true
 Sheri tomato,2027-06-03,true

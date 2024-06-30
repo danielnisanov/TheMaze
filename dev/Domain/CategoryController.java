@@ -15,13 +15,10 @@ public class CategoryController {
         return category_controller;
     }
 
-//    private CategoryController() {
-//        categoriesList = new HashMap<>();
-//    }
+
 
     public CategoryController() {
         categoryRepo = new CategoryRepository();
-       // this.categoryRepo = categoryRepo;
     }
 
     public void addCategory(String name) throws Exception {
@@ -51,38 +48,12 @@ public class CategoryController {
 
 
     public void addSubSubCategory(String subSubCategoryName, String subCategoryName, String categoryName ) throws Exception {
-//        if (!categoriesList.containsKey(categoryName)){
-//            throw new Exception("The Category isn't exist.");
-//        }
-//        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-//            throw new Exception("The SubCategory isn't exist.");
-//        }
-//        else{
-//            Category c = categoriesList.get(categoryName);
-//            SubCategory s = c.getSubCategory(subCategoryName);
-//            s.addSubSubCategory(subSubCategoryName);
-//        }
         Category c = categoryRepo.get(categoryName);
         SubCategory s = c.getSubCategory(subCategoryName);
         s.addSubSubCategory(subSubCategoryName);
     }
 
     public void removeSubSubCategory(String subSubCategoryName, String subCategoryName, String categoryName ) throws Exception {
-//        if (!categoriesList.containsKey(categoryName)){
-//            throw new Exception("The Category isn't exist.");
-//        }
-//        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-//            throw new Exception("The SubCategory isn't exist.");
-//        }
-//        else if (!categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().containsKey(subSubCategoryName)){
-//            throw new Exception("This SubSubCategory isn't exist.");
-//        }
-//        else{
-//            Category c = categoriesList.get(categoryName);
-//            SubCategory s = c.getSubCategory(subCategoryName);
-//            s.removeSubSubCategory(subSubCategoryName);
-//        }
-
         Category c = categoryRepo.get(categoryName);
         SubCategory s = c.getSubCategory(subCategoryName);
         s.removeSubSubCategory(subSubCategoryName);

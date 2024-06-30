@@ -48,6 +48,13 @@ public class CategoryRepository  implements IRepository<Category>  {
             throw new Exception("Category "+ name +" doesn't exist.");
         }
     }
+    public boolean containCat (String name) {
+        if(!categories.containsKey(name)){
+            return false;
+        }
+        return true;
+    }
+
 
 
 }

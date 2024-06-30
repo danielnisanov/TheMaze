@@ -28,9 +28,13 @@ public class ProductController {
     }
 
     public void addProduct(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
-        boolean category = category_controller.getCategoriesList().containsKey(cat);
-        boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);
-        boolean subSubCategory = category_controller.getCategoriesList().get(cat).getSubList().get(subCat).getSubSubList().containsKey(subSubCat);
+        boolean category = category_controller.getCategoryRepo().containCat(cat);
+        boolean subCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().containSubCat(subCat);
+        boolean subSubCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().get(subSubCat).getSubSubCategories().containSubSubCat(subCat);
+
+        //boolean category = category_controller.getCategoriesList().containsKey(cat);
+        //boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);
+        //boolean subSubCategory = category_controller.getCategoriesList().get(cat).getSubList().get(subCat).getSubSubList().containsKey(subSubCat);
 
         if (!category || !subCategory || !subSubCategory) throw new Exception("Category or SubCategory or SubSubCategory isn't exists.");
         if(catNum == null || catNum.equals("")) throw new Exception("Product catNum is empty.");
@@ -88,7 +92,7 @@ public class ProductController {
         } else products = new ArrayList<>(productsList.values());
         return products;
 
-        productRepo.
+        //productRepo.
     }
 
     //FIXME DAO

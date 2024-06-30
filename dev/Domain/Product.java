@@ -24,7 +24,7 @@ public class Product {
     private String cat;
     private String subCat;
     private String subSubCat;
-   // private Map<String,Item> items; //TODO DELETE
+    private Map<String,Item> items; //TODO DELETE
     private ItemRepository itemRepo;
 
 
@@ -49,7 +49,7 @@ public class Product {
         this.cat = cat;
         this.subCat = subCat;
         this.subSubCat = subSubCat;
-     //   items = new HashMap<>(); //TODO DELETE
+        items = new HashMap<>(); //TODO DELETE
         itemRepo = new ItemRepository();
 
     }
@@ -273,9 +273,10 @@ public class Product {
         return subSubCat;
     }
 
-//    public Map<String, Item> getItems() {
-//        return items;
-//    }
+    //FIXME DELETE
+    public Map<String, Item> getItems() {
+        return items;
+    }
 
 
 //    public void moveItem(int id) throws Exception{
