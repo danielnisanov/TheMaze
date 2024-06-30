@@ -1,5 +1,6 @@
 package DAL;
 import DB.DataBase;
+import Domain.Item;
 import Domain.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -67,13 +68,25 @@ public class ProductDAO implements IDAO<Product> {
         }
     }
 
-    //FIXME ADD
-    public void updateDiscount(String name, double discount) {
+    @Override
+    public void update(Product product) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("UPDATE products SET catNum = ?, area = ?, manufacturer = ?, minQuantity = ?, costPrice = ?, sellingPrice = ?, discount = ?, sale = ?, category = ?, subCategory = ?, subSubCategory = ? WHERE name = ?");
+        stmt.setString(1, product.getCat());
+        stmt.setString(2, product.getArea());
+        stmt.setString(3, product.getManufacturer());
+        stmt.setInt(4, product.getMinQuantity());
+        stmt.setDouble(5, product.getCostPrice());
+        stmt.setDouble(6, product.getSellingPrice());
+        stmt.setDouble(7, product.getDiscount());
+        stmt.setDouble(8, product.getSale());
+        stmt.setString(9, product.getCat());
+        stmt.setString(10, product.getSubCat());
+        stmt.setString(11, product.getSubSubCat());
+        stmt.setString(12, product.getName());
+        stmt.executeUpdate();
     }
 
-    //FIXME ADD
-    public void updateSale(String name, double sale) {
-    }
+
 }
 
 

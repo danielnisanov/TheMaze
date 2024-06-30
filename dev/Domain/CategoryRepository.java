@@ -35,13 +35,18 @@ public class CategoryRepository  implements IRepository<Category>  {
 
     //TODO
     public void showCategories(){
-        //printing of all the items from DB
+        for (String categoryName : categories.keySet()) {
+            System.out.println("- " + categoryName);
+        }
     }
 
     //TODO
     public void showSubCategories(Category category){
-        //printing of all the items from DB
-    }
+        SubCategoryRepository repo = category.getSubCategories();
+        Map<String, SubCategory> subs = repo.getSubCategories();
+        for (SubCategory subCategory : subs.values()) {
+            System.out.println("- " + subCategory.getSubCategoryName());
+        }    }
 
     public void catIsExist (String name) throws Exception{
         if(!categories.containsKey(name)){

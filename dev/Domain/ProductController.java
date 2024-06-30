@@ -61,7 +61,7 @@ public class ProductController {
 
     public void addItem(String name, LocalDate expirationDate, boolean onShelf) throws Exception{
         productRepo.proIsExist(name);
-        productRepo.get(name).addItem(expirationDate, onShelf);
+        productRepo.get(name).addItem(productRepo.get(name).getName(), expirationDate, onShelf);
     }
 
     public void removeItem(String name, int itemNum) throws Exception{

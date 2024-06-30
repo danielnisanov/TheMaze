@@ -48,15 +48,16 @@ public class ProductRepository implements IRepository<Product>{
                 products.put(name, product); // save in memory
             }
         }
-        proIsExist(name); // Check existence in either memory or database
+        proIsExist(name);
         return product;
     }
+
 
     public void updateDiscount(String name, double discount) throws Exception {
         proIsExist(name);
         Product product = get(name);
         product.setDiscount(discount);
-        productDAO.updateDiscount(name, discount); // Update in database
+        productDAO.update(product);
     }
 
 
@@ -64,7 +65,7 @@ public class ProductRepository implements IRepository<Product>{
         proIsExist(name);
         Product product = get(name);
         product.setSale(sale);
-        productDAO.updateSale(name, sale); // Update in database
+        productDAO.update(product);
     }
 
 

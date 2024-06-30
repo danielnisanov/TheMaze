@@ -55,12 +55,12 @@ public class Product {
     }
 
 
-    public void addItem(LocalDate expirationDate, boolean onShelf) throws Exception{
+    public void addItem(String productName, LocalDate expirationDate, boolean onShelf) throws Exception{
         if (expirationDate == null){
             throw new Exception("expirationDate is missing.");
         }
         itemIndex++;
-        Item newItem = new Item(itemIndex, expirationDate,false, onShelf );
+        Item newItem = new Item(productName, itemIndex, expirationDate,false, onShelf );
         itemRepo.add(newItem);
         if (onShelf)
             shelfQuantity++;

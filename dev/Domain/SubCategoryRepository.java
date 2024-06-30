@@ -42,4 +42,8 @@ public class SubCategoryRepository implements IRepository<SubCategory> {
         }
         return true;
     }
+
+    public Map<String, SubCategory> getSubCategories() {
+        return subCategories;
+    }
 }

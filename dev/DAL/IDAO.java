@@ -1,5 +1,7 @@
 package DAL;
 
+import Domain.Item;
+
 import java.sql.SQLException;
 
 public interface IDAO<T> {
@@ -9,5 +11,6 @@ public interface IDAO<T> {
 
     T get(String id) throws SQLException;
 
-    //void update // FIXME ADD
+    void update(T entity) throws SQLException;
+
 }

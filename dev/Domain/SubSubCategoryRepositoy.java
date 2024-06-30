@@ -22,20 +22,20 @@ public class SubSubCategoryRepositoy implements IRepository<SubSubCategory>{
 
     @Override
     public void remove(String name) throws Exception {
-        subCatIsExist(name);
+        subSubCatIsExist(name);
         subSubCategories.remove(name);
     }
 
 
     @Override
     public SubSubCategory get(String name) throws Exception {
-        subCatIsExist(name);
+        subSubCatIsExist(name);
         return subSubCategories.get(name);
     }
 
-    public void subCatIsExist (String name) throws Exception{
+    public void subSubCatIsExist (String name) throws Exception{
         if(!subSubCategories.containsKey(name)){
-            throw new Exception("SubCategory "+ name +" doesn't exist.");
+            throw new Exception("SubSubCategory "+ name +" doesn't exist.");
         }
     }
 

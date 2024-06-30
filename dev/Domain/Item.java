@@ -4,18 +4,28 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Item {
+    private String productName;
     private int itemID;
     private LocalDate expirationDate;
     private boolean isDamaged;
+    private boolean onShelf;
 
-    public Item(int itemID, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
+
+    public Item(String productName, int itemID, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
+        this.productName = productName;
         this.itemID = itemID;
         this.expirationDate = expirationDate;
         this.isDamaged = isDamaged;
         this.onShelf = onShelf;
     }
 
-    private boolean onShelf;
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public void setItemID(int itemID) {
         this.itemID = itemID;
