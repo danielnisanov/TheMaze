@@ -37,10 +37,11 @@ public class TestUnit {
 
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
+        Branch branch1 = new Branch(1);
 
         WorkerController wc = new WorkerController("empty.csv");
         AddWorker addWorker = new AddWorker(wc);
-        addWorker.Add_Worker();
+        addWorker.Add_Worker(branch1);
 
         Map<Integer, Worker> workers = wc.getWorkers();
         assertEquals(1, workers.size());

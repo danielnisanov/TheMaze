@@ -1,10 +1,14 @@
 package Domain;
 
+import Dal.BranchesDAO;
+import Dal.WorkersDAO;
+
 import java.sql.SQLException;
 import java.util.Map;
 
 public class BranchesRepository implements IRepository<Branch>{
         private Map<Integer, Branch> branches;
+        private BranchesDAO branchesDAO;
 
 
     @Override
@@ -26,4 +30,22 @@ public class BranchesRepository implements IRepository<Branch>{
     public boolean Find(int num) throws SQLException {
         return false;
     }
+
+    public Branch get_Branch(int id) {
+        Branch branch = branches.get(id);
+
+        if (branch == null) { // I did not find the worker in workers
+            try {
+                branch = branchesDAO.Find(id); // look for him in DAO
+                if (branch != null) { // found him in workers table
+                    branches.put(id, branch); // add him to workers
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return branch;
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package Presentation;
 
+import Domain.Branch;
 import Domain.WorkerController;
 import Domain.JobType;
 import Domain.Role;
@@ -19,7 +20,7 @@ public class AddWorker {
         this.wc = wc;
     }
 
-    public void Add_Worker() {
+    public void Add_Worker(Branch branch) {
         System.out.println("Please enter the id_number of the new worker:");
         int id_num = scanner.nextInt();
 
@@ -81,12 +82,12 @@ public class AddWorker {
             return;
         }
 
-        System.out.println("Enter his branch:");
-        int branch_num = scanner.nextInt();
-        if (branch_num <= 0) {
-            System.out.println("The branch number must be a positive number");
-            return;
-        }
+//        System.out.println("Enter his branch:");
+//        int branch_num = scanner.nextInt();
+//        if (branch_num <= 0) {
+//            System.out.println("The branch number must be a positive number");
+//            return;
+//        }
 
         scanner.nextLine(); // Consume the newline left-over
         Set<Role> roles = new HashSet<>(); // Create a new HashSet to hold roles
@@ -103,10 +104,10 @@ public class AddWorker {
         json.addProperty("hourly_salary", hourly_salary);
         json.addProperty("vacation_days", vacation_days);
         json.addProperty("job_type", job_type.toString());
-        json.addProperty("branch_num", branch_num);
+        json.addProperty("branch_num", branch.getBranchNum());
         json.addProperty("roles", role.toString());
         if (wc.add_worker(json)){
-            System.out.println("Worker added successfully to branch " + branch_num );
+            System.out.println("Worker added successfully to branch " + branch.getBranchNum() );
 
         }
         else {

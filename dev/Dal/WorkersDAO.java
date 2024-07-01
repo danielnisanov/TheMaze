@@ -9,24 +9,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import com.google.gson.Gson;
 
 
 public class WorkersDAO implements IDAO<Worker> {
     private DatabaseConnection dbConnection;
     private RolesDAO rolesDAO;
+    private Gson gson;
 
     public WorkersDAO(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
         this.rolesDAO = new RolesDAO(dbConnection);
+        this.gson = new Gson();
     }
 
     @Override
     public void Insert(Worker worker) throws SQLException {
-        String query = "INSERT INTO workers (ID_number, name, address, bank_account_num, hourly_salary, vacation_days, job_type, starting_day, branch, total_hours, job_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO workers (ID_number, name, address, bank_account_num, hourly_salary, vacation_days, job_type, starting_day, branch, total_hours, job_status, roles) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, worker.getID_number());
@@ -40,14 +41,17 @@ public class WorkersDAO implements IDAO<Worker> {
             stmt.setString(9, String.valueOf(worker.getBranchNum()));
             stmt.setDouble(10, worker.getTotal_hours());
             stmt.setBoolean(11, worker.getJob_status());
-            stmt.executeUpdate();
 
-            // Insert roles
-            for (Role role : worker.getRoles_permissions()) {
-                rolesDAO.addRole(worker.getID_number(), role);
-            }
+            // Serialize roles to a comma-separated string
+            String roles = worker.getRoles_permissions().stream()
+                    .map(Role::name)
+                    .collect(Collectors.joining(","));
+            stmt.setString(12, roles);
+
+            stmt.executeUpdate();
         }
     }
+
 
     @Override
     public void Delete(int id) throws SQLException {
@@ -64,7 +68,11 @@ public class WorkersDAO implements IDAO<Worker> {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Set<Role> roles = rolesDAO.findRoles(id);
+                String rolesStr = rs.getString("roles");
+                Set<Role> roles = Arrays.stream(rolesStr.split(","))
+                        .map(Role::valueOf)
+                        .collect(Collectors.toSet());
+
                 Worker worker = new Worker(
                         rs.getString("address"),
                         rs.getString("name"),
@@ -83,6 +91,7 @@ public class WorkersDAO implements IDAO<Worker> {
         }
         return null;
     }
+
 
     @Override
     public boolean Update(int id, String field, String value) throws SQLException {
@@ -174,7 +183,7 @@ public class WorkersDAO implements IDAO<Worker> {
         String query = "UPDATE workers SET constraints = ? WHERE ID_number = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setObject(1, constraints); // Assuming a suitable method to serialize the map
+            stmt.setString(1, gson.toJson(constraints)); // Assuming a suitable method to serialize the map
             stmt.setInt(2, id);
             stmt.executeUpdate();
         }

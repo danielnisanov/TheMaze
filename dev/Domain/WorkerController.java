@@ -123,14 +123,11 @@ public class WorkerController {
             roleSet.add(Role.valueOf(role.trim()));
         }
 
-        Branch branch = branches.get(branchNum);
+        Branch branch = getBranch(branchNum);
 
         Worker newWorker = new Worker(address, name, id, bankAccount, hourlySalary, vacationDays, jobTypeEnum, branch, roleSet);
         Worker_Rep.Insert(newWorker);
-
-        // todo- to branch repository
         branch.add_worker_brunch(newWorker);  // Add the worker to the branch
-
         newWorker.setBranch(branch);  // Set the branch for the worker
 
     return true;
@@ -143,7 +140,7 @@ public class WorkerController {
         int ID_number = json.get("ID_number").getAsInt();
         int branch_num = json.get("branch_num").getAsInt();
 
-        Branch branch = branches.get(branch_num);
+        Branch branch = getBranch(branch_num);
         if (branch == null) {
             branch = new Branch(branch_num);
             branches.put(branch_num, branch);
@@ -167,7 +164,7 @@ public class WorkerController {
 
 
     public Branch getBranch(int id) {
-        return branches.get(id);
+        return Branch_Rep.get_Branch(id);
     }
 
     public JsonArray present_workers(Branch branch) {

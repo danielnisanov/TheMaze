@@ -85,7 +85,7 @@ public class ManagerPresentation {
                         Appointment_Manager(manager.getBranch());
                         break;
                     case 3:
-                        add_worker();
+                        add_worker(manager.getBranch());
                         break;
                     case 4:
                         Employment_Termination(manager.getBranch());
@@ -192,9 +192,9 @@ public class ManagerPresentation {
         appointmentManager.Appointment_Manager(branch);
     }
 
-    private void add_worker() {
+    private void add_worker(Branch branch) {
 
-        addWorker.Add_Worker();
+        addWorker.Add_Worker(branch);
     }
 
     private void Employment_Termination(Branch branch) {
