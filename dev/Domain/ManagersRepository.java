@@ -2,12 +2,17 @@ package Domain;
 import Dal.ManagersDAO;
 import Dal.WorkersDAO;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.sql.SQLException;
 
 public class ManagersRepository  implements IRepository<HRManager>{
     private Map<Integer, HRManager> managers;
     private ManagersDAO managersDAO;
+
+    public ManagersRepository() {
+        managers = new HashMap<Integer, HRManager>();
+    }
 
     @Override
     public boolean Insert(HRManager hrManager) {

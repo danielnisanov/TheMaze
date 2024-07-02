@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ManagersDAO implements IDAO<HRManager> {
-    private DatabaseConnection dbConnection;
+    private final DatabaseConnection dbConnection;
 
     public ManagersDAO(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -71,6 +71,5 @@ public class ManagersDAO implements IDAO<HRManager> {
         }
         return false;
     }
-
 
 }

@@ -1,10 +1,14 @@
 package Dal;
 
+import Domain.Shift;
 import Domain.Worker;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class WorkArrangementDAO implements IDAO<Worker>{
+
     @Override
     public void Insert(Worker worker) {
 

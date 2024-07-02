@@ -18,21 +18,21 @@ public class WorkerController {
     public WorkerController(String file) {
 
 
-        // Associate managers with their branches
-        for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
-            Branch branch = branches.get(manager.getValue().getBranch().getBranchNum());
-            if (branch != null) {
-                branch.set_manager(manager.getValue());
-            } else {
-                System.err.println("Error: Branch " + manager.getValue().getBranch() + " not found for manager " + manager.getKey());
-            }
-        }
-
-        for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
-            Branch branch = branches.get(worker.getValue().getBranchNum());
-            worker.getValue().setBranch(branch);
-            branch.add_worker_brunch(worker.getValue());
-        }
+//        // Associate managers with their branches
+//        for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
+//            Branch branch = branches.get(manager.getValue().getBranch().getBranchNum());
+//            if (branch != null) {
+//                branch.set_manager(manager.getValue());
+//            } else {
+//                System.err.println("Error: Branch " + manager.getValue().getBranch() + " not found for manager " + manager.getKey());
+//            }
+//        }
+//
+//        for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
+//            Branch branch = branches.get(worker.getValue().getBranchNum());
+//            worker.getValue().setBranch(branch);
+//            branch.add_worker_brunch(worker.getValue());
+//        }
 
     }
 //
@@ -143,7 +143,7 @@ public class WorkerController {
         Branch branch = getBranch(branch_num);
         if (branch == null) {
             branch = new Branch(branch_num);
-            branches.put(branch_num, branch);
+            Branch_Rep.Insert(branch);
         }
 
         HRManager newManager = new HRManager(name, branch, String.valueOf(ID_number), ID_number);

@@ -12,8 +12,14 @@ public class BranchesRepository implements IRepository<Branch>{
 
 
     @Override
-    public boolean Insert(Branch obj) {
-        return false;
+    public boolean Insert(Branch branch) {
+        if (branches.containsKey(branch.getBranchNum())) {
+            return false; // branch already exists
+        } else {
+            branchesDAO.Insert(branch); // Add branch to the database
+            branches.put(branch.getBranchNum(), branch); // Add branch to the map
+            return true;
+        }
     }
 
     @Override

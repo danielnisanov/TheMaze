@@ -1,15 +1,14 @@
 package Domain;
 
 import Dal.WorkersDAO;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorkersRepository implements IRepository<Worker> {
 
@@ -18,7 +17,6 @@ public class WorkersRepository implements IRepository<Worker> {
 
     public WorkersRepository() {
         this.workers = new HashMap<>();
-
     }
 
     @Override
@@ -63,7 +61,6 @@ public class WorkersRepository implements IRepository<Worker> {
         }
         return false;
     }
-
 
     @Override
     public boolean Update(int id, String field, String value) {
@@ -122,9 +119,13 @@ public class WorkersRepository implements IRepository<Worker> {
             case "roles": // update worker roles - add Shift_manager
                 worker.getRoles_permissions().add(Role.Shift_manager);
                 break;
+            case "constraints":
+                // Deserialize the JSON string back to the map
+                Map<String, List<String>> constraints = new Gson().fromJson(value, new TypeToken<Map<String, List<String>>>() {}.getType());
+                worker.setConstraints(constraints);
+                break;
         }
     }
-
 
     @Override
     public boolean Find(int id) throws SQLException {
@@ -266,8 +267,6 @@ public class WorkersRepository implements IRepository<Worker> {
         }
     }
 
-
-
     public boolean Is_Worker(int id) {
         Worker worker = workers.get(id);
         if (worker == null) {
@@ -282,7 +281,6 @@ public class WorkersRepository implements IRepository<Worker> {
         }
         return worker != null && worker.getJob_status();
     }
-
 
     public double FindGlobalSalary(int id)  {
         Worker worker = workers.get(id);
@@ -345,6 +343,7 @@ public class WorkersRepository implements IRepository<Worker> {
         return null;
 
     }
+
     public JsonObject PresentWorker(int id) {
         Worker worker = workers.get(id);
         if (worker == null) { // I did not find the worker in workers
