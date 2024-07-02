@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class SubCategoryRepository implements IRepository<SubCategory> {
     private Map<String,SubCategory> subCategories;
+    //private DAO //TODO
+
 
     public SubCategoryRepository() {
         subCategories = new HashMap<>();

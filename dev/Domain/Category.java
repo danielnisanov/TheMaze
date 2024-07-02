@@ -23,7 +23,7 @@ public class Category {
 //            subList.put(subCategoryName, newSub);
 //        }
 
-        SubCategory newSub = new SubCategory(subCategoryName);
+        SubCategory newSub = new SubCategory(subCategoryName, categoryName);
         subCategories.add(newSub);
     }
 

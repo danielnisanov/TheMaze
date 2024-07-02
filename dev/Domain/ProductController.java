@@ -25,12 +25,13 @@ public class ProductController {
     private ProductController() {
         productsList = new HashMap<>();
         category_controller = CategoryController.getInstance();
+         productRepo = new ProductRepository();
     }
 
     public void addProduct(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) throws Exception{
         boolean category = category_controller.getCategoryRepo().containCat(cat);
         boolean subCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().containSubCat(subCat);
-        boolean subSubCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().get(subSubCat).getSubSubCategories().containSubSubCat(subCat);
+        boolean subSubCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().get(subCat).getSubSubCategories().containSubSubCat(subSubCat);
 
         //boolean category = category_controller.getCategoriesList().containsKey(cat);
         //boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);

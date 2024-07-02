@@ -1,17 +1,18 @@
 package Domain;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class SubCategory{
     private String subCategoryName;
-  //  private Map<String, SubSubCategory> subSubList;
+    private String CategoryName;
+    //  private Map<String, SubSubCategory> subSubList;
     private SubSubCategoryRepositoy subSubCategories;
 
 
 
-    public SubCategory(String subCategoryName) {
+    public SubCategory(String subCategoryName, String CategoryName) {
         this.subCategoryName = subCategoryName;
+        this.CategoryName = CategoryName;
         subSubCategories = new SubSubCategoryRepositoy();
     }
 
@@ -24,7 +25,7 @@ public class SubCategory{
 //            subSubList.put(subSubCategoryName, newSubSub);
 //        }
 
-        SubSubCategory newSubSub = new SubSubCategory(subSubCategoryName);
+        SubSubCategory newSubSub = new SubSubCategory(subSubCategoryName, subCategoryName, CategoryName );
         subSubCategories.add(newSubSub);
 
     }
@@ -67,6 +68,14 @@ public class SubCategory{
 
     public void setSubSubCategories(SubSubCategoryRepositoy subSubCategories) {
         this.subSubCategories = subSubCategories;
+    }
+
+    public void setCategoryName(String categoryName) {
+        CategoryName = categoryName;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
     }
 
     @Override

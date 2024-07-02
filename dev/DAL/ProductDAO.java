@@ -1,6 +1,5 @@
 package DAL;
 import DB.DataBase;
-import Domain.Item;
 import Domain.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +30,6 @@ public class ProductDAO implements IDAO<Product> {
         stmt.setString(11, product.getSubCat());
         stmt.setString(12, product.getSubSubCat());
         stmt.executeUpdate();
-
     }
 
     @Override
