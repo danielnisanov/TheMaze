@@ -1,5 +1,8 @@
 package Presentation;
 
+import DB.DataBase;
+
+import java.sql.Connection;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -9,7 +12,7 @@ public class Menu {
     private ProductPresentation productPresentation;
     private CategoryPresentation categoryPresentation;
     private ReportPresentation reportPresentation;
-    private CSVReader csvReader;
+  //  private CSVReader csvReader;
 
 
     public Menu() {
@@ -17,7 +20,7 @@ public class Menu {
         productPresentation = new ProductPresentation(scanner);
         categoryPresentation = new CategoryPresentation(scanner);
         reportPresentation = new ReportPresentation(scanner);
-        csvReader = new CSVReader();
+    //    csvReader = new CSVReader();
     }
 
     public void start() throws Exception {
@@ -217,11 +220,13 @@ public class Menu {
     }
 
 
-        private void loadInitialData() {
-            csvReader.loadCategories("categories.csv", categoryPresentation);
-            csvReader.loadProducts("products.csv", productPresentation);
-            csvReader.loadItems("items.csv", productPresentation);
-    }
+        private void loadInitialData() throws Exception {
+//            csvReader.loadCategories("categories.csv", categoryPresentation);
+//            csvReader.loadProducts("products.csv", productPresentation);
+//            csvReader.loadItems("items.csv", productPresentation);
+            Connection identifier = DataBase.connect();
+
+        }
 
     public void checkAndGenerateReport() {
         LocalDate today = LocalDate.now();

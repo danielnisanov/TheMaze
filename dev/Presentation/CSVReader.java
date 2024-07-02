@@ -25,7 +25,7 @@ public class CSVReader {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file.csv: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
@@ -54,7 +54,7 @@ public class CSVReader {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file.csv: " + e.getMessage());
         } catch (NumberFormatException e) {
             System.out.println("Error parsing a number: " + e.getMessage());
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class CSVReader {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file.csv: " + e.getMessage());
         } catch (NumberFormatException e) {
             System.out.println("Error parsing a number: " + e.getMessage());
         } catch (Exception e) {

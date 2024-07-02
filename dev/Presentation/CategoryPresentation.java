@@ -2,6 +2,7 @@ package Presentation;
 
 import Domain.CategoryController;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CategoryPresentation {
@@ -31,13 +32,13 @@ public class CategoryPresentation {
         }
     }
 
-    public void addSubCategory() {
-        System.out.println("Enter category name from the list: ");
-        categoryController.showCategories();
-        String categoryName = scanner.nextLine();
-        System.out.print("Enter sub-category name: ");
-        String subCategoryName = scanner.nextLine();
+    public void addSubCategory() throws SQLException {
         try {
+            System.out.println("Enter category name from the list: ");
+            categoryController.showCategories();
+            String categoryName = scanner.nextLine();
+            System.out.print("Enter sub-category name: ");
+            String subCategoryName = scanner.nextLine();
             categoryController.addSubCategory(subCategoryName, categoryName);
             System.out.println("Sub-category added successfully.");
         } catch (Exception e) {

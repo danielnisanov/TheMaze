@@ -1,5 +1,6 @@
 package Domain;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +84,7 @@ public class CategoryController {
         this.categoryRepo = categoryRepo;
     }
 
-    public void showCategories(){
+    public void showCategories() throws SQLException {
 //        for (Category c: categoriesList.values()){
 //            System.out.println(c.toString());
 //        }

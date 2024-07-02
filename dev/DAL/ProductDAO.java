@@ -41,7 +41,7 @@ public class ProductDAO implements IDAO<Product> {
 
     @Override
     public Product get(String name) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE name = ?");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM products WHERE name = ?");
         stmt.setString(1, name); //FIXME
         ResultSet rs = stmt.executeQuery();
         Product product = null;

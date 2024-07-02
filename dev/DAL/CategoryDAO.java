@@ -21,14 +21,14 @@ public class CategoryDAO implements IDAO <Category>{
 
     @Override
     public void remove(String name) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM categories WHERE name = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM categories WHERE categoryName = ?");
         stmt.setString(1, name);
         stmt.executeUpdate();
     }
 
     @Override
     public Category get(String name) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM categories WHERE name = ?");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM categories WHERE categoryName = ?");
         stmt.setString(1, name); //FIXME
         ResultSet rs = stmt.executeQuery();
         Category category = null;
@@ -44,8 +44,29 @@ public class CategoryDAO implements IDAO <Category>{
 
     @Override
     public void update(Category category) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("UPDATE categories SET categoryName = ? WHERE name = ?");
+        PreparedStatement stmt = conn.prepareStatement("UPDATE categories SET categoryName = ? WHERE categoryName = ?");
         stmt.setString(1, category.getCategoryName());
         stmt.executeUpdate();
+    }
+
+    public void showCategories() throws SQLException{
+        PreparedStatement stmt = conn.prepareStatement("SELECT categoryName FROM categories");
+        ResultSet rs = stmt.executeQuery();
+        System.out.println("Categories:");
+        while (rs.next()) {
+            System.out.println(rs.getString("categoryName"));
+        }
+    }
+
+    public Boolean containCat(String name) {
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT 1 FROM categories WHERE categoryName = ?");
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
