@@ -16,7 +16,7 @@ public class Branch {
         this.branch_num = branch_num;
         this.hr_manager = manager;
         workers_on_brunch = new HashMap<>();
-        init_branch_week();
+        initBranchWeek();
         valid_days_for_submission = new ArrayList<>();
         valid_days_for_submission.add(7);
         valid_days_for_submission.add(1);
@@ -29,7 +29,7 @@ public class Branch {
         this.branch_num = branch_num;
         this.hr_manager = null;
         workers_on_brunch = new HashMap<>();
-        init_branch_week();
+        initBranchWeek();
         valid_days_for_submission = new ArrayList<>();
         valid_days_for_submission.add(7);
         valid_days_for_submission.add(1);

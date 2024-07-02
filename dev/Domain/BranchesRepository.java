@@ -32,12 +32,9 @@ public class BranchesRepository implements IRepository<Branch>{
         return false;
     }
 
-    @Override
-    public boolean Find(int num) throws SQLException {
-        return false;
-    }
 
-    public Branch get_Branch(int id) {
+    @Override
+    public Branch Find(int id) {
         Branch branch = branches.get(id);
 
         if (branch == null) { // I did not find the worker in workers

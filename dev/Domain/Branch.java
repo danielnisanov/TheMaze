@@ -12,14 +12,14 @@ public class Branch {
 //    private final ArrayList<Shift> weeklyWorkArrangement = new ArrayList<>();
 //    private final ArrayList<Shift> shiftHistory = new ArrayList<>();
 
-    WorkArrangementRepository weeklyWorkArrangement;
+    WorkArrangementRepository workArrangementRepository;
     ShiftHRepository shift_hRepository;
 
     public Branch(int branch_num, HRManager manager) {
         this.branch_num = branch_num;
         this.hr_manager = manager;
         workers_on_brunch = new HashMap<>();
-        init_branch_week();
+        initBranchWeek();
         valid_days_for_submission = new ArrayList<>();
         valid_days_for_submission.add(7);
         valid_days_for_submission.add(1);
@@ -32,7 +32,7 @@ public class Branch {
         this.branch_num = branch_num;
         this.hr_manager = null;
         workers_on_brunch = new HashMap<>();
-        init_branch_week();
+        initBranchWeek();
         valid_days_for_submission = new ArrayList<>();
         valid_days_for_submission.add(7);
         valid_days_for_submission.add(1);
@@ -76,7 +76,7 @@ public class Branch {
     }
 
     public ArrayList<Shift> get_Weekly_Work_Arrangement() {
-        return weeklyWorkArrangement.getWeeklyWorkArrangement();
+        return workArrangementRepository.getWeeklyWorkArrangement(0);
     }
 
     public ArrayList<Shift> get_Shift_History() {
@@ -88,13 +88,7 @@ public class Branch {
     }
 
 
-    public void init_branch_week() {
-        for (int i = 0; i < 7; i++) {
-            Shift morningShift = new Shift(i + 1, "Morning", new ArrayList<>());
-            Shift eveningShift = new Shift(i + 1, "Evening", new ArrayList<>());
-            weeklyWorkArrangement.add(morningShift);
-            weeklyWorkArrangement.add(eveningShift);
-
-        }
+    public void initBranchWeek() {
+        workArrangementRepository.init_branch_week();
     }
 }

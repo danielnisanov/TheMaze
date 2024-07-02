@@ -166,6 +166,15 @@ public class WorkersDAO implements IDAO<Worker> {
                     updated = stmt.executeUpdate() > 0;
                 }
                 break;
+            case "Total_hours":
+                query = "UPDATE workers SET total_hours = total_hours + ? WHERE ID_number = ?";
+                try (Connection conn = dbConnection.getConnection();
+                     PreparedStatement stmt = conn.prepareStatement(query)) {
+                    stmt.setDouble(1, Double.parseDouble(value));
+                    stmt.setInt(2, id);
+                    updated = stmt.executeUpdate() > 0;
+                }
+                break;
         }
         return updated;
     }

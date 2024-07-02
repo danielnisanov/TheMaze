@@ -75,8 +75,8 @@ public class ManagersRepository  implements IRepository<HRManager>{
     }
 
     @Override
-    public boolean Find(int num) throws SQLException {
-        return false;
+    public HRManager Find(int num) throws SQLException {
+        return null;
     }
 
 

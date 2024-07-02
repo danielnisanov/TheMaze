@@ -14,6 +14,7 @@ public class WorkersRepository implements IRepository<Worker> {
 
     private Map<Integer, Worker> workers;
     private WorkersDAO workersDAO;
+    public BranchesRepository branchesRepository;
 
     public WorkersRepository() {
         this.workers = new HashMap<>();
@@ -104,14 +105,10 @@ public class WorkersRepository implements IRepository<Worker> {
             case "hourly_salary":
                 worker.setHourly_salary(Double.parseDouble(value));
                 break;
-            case "branch": // todo - in the branch repository
-//                int branchNum = Integer.parseInt(value);
-//                Branch branch = branches.get(branchNum);
-//                if (branch == null) {
-//                    branch = new Branch(branchNum);
-//                    branches.put(branchNum, branch);
-//                }
-//                worker.setBranch(branch);
+            case "branch":
+                int branchNum = Integer.parseInt(value);
+                Branch branch = branchesRepository.Find(branchNum);
+                worker.setBranch(branch);
                 break;
             case "job_status": // fire a worker
                 worker.setJob_status(Boolean.parseBoolean(value));
@@ -124,20 +121,19 @@ public class WorkersRepository implements IRepository<Worker> {
                 Map<String, List<String>> constraints = new Gson().fromJson(value, new TypeToken<Map<String, List<String>>>() {}.getType());
                 worker.setConstraints(constraints);
                 break;
+            case "Total_hours":
+                worker.setTotal_hours(worker.getTotal_hours() + Integer.parseInt(value));
         }
     }
 
-    @Override
-    public boolean Find(int id) throws SQLException {
-        return workers.containsKey(id) || workersDAO.Find(id) != null;
-    }
 
     public Map<Integer, Worker> get_Workers() {
         getAllWorkers();
         return workers;
     }
 
-    public Worker get_Worker(int id) {
+    @Override
+    public Worker Find(int id) {
         Worker worker = workers.get(id);
 
         if (worker == null) { // I did not find the worker in workers

@@ -7,8 +7,16 @@ import java.util.ArrayList;
 
 
 public class ShiftController {
+    private final ShiftHRepository shiftHRepository;
+    private final WorkersRepository workersRepository;
+    private final WorkArrangementRepository workArrangementRepository;
+    private final WorkersOnShiftRepository workersOnShiftRepository;
 
-    public ShiftController() {
+    public ShiftController(ShiftHRepository shiftHRepository,WorkersRepository workersRepository,WorkArrangementRepository workArrangementRepository, WorkersOnShiftRepository workersOnShiftRepository) {
+        this.shiftHRepository = shiftHRepository;
+        this.workersRepository = workersRepository;
+        this.workArrangementRepository = workArrangementRepository;
+        this.workersOnShiftRepository = workersOnShiftRepository;
     }
 
     public boolean add_worker_to_weekly_arrangement(Branch branch, Worker worker, String day, String shiftType, Role role) {
@@ -27,17 +35,17 @@ public class ShiftController {
 
         Shift currentShift = branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex);
 
-        if (currentShift.workers_on_shift.contains(worker)) {
+        boolean success = workersOnShiftRepository.Insert(worker);
+        if (!success) {
             return false; // Worker is already assigned to this shift
         }
 
-        currentShift.workers_on_shift.add(worker);
-        if (!branch.get_Shift_History().contains(currentShift)) {
-            branch.get_Shift_History().add(currentShift);
-        }
-
-        double cur_total_hours = worker.getTotal_hours();
-        worker.setTotal_hours(cur_total_hours + 8);
+        currentShift.workers_on_shift.add(worker);// Add workers to shift
+        workArrangementRepository.Insert(currentShift);
+//        branch.get_Weekly_Work_Arrangement().add(currentShift);
+        shiftHRepository.Insert(currentShift);
+        int id = worker.getID_number();
+        workersRepository.Update(id,"Total_hours", "8");
         return true;
     }
 
@@ -56,15 +64,16 @@ public class ShiftController {
         }
 
         Shift currentShift = branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex);
-        currentShift.workers_on_shift.clear();
+        workersOnShiftRepository.Delete();
+        currentShift.workers_on_shift.clear(); // todo- delete from repository
         return true;
     }
 
 
-    public boolean is_shift_already_booked(int day, int shift, Branch branch) {
-        int shiftArrayIndex = (day - 1) * 2 + shift;
-        return !branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex).workers_on_shift.isEmpty();
-    }
+//    public boolean is_shift_already_booked(int day, int shift, Branch branch) {
+//        int shiftArrayIndex = (day - 1) * 2 + shift;
+//        return !branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex).workers_on_shift.isEmpty();
+//    }
 
     private static int getDayIndex(String day) {
         switch (day) {
@@ -98,25 +107,10 @@ public class ShiftController {
         }
     }
 
-    public JsonArray presentShiftHistory(Branch branch) {
-        JsonArray jsonArray = new JsonArray();
-        for (Shift shift : branch.get_Shift_History()) {
-            JsonObject jsonShift = new JsonObject();
-            jsonShift.addProperty("shift_date", shift.getShift_date());
-            jsonShift.addProperty("shift_type", shift.getShift_type());
-            JsonArray workersArray = new JsonArray();
-            for (Worker worker : shift.getWorkers_on_shift()) {
-                JsonObject jsonWorker = new JsonObject();
-                jsonWorker.addProperty("worker_name", worker.getName());
-                jsonWorker.addProperty("worker_id", worker.getID_number());
-                // Add more worker attributes as needed
-                workersArray.add(jsonWorker);
-            }
-            jsonShift.add("workers_on_shift", workersArray);
-            jsonArray.add(jsonShift);
-        }
-        return jsonArray;
+    public JsonArray present_Shift_History(Branch branch) {
+        return shiftHRepository.presentShiftHistory(branch);
     }
+
 
 }
 

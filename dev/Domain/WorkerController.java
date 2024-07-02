@@ -164,7 +164,7 @@ public class WorkerController {
 
 
     public Branch getBranch(int id) {
-        return Branch_Rep.get_Branch(id);
+        return Branch_Rep.Find(id);
     }
 
     public JsonArray present_workers(Branch branch) {
@@ -300,7 +300,7 @@ public class WorkerController {
     }
 
     public Worker getWorker(int id) {
-        return Worker_Rep.get_Worker(id);
+        return Worker_Rep.Find(id);
     }
 
     public boolean ChangePassword(int id, String password, String newValue){
