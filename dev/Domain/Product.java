@@ -14,17 +14,14 @@ public class Product {
     private int shelfQuantity;
     private int warehouseQuantity;
     private int minQuantity;
-
-
     private double costPrice;
     private double discount; //discount on the costPrice from the suppliers
     private double sellingPrice;
     private double sale; //sale on the sellingPrice from the store
-
     private String cat;
     private String subCat;
     private String subSubCat;
-    private Map<String,Item> items; //TODO DELETE
+   // private Map<String,Item> items; //TODO DELETE
     private ItemRepository itemRepo;
 
 
@@ -33,7 +30,7 @@ public class Product {
     }
 
     public Product(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) {
-        this.itemIndex = 9;
+        this.itemIndex = 0;
         this.catNum = catNum;
         this.name = name;
         this.area = area;
@@ -49,7 +46,7 @@ public class Product {
         this.cat = cat;
         this.subCat = subCat;
         this.subSubCat = subSubCat;
-        items = new HashMap<>(); //TODO DELETE
+     // items = new HashMap<>(); //TODO DELETE
         itemRepo = new ItemRepository();
 
     }
@@ -70,7 +67,7 @@ public class Product {
         this.cat = cat;
         this.subCat = subCat;
         this.subSubCat = subSubCat;
-        items = new HashMap<>(); //TODO DELETE
+        //items = new HashMap<>(); //TODO DELETE
         itemRepo = new ItemRepository();
 
     }
@@ -120,30 +117,31 @@ public class Product {
 //    }
 
 
-
-
-    //FIXME DAO
-    public Map<Item, String> findExpiredItems ()  {
-        LocalDate today = LocalDate.now();
-        Map<Item, String>  expiredItems = new HashMap<>();
-        for (Item i: items.values()){
-            if(i.getExpirationDate().isBefore(today)){
-                expiredItems.put(i, name);
-            }
-        }
-        return expiredItems;
-    }
+//
+//
+//    //FIXME DAO
+//    public Map<Item, String> findExpiredItems ()  {
+//        LocalDate today = LocalDate.now();
+//        Map<Item, String>  expiredItems = new HashMap<>();
+//        for (Item i: items.values()){
+//            if(i.getExpirationDate().isBefore(today)){
+//                expiredItems.put(i, name);
+//            }
+//        }
+//        return expiredItems;
+//    }
 
     //FIXME DAO
     public int getNumDamagedItems(){
-        int counter = 0;
-            for (Item item: this.getItems().values()){
-                if (item.isDamaged()){
-                    counter++;
-                }
-            }
-
-        return counter;
+//        int counter = 0;
+//            for (Item item: this.getItems().values()){
+//                if (item.isDamaged()){
+//                    counter++;
+//                }
+//            }
+//
+//        return counter;
+        return itemRepo.getNumDamagedItems();
     }
 
     public String getArea() {
@@ -294,10 +292,10 @@ public class Product {
         return subSubCat;
     }
 
-    //FIXME DELETE
-    public Map<String, Item> getItems() {
-        return items;
-    }
+//    //FIXME DELETE
+//    public Map<String, Item> getItems() {
+//        return items;
+//    }
 
 
 //    public void moveItem(int id) throws Exception{
@@ -325,8 +323,7 @@ public class Product {
                 ", cat='" + cat + '\'' +
                 ", subCat='" + subCat + '\'' +
                 ", subSubCat='" + subSubCat + '\'' +
-                ", " + itemRepo.toString() +
+                "\n" + itemRepo.showAllItems(name) +
                 '}';
     }
-
 }

@@ -186,4 +186,12 @@ public class ProductRepository implements IRepository<Product>{
             System.out.println("Error show Items: " + e.getMessage());
         }
     }
+
+    //TODO DELETE
+    public void showAllItemsMAP(String productName) throws SQLException {
+        Product product = productDAO.get(productName);
+        ItemRepository p = product.getItemRepo();
+        System.out.println(p.toString());
+
+    }
 }

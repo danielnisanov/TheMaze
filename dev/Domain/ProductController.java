@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class ProductController {
 
-  //  private Map<String,Product> productsList; //TODO DELETE
     private ProductRepository productRepo;
 
     private static ProductController product_controller;
@@ -23,7 +22,6 @@ public class ProductController {
     }
 
     private ProductController() {
-     //   productsList = new HashMap<>();
         category_controller = CategoryController.getInstance();
          productRepo = new ProductRepository();
     }
@@ -32,10 +30,6 @@ public class ProductController {
         boolean category = category_controller.getCategoryRepo().containCat(cat);
         boolean subCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().containSubCat(subCat);
         boolean subSubCategory = category_controller.getCategoryRepo().get(cat).getSubCategories().get(subCat).getSubSubCategories().containSubSubCat(subSubCat);
-
-        //boolean category = category_controller.getCategoriesList().containsKey(cat);
-        //boolean subCategory = category_controller.getCategoriesList().get(cat).getSubList().containsKey(subCat);
-        //boolean subSubCategory = category_controller.getCategoriesList().get(cat).getSubList().get(subCat).getSubSubList().containsKey(subSubCat);
 
         if (!category || !subCategory || !subSubCategory) throw new Exception("Category or SubCategory or SubSubCategory isn't exists.");
         if(catNum == null || catNum.equals("")) throw new Exception("Product catNum is empty.");

@@ -110,18 +110,19 @@ public class ItemRepository implements IRepository <Item>{
 
     public void updateItemDamaged(String id) throws Exception {
         Item item = items.get(id);
-        if (item != null){ //in repo
+        if (item != null) { // in repo
+            System.out.println("Item found in repository: " + item);
             item.setDamaged(true);
             itemDAO.update(item);
-        }
-        else{ //not in repo
+        } else { // not in repo
+            System.out.println("Item not found in repository, checking database.");
             item = itemDAO.get(id);
             if (item != null) { // not in repo, in db
+                System.out.println("Item found in database: " + item);
                 item.setDamaged(true);
                 itemDAO.update(item);
                 items.put(id, item);
-            }
-            else {
+            } else {
                 throw new Exception("Item " + id + " doesn't exist.");
             }
         }
@@ -133,8 +134,34 @@ public class ItemRepository implements IRepository <Item>{
         }
     }
 
+    public String showAllItems(String name) {
+        try {
+            return itemDAO.showAllItems(name);
+        } catch (Exception e) {
+            System.out.println("Error show Items: " + e.getMessage());
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
-        return "items=" + items ;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Items:\n");
+        for (Map.Entry<String, Item> entry : items.entrySet()) {
+            sb.append("Item ID: ").append(entry.getKey()).append("\n");
+            sb.append("Item Details: ").append(entry.getValue().toString()).append("\n");
+            sb.append("-----------------------------\n");
+        }
+        return sb.toString();
+    }
+
+    public int getNumDamagedItems() {
+        try {
+            return itemDAO.getNumDamagedItems();
+        }
+        catch (Exception e) {
+            System.out.println("Error show Items: " + e.getMessage());
+        }
+        return 0;
     }
 }

@@ -15,7 +15,7 @@ public class Main {
 
         }
 
-       // Connection identifier = DataBase.connect();
+        Connection identifier = DataBase.connect();
     }
 }
 
