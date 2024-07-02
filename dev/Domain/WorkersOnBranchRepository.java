@@ -20,7 +20,7 @@ public class WorkersOnBranchRepository implements IRepository<Worker> {
     }
 
     @Override
-    public boolean Find(int num) throws SQLException {
-        return false;
+    public Worker Find(int num) throws SQLException {
+        return null;
     }
 }
