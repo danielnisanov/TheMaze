@@ -41,7 +41,7 @@ public class ShiftHDAO implements IDAO<Shift>  {
     }
 
     @Override
-    public void Delete(int num) throws SQLException {
+    public void Delete() throws SQLException {
 
     }
 

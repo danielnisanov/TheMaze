@@ -18,7 +18,7 @@ public class WorkersOnBranchDAO implements IDAO<Worker> {
     }
 
     @Override
-    public void Delete(int num) throws SQLException {
+    public void Delete() throws SQLException {
 
     }
 

@@ -15,7 +15,7 @@ public class WorkersOnBranchRepository implements IRepository<Worker> {
     }
 
     @Override
-    public boolean Delete(int id) {
+    public boolean Delete() {
         return false;
     }
 

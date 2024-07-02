@@ -25,7 +25,7 @@ public class WorkArrangementDAO implements IDAO<ArrayList<Shift>>{
     }
 
     @Override
-    public void Delete(int num) throws SQLException {
+    public void Delete() throws SQLException {
 
     }
 

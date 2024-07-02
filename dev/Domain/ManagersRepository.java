@@ -70,7 +70,7 @@ public class ManagersRepository  implements IRepository<HRManager>{
 
 
     @Override
-    public boolean Delete(int id) {
+    public boolean Delete() {
         return false;
     }
 

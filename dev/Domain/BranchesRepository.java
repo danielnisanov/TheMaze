@@ -28,7 +28,7 @@ public class BranchesRepository implements IRepository<Branch>{
     }
 
     @Override
-    public boolean Delete(int id) {
+    public boolean Delete() {
         return false;
     }
 

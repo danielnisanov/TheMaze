@@ -37,7 +37,7 @@ public class WorkersRepository implements IRepository<Worker> {
     }
 
     @Override
-    public boolean Delete(int id) {
+    public boolean Delete() {
         Worker worker = workers.get(id);
         if (worker != null && worker.getJob_status()) {
             worker.setJob_status(false);

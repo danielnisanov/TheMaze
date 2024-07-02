@@ -40,7 +40,7 @@ public class ShiftHRepository implements IRepository<Shift> {
     }
 
     @Override
-    public boolean Delete(int id) {
+    public boolean Delete() {
         return false;
     }
 
