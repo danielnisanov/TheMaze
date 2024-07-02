@@ -33,7 +33,7 @@ public class Product {
     }
 
     public Product(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) {
-        this.itemIndex = 0;
+        this.itemIndex = 10;
         this.catNum = catNum;
         this.name = name;
         this.area = area;

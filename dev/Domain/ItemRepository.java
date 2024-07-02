@@ -21,65 +21,111 @@ public class ItemRepository implements IRepository <Item>{
             throw new RuntimeException("Failed to initialize ItemDAO", e);
         }
     }
-
     @Override
-    public void add(Item item) throws Exception{
-        if(items.containsKey(item.getItemID())) {
-            throw new Exception("Item " + item.getItemID() + " already exist.");
+    public void add(Item item) throws Exception {
+        if (items.containsKey(Integer.toString(item.getItemID()))) {
+            throw new Exception("Item " + item.getItemID() + " already exists.");
         }
-        items.put((Integer.toString(item.getItemID())), item);
-        itemDAO.add(item);
+        else {
+            Item itemFromDB = itemDAO.get(Integer.toString(item.getItemID()));
+            if (itemFromDB != null) {
+                items.put(Integer.toString(item.getItemID()), itemFromDB);
+            }
+            else {
+                itemDAO.add(item);
+                items.put(Integer.toString(item.getItemID()), item);
+            }
+        }
     }
-
-
 
     @Override
     public void remove(String id) throws Exception {
-        isExists(Integer.valueOf(id));
-        items.remove(id);
-        itemDAO.remove(id);
+        if (!items.containsKey(id)) {
+            Item itemFromDB = itemDAO.get(id);
+            if (itemFromDB == null) {
+                throw new Exception("Item " + id + " doesn't exist.");
+            }
+            else {
+                itemDAO.remove(id);
+            }
+        }
+        else {
+            items.remove(id);
+            itemDAO.remove(id);
+        }
     }
 
     @Override
     public Item get(String id) throws Exception {
         Item item = items.get(id);
-        if (item == null) {
+        if (item != null) {
+            return item;
+        }
+        else {
             item = itemDAO.get(id);
             if (item != null) {
                 items.put(id, item);
+                return item;
+            }
+            else {
+                throw new Exception("Item " + id + " doesn't exist.");
             }
         }
-        isExists(Integer.valueOf(id));
-        return item;
     }
 
-
-
     public void moveItemToShelf(String id) throws Exception {
-        isExists(Integer.valueOf(id));
-        Item item = get(id);
-        item.setOnShelf(true);
-        itemDAO.update(item);
+        Item item = items.get(id);
+        if (item != null){
+            item.setOnShelf(true);
+            itemDAO.update(item);
+        }
+        else{
+            item = itemDAO.get(id);
+            if (item != null) {
+                item.setOnShelf(true);
+                itemDAO.update(item);
+                items.put(id, item);
+            }
+            else {
+                throw new Exception("Item " + id + " doesn't exist.");
+            }
+        }
     }
     public boolean checkItemLocation(String id) throws Exception {
         Item item = items.get(id);
-        if (item == null) {
+        if (item != null) {
+            return item.isOnShelf();
+        }
+        else{
             item = itemDAO.get(id);
             if (item != null) {
                 items.put(id, item);
+                return item.isOnShelf();
+            }
+            else{
+                throw new Exception("Item " + id + " doesn't exist.");
             }
         }
-        isExists(Integer.valueOf(id));
-        return item.isOnShelf();
     }
 
     public void updateItemDamaged(String id) throws Exception {
-        isExists(Integer.valueOf(id));
-        Item item = get(id);
-        item.setDamaged(true);
-        itemDAO.update(item);
+        Item item = items.get(id);
+        if (item != null){ //in repo
+            item.setDamaged(true);
+            itemDAO.update(item);
+        }
+        else{ //not in repo
+            item = itemDAO.get(id);
+            if (item != null) { // not in repo, in db
+                item.setDamaged(true);
+                itemDAO.update(item);
+                items.put(id, item);
+            }
+            else {
+                throw new Exception("Item " + id + " doesn't exist.");
+            }
+        }
     }
-
 
     public void isExists(int id) throws Exception {
         if (!items.containsKey(Integer.toString(id)) && itemDAO.get(Integer.toString(id)) == null) {

@@ -22,34 +22,49 @@ public class SubSubCategoryRepository implements IRepository<SubSubCategory>{
 
     @Override
     public void add(SubSubCategory subSubCategory) throws Exception {
-        if(subSubCategories.containsKey(subSubCategory.getSubSubCategoryName())) {
-            throw new Exception("SubSubCategory " + subSubCategory.getSubSubCategoryName() + " already exist.");
+        if (subSubCategories.containsKey(subSubCategory.getSubSubCategoryName())) {
+            throw new Exception("SubSubCategory " + subSubCategory.getSubSubCategoryName() + " already exists.");
+        } else {
+            SubSubCategory subSubCategoryFromDB = subSubCategoryDAO.get(subSubCategory.getSubSubCategoryName());
+            if (subSubCategoryFromDB != null) {
+                subSubCategories.put(subSubCategory.getSubSubCategoryName(), subSubCategoryFromDB);
+            } else {
+                subSubCategoryDAO.add(subSubCategory);
+                subSubCategories.put(subSubCategory.getSubSubCategoryName(), subSubCategory);
+            }
         }
-        subSubCategories.put(subSubCategory.getSubSubCategoryName(), subSubCategory);
-        subSubCategoryDAO.add(subSubCategory);
     }
 
     @Override
     public void remove(String name) throws Exception {
-        subSubCatIsExist(name);
-        subSubCategories.remove(name);
-        subSubCategoryDAO.remove(name);
+        if (!subSubCategories.containsKey(name)) {
+            SubSubCategory subSubCategoryFromDB = subSubCategoryDAO.get(name);
+            if (subSubCategoryFromDB == null) {
+                throw new Exception("SubSubCategory " + name + " doesn't exist.");
+            } else {
+                subSubCategoryDAO.remove(name);
+            }
+        } else {
+            subSubCategories.remove(name);
+            subSubCategoryDAO.remove(name);
+        }
     }
-
 
     @Override
     public SubSubCategory get(String name) throws Exception {
         SubSubCategory subSubCategory = subSubCategories.get(name);
-        if (subSubCategory == null) {
+        if (subSubCategory != null) {
+            return subSubCategory;
+        } else {
             subSubCategory = subSubCategoryDAO.get(name);
             if (subSubCategory != null) {
                 subSubCategories.put(name, subSubCategory);
+                return subSubCategory;
+            } else {
+                throw new Exception("SubSubCategory " + name + " doesn't exist.");
             }
         }
-        subSubCatIsExist(name);
-        return subSubCategory;
     }
-
     public void subSubCatIsExist (String name) throws Exception{
         if(!subSubCategories.containsKey(name) && subSubCategoryDAO.get(name) == null){
             throw new Exception("SubSubCategory "+ name +" doesn't exist.");

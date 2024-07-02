@@ -22,50 +22,92 @@ public class ProductRepository implements IRepository<Product>{
     @Override
     public void add(Product product) throws Exception {
         if (products.containsKey(product.getName())) {
-            Product productFromDB = productDAO.get(product.getName()); // Check in database
+            throw new Exception("Product " + product.getName() + " already exists.");
+        }
+        else {
+            Product productFromDB = productDAO.get(product.getName());
             if (productFromDB != null) {
-                throw new Exception("Product " + product.getName() + " already exists.");
+                products.put(product.getName(), product);
+            }
+            else{
+                productDAO.add(product);
+                products.put(product.getName(), product);
             }
         }
-        products.put(product.getName(), product);
-        productDAO.add(product);
     }
 
     @Override
     public void remove(String name) throws Exception {
-        proIsExist(name);
-        products.remove(name);
-        productDAO.remove(name);
+        if (!products.containsKey(name)) { //not in repo
+            Product productFromDB = productDAO.get(name);
+            if (productFromDB == null) { //not in db
+                throw new Exception("Product " + name + " doesn't exist.");
+            }
+            else{ //not in repo but in db
+                productDAO.remove(name);
+            }
+        }
+        else{
+            products.remove(name);
+            productDAO.remove(name);
+        }
     }
 
     @Override
     public Product get(String name) throws Exception {
         Product product = products.get(name);
-        if (product == null) {
-            // If not found in memory, take from database
+        if (product != null) {
+            return product;
+        } else {
+            // If not found in repo, take from database
             product = productDAO.get(name);
             if (product != null) {
-                products.put(name, product); // save in memory
+                products.put(name, product); // save in repo
+                return product;
+            } else {
+                throw new Exception("Product " + name + " doesn't exist.");
             }
         }
-        proIsExist(name);
-        return product;
     }
 
 
     public void updateDiscount(String name, double discount) throws Exception {
-        proIsExist(name);
-        Product product = get(name);
-        product.setDiscount(discount);
-        productDAO.update(product);
+        Product product = products.get(name);
+        if (product != null) {
+            product.setDiscount(discount);
+            productDAO.update(product);
+        }
+        else{
+            product = productDAO.get(name);
+            if (product != null) {
+                product.setDiscount(discount);
+                productDAO.update(product);
+                products.put(name, product);
+            }
+            else{
+                throw new Exception("Product " + name + " doesn't exist.");
+            }
+        }
     }
 
 
     public void updateSale(String name, double sale) throws Exception {
-        proIsExist(name);
-        Product product = get(name);
-        product.setSale(sale);
-        productDAO.update(product);
+        Product product = products.get(name);
+        if (product != null) {
+            product.setSale(sale);
+            productDAO.update(product);
+        }
+        else{
+            product = productDAO.get(name);
+            if (product != null) {
+                product.setSale(sale);
+                productDAO.update(product);
+                products.put(name, product);
+            }
+            else{
+                throw new Exception("Product " + name + " doesn't exist.");
+            }
+        }
     }
 
 

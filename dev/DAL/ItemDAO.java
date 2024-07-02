@@ -16,16 +16,18 @@ public class ItemDAO implements IDAO<Item> {
     @Override
     public void add(Item item) throws SQLException {
         java.sql.Date sqlDate = java.sql.Date.valueOf(item.getExpirationDate());
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO items (productName, expirationDate, onShelf) VALUES (?, ?, ?)");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO items (productName,itemID, expirationDate,isDamaged, onShelf) VALUES (?,?, ?, ?,?)");
         stmt.setString(1, item.getProductName());
-        stmt.setDate(2, sqlDate); // Use the converted java.sql.Date
-        stmt.setBoolean(3, item.isOnShelf());
+        stmt.setInt(2, item.getItemID());
+        stmt.setDate(3, sqlDate);
+        stmt.setBoolean(4, item.isOnShelf());
+        stmt.setBoolean(5, item.isDamaged());
         stmt.executeUpdate();
     }
 
     @Override
     public void remove(String id) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM items WHERE id = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM items WHERE itemID = ?");
         stmt.setString(1, id);
         stmt.executeUpdate();
     }
@@ -33,7 +35,7 @@ public class ItemDAO implements IDAO<Item> {
 
     @Override
     public Item get(String id) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM items WHERE id = ?");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM items WHERE itemID = ?");
         stmt.setString(1, id);
         ResultSet rs = stmt.executeQuery();
         Item item = null;
@@ -55,12 +57,12 @@ public class ItemDAO implements IDAO<Item> {
     @Override
     public void update(Item item) throws SQLException {
         Date sqlDate = Date.valueOf(item.getExpirationDate());
-        PreparedStatement stmt = conn.prepareStatement("UPDATE items SET productName = ?, expirationDate = ?, onShelf = ?, isDamaged = ? WHERE itemID = ?");
+        PreparedStatement stmt = conn.prepareStatement("UPDATE items SET productName = ?,itemID=?, expirationDate = ?, onShelf = ?, isDamaged = ? WHERE itemID = ?");
         stmt.setString(1, item.getProductName());
-        stmt.setDate(2, sqlDate);
-        stmt.setBoolean(3, item.isOnShelf());
-        stmt.setBoolean(4, item.isDamaged());
-        stmt.setInt(5, item.getItemID());
+        stmt.setInt(2, item.getItemID());
+        stmt.setDate(3, sqlDate);
+        stmt.setBoolean(4, item.isOnShelf());
+        stmt.setBoolean(5, item.isDamaged());
         stmt.executeUpdate();
     }
 }

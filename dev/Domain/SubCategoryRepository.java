@@ -24,32 +24,48 @@ public class SubCategoryRepository implements IRepository<SubCategory> {
 
     @Override
     public void add(SubCategory subCategory) throws Exception {
-        if(subCategories.containsKey(subCategory.getSubCategoryName())) {
-            throw new Exception("SubCategory " + subCategory.getSubCategoryName() + " already exist.");
+        if (subCategories.containsKey(subCategory.getSubCategoryName())) {
+            throw new Exception("SubCategory " + subCategory.getSubCategoryName() + " already exists.");
+        } else {
+            SubCategory subCategoryFromDB = subCategoryDAO.get(subCategory.getSubCategoryName());
+            if (subCategoryFromDB != null) {
+                subCategories.put(subCategory.getSubCategoryName(), subCategoryFromDB);
+            } else {
+                subCategoryDAO.add(subCategory);
+                subCategories.put(subCategory.getSubCategoryName(), subCategory);
+            }
         }
-        subCategories.put(subCategory.getSubCategoryName(), subCategory);
-        subCategoryDAO.add(subCategory);
     }
 
     @Override
     public void remove(String name) throws Exception {
-        subCatIsExist(name);
-        subCategories.remove(name);
-        subCategoryDAO.remove(name);
+        if (!subCategories.containsKey(name)) {
+            SubCategory subCategoryFromDB = subCategoryDAO.get(name);
+            if (subCategoryFromDB == null) {
+                throw new Exception("SubCategory " + name + " doesn't exist.");
+            } else {
+                subCategoryDAO.remove(name);
+            }
+        } else {
+            subCategories.remove(name);
+            subCategoryDAO.remove(name);
+        }
     }
 
     @Override
     public SubCategory get(String name) throws Exception {
         SubCategory subCategory = subCategories.get(name);
-        if (subCategory == null) {
+        if (subCategory != null) {
+            return subCategory;
+        } else {
             subCategory = subCategoryDAO.get(name);
             if (subCategory != null) {
                 subCategories.put(name, subCategory);
+                return subCategory;
+            } else {
+                throw new Exception("SubCategory " + name + " doesn't exist.");
             }
         }
-        subCatIsExist(name);
-        return subCategory;
-
     }
 
     public void subCatIsExist (String name) throws Exception{
