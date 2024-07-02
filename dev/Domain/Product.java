@@ -33,7 +33,7 @@ public class Product {
     }
 
     public Product(String catNum, String name, String area, String manufacturer, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) {
-        this.itemIndex = 10;
+        this.itemIndex = 9;
         this.catNum = catNum;
         this.name = name;
         this.area = area;
@@ -41,6 +41,27 @@ public class Product {
         this.currentQuantity = 0;
         this.shelfQuantity = 0;
         this.warehouseQuantity = 0;
+        this.minQuantity = minQuantity;
+        this.costPrice = costPrice;
+        this.sellingPrice = sellingPrice;
+        this.discount = discount;
+        this.sale = sale;
+        this.cat = cat;
+        this.subCat = subCat;
+        this.subSubCat = subSubCat;
+        items = new HashMap<>(); //TODO DELETE
+        itemRepo = new ItemRepository();
+
+    }
+    public Product(int itemIndex, String catNum, String name, String area, String manufacturer,int currentQuantity, int shelfQuantity, int warehouseQuantity, int minQuantity, double costPrice, double sellingPrice, double discount, double sale, String cat, String subCat, String subSubCat) {
+        this.itemIndex = itemIndex;
+        this.catNum = catNum;
+        this.name = name;
+        this.area = area;
+        this.manufacturer = manufacturer;
+        this.currentQuantity = currentQuantity;
+        this.shelfQuantity = shelfQuantity;
+        this.warehouseQuantity = warehouseQuantity;
         this.minQuantity = minQuantity;
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;

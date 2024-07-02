@@ -3,6 +3,7 @@ import DAL.ProductDAO;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductRepository implements IRepository<Product>{
@@ -110,13 +111,79 @@ public class ProductRepository implements IRepository<Product>{
         }
     }
 
-
     public void proIsExist(String name) throws Exception {
         if (!products.containsKey(name)) { // Check in memory
             Product productFromDB = productDAO.get(name); // Check in database
             if (productFromDB == null) {
                 throw new Exception("Product " + name + " doesn't exist.");
             }
+        }
+    }
+    public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory){
+        try {
+            return productDAO.getProductsByCategory(category, subCategory, subSubCategory);
+        }
+        catch (Exception e) {
+            System.out.println("Error get Products By Category: " + e.getMessage());
+        }
+        return null;
+    }
+
+
+
+
+    public List<Product> getMissingProductsByCategory(String category, String subCategory, String subSubCategory) {
+        try {
+            return productDAO.getMissingProductsByCategory(category, subCategory, subSubCategory);
+        }
+        catch (Exception e) {
+            System.out.println("Error get missing Products By Category: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public Map<Item, String> getDamagedItems() {
+//
+//        Map<Item, String> damagedItemsList = new HashMap<>();
+//        for (Product product: productsList.values() ){
+//            for (Item item: product.getItems().values()){
+//                if (item.isDamaged()){
+//                    damagedItemsList.put(item, product.getName());
+//                }
+//            }
+//        }
+//        return damagedItemsList;
+//    }
+        try {
+            return productDAO.getDamagedItems();
+        } catch (Exception e) {
+            System.out.println("Error get damaged items: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public Map<Item, String> getExpiredItems() {
+        try {
+            return productDAO.getExpiredItems();
+        } catch (Exception e) {
+            System.out.println("Error get expired items: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public void showProducts() {
+        try {
+             productDAO.showProducts();
+        } catch (Exception e) {
+            System.out.println("Error show Products: " + e.getMessage());
+        }
+    }
+
+    public void showAllItems() {
+        try {
+            productDAO.showAllItems();
+        } catch (Exception e) {
+            System.out.println("Error show Items: " + e.getMessage());
         }
     }
 }

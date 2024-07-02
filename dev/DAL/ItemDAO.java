@@ -15,14 +15,14 @@ public class ItemDAO implements IDAO<Item> {
 
     @Override
     public void add(Item item) throws SQLException {
-        java.sql.Date sqlDate = java.sql.Date.valueOf(item.getExpirationDate());
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO items (productName,itemID, expirationDate,isDamaged, onShelf) VALUES (?,?, ?, ?,?)");
         stmt.setString(1, item.getProductName());
         stmt.setInt(2, item.getItemID());
-        stmt.setDate(3, sqlDate);
-        stmt.setBoolean(4, item.isOnShelf());
-        stmt.setBoolean(5, item.isDamaged());
+        stmt.setDate(3, java.sql.Date.valueOf(item.getExpirationDate()));
+        stmt.setBoolean(4, item.isDamaged());
+        stmt.setBoolean(5, item.isOnShelf());
         stmt.executeUpdate();
+        stmt.close();
     }
 
     @Override
@@ -30,6 +30,7 @@ public class ItemDAO implements IDAO<Item> {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM items WHERE itemID = ?");
         stmt.setString(1, id);
         stmt.executeUpdate();
+        stmt.close();
     }
 
 
@@ -48,6 +49,8 @@ public class ItemDAO implements IDAO<Item> {
                     rs.getBoolean("isDamaged"),
                     rs.getBoolean("onShelf")
             );
+            rs.close();
+            stmt.close();
             return item;
         } else {
             return null;
@@ -57,12 +60,13 @@ public class ItemDAO implements IDAO<Item> {
     @Override
     public void update(Item item) throws SQLException {
         Date sqlDate = Date.valueOf(item.getExpirationDate());
-        PreparedStatement stmt = conn.prepareStatement("UPDATE items SET productName = ?,itemID=?, expirationDate = ?, onShelf = ?, isDamaged = ? WHERE itemID = ?");
+        PreparedStatement stmt = conn.prepareStatement("UPDATE items SET productName = ?,itemID=?, expirationDate = ?, isDamaged = ?, onShelf = ? WHERE itemID = ?");
         stmt.setString(1, item.getProductName());
         stmt.setInt(2, item.getItemID());
         stmt.setDate(3, sqlDate);
-        stmt.setBoolean(4, item.isOnShelf());
-        stmt.setBoolean(5, item.isDamaged());
+        stmt.setBoolean(4, item.isDamaged());
+        stmt.setBoolean(5, item.isOnShelf());
         stmt.executeUpdate();
+        stmt.close();
     }
 }

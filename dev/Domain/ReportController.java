@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ReportController {
     private int reportIndex;
-    private Map<String,Report> reports;
+    //private Map<String,Report> reports;
 
     private ReportRepository reportRepo;
     private static ReportController report_controller;
@@ -22,9 +22,9 @@ public class ReportController {
 
     public ReportController() {
         reportIndex = 1;
-        reports = new HashMap<>();
+        //reports = new HashMap<>();
         product_controller = ProductController.getInstance();
-
+        reportRepo = new ReportRepository();
     }
 
     public void removeReport(int id) throws Exception {
@@ -46,38 +46,42 @@ public class ReportController {
     }
 
     //FIXME
-    public ReportByCategory createInventoryReport( String categoryName, String subCategoryName, String subSubCategoryName) {
+    public ReportByCategory createInventoryReport( String categoryName, String subCategoryName, String subSubCategoryName) throws Exception {
         List<Product> byCategoryPro = product_controller.getProductsByCategory(categoryName, subCategoryName, subSubCategoryName);
         ReportByCategory report = new ReportByCategory(reportIndex, LocalDate.now(), byCategoryPro, categoryName);
-        reports.put(Integer.toString(reportIndex), report);
+        reportRepo.add(report);
+        //reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;
     }
 
     //FIXME
-    public ReportOfDamaged createDamagedReport()  {
+    public ReportOfDamaged createDamagedReport() throws Exception {
         Map<Item, String> damagedItems = product_controller.getDamagedItems();
         ReportOfDamaged report = new ReportOfDamaged(reportIndex, LocalDate.now(), damagedItems);
-        reports.put(Integer.toString(reportIndex), report);
+        reportRepo.add(report);
+        //reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;
 
     }
 
     //FIXME
-    public ReportOfExpired createExpiredReport()  {
+    public ReportOfExpired createExpiredReport() throws Exception {
         Map<Item, String> expiredItems = product_controller.getExpiredItems();
         ReportOfExpired report = new ReportOfExpired(reportIndex, LocalDate.now(), expiredItems);
-        reports.put(Integer.toString(reportIndex), report);
+        reportRepo.add(report);
+        //reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;
     }
 
     //FIXME
-    public ReportOfMissing createMissingReport( String categoryName, String subCategoryName, String subSubCategoryName) {
+    public ReportOfMissing createMissingReport( String categoryName, String subCategoryName, String subSubCategoryName) throws Exception {
         List<Product> byCategoryPro = product_controller.getMissingProductsByCategory(categoryName, subCategoryName, subSubCategoryName);
         ReportOfMissing report = new ReportOfMissing(reportIndex, LocalDate.now(), byCategoryPro);
-        reports.put(Integer.toString(reportIndex), report);
+        reportRepo.add(report);
+        //reports.put(Integer.toString(reportIndex), report);
         reportIndex++;
         return report;
     }
