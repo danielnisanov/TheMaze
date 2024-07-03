@@ -8,7 +8,6 @@ public class Branch {
     private int branch_num;
     private HRManager hr_manager;
     private final ArrayList<Integer> valid_days_for_submission;
-    private final Map<Integer, Worker> workers_on_brunch;
 
     WorkArrangementRepository workArrangementRepository;
     ShiftHRepository shift_hRepository;
@@ -69,8 +68,8 @@ public class Branch {
         workers_on_brunch.put(worker.getID_number(), worker);
     }
 
-    public boolean is_worker_in_branch(int id) {
-        return workers_on_brunch.get(id) != null;
+    public boolean is_worker_in_branch(int workerId) {
+        return workers_on_brunch.containsKey(workerId);
     }
 
     public ArrayList<Shift> get_Weekly_Work_Arrangement() {

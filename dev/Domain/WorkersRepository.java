@@ -13,13 +13,13 @@ import java.util.*;
 
 public class WorkersRepository implements IRepository<Worker> {
 
-    private final Map<Integer, Worker> workers;
-    private final WorkersDAO workersDAO;
+    private Map<Integer, Worker> workers;
+    private WorkersDAO workersDAO;
     public BranchesRepository branchesRepository;
 
     public WorkersRepository(DatabaseConnection dbConnection) {
         this.workers = new HashMap<>();
-        this.workersDAO = new WorkersDAO(dbConnection); // Initialize workersDAO with dbConnection
+        this.workersDAO = new WorkersDAO(dbConnection); // Initialize workersDAO
     }
 
     @Override
@@ -40,28 +40,6 @@ public class WorkersRepository implements IRepository<Worker> {
 
     @Override
     public boolean Delete() {
-//        Worker worker = workers.get(id);
-//        if (worker != null && worker.getJob_status()) {
-//            worker.setJob_status(false);
-//            try {
-//                workersDAO.Update(id, "job_status", "false");
-//                return true;
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            try {
-//                worker = workersDAO.Find(id);
-//                if (worker != null && worker.getJob_status()) {
-//                    worker.setJob_status(false);
-//                    workersDAO.Update(id, "job_status", "false");
-//                    workers.put(id, worker);
-//                    return true;
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
         return false;
     }
 
@@ -128,7 +106,6 @@ public class WorkersRepository implements IRepository<Worker> {
         }
     }
 
-
     public Map<Integer, Worker> get_Workers() {
         getAllWorkers();
         return workers;
@@ -155,9 +132,7 @@ public class WorkersRepository implements IRepository<Worker> {
         try {
             List<Worker> allWorkers = workersDAO.getAllWorkers();
             for (Worker worker : allWorkers) {
-                if (workers.get(worker.getID_number()) != null) {
-                    workers.put(worker.getID_number(), worker);
-                }
+                workers.put(worker.getID_number(), worker); // Ensure all workers are added to the map
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -187,7 +162,6 @@ public class WorkersRepository implements IRepository<Worker> {
                     workerJson.addProperty("job_status", worker.getJob_status());
                     jsonArray.add(workerJson);
                 }
-
             }
         }
 
@@ -221,6 +195,7 @@ public class WorkersRepository implements IRepository<Worker> {
         }
         return jsonArray;
     }
+
     public List<Worker> Available_Workers(String day, String shiftType, Role role, Branch branch) {
         List<Worker> availableWorkersList = new ArrayList<>();
 
@@ -375,5 +350,11 @@ public class WorkersRepository implements IRepository<Worker> {
 
         // Return null if worker is not found or not currently employed
         return null;
+    }
+
+    public boolean is_worker_in_branch(int id) {
+        getAllWorkers();
+
+        return workers_on_brunch.get(id) != null;
     }
 }
