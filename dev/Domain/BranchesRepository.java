@@ -1,16 +1,21 @@
 package Domain;
 
 import Dal.BranchesDAO;
+import Dal.DatabaseConnection;
 import Dal.WorkersDAO;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
-public class BranchesRepository implements IRepository<Branch>{
-        private Map<Integer, Branch> branches;
-        private BranchesDAO branchesDAO;
+public class BranchesRepository implements IRepository<Branch> {
+    private final Map<Integer, Branch> branches;
+    private final BranchesDAO branchesDAO;
 
-
+    public BranchesRepository(DatabaseConnection dbConnection) {
+        this.branches = new HashMap<>();
+        this.branchesDAO = new BranchesDAO(dbConnection); // Initialize branchesDAO with dbConnection
+    }
     @Override
     public boolean Insert(Branch branch) {
         if (branches.containsKey(branch.getBranchNum())) {

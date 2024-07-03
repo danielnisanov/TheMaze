@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class ManagersDAO implements IDAO<HRManager> {
     private final DatabaseConnection dbConnection;
 
+
     public ManagersDAO(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -30,7 +31,7 @@ public class ManagersDAO implements IDAO<HRManager> {
     }
 
     @Override
-    public void Delete(int num) throws SQLException {
+    public void Delete() throws SQLException {
 
     }
 

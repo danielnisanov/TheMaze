@@ -1,27 +1,32 @@
 package test;
+
+import Dal.DatabaseConnection;
 import Domain.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashSet;
-import java.util.Map;
 
 import Presentation.AddWorker;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TestUnit {
-    Branch branch;
-    private Worker worker;
+    private WorkerController wc;
+    private Branch branch;
+
+    @Before
+    public void setUp() {
+        String dbPath = "C:\\Users\\ronig\\OneDrive\\שולחן העבודה\\ADSS\\Supermarket.db";
+        DatabaseConnection dbConnection = new DatabaseConnection(dbPath);
+        wc = new WorkerController(dbConnection);
+    }
 
     @Test
     public void test_add_worker() {
@@ -39,7 +44,6 @@ public class TestUnit {
         System.setIn(in);
         Branch branch1 = new Branch(1);
 
-        WorkerController wc = new WorkerController("empty.csv");
         AddWorker addWorker = new AddWorker(wc);
         addWorker.Add_Worker(branch1);
 
@@ -55,26 +59,18 @@ public class TestUnit {
         assertEquals(JobType.Full_time_job, worker.getJob_type());
         assertEquals(1, worker.getBranchNum());
         assertTrue(worker.getRoles_permissions().contains(Role.Storekeeper));
-
-
     }
 
     @Test
     public void test_add_worker_invalid_id() {
-        WorkerController wc = new WorkerController("empty.csv");
-        AddWorker addWorker = new AddWorker(wc);
-
-        // Provide an invalid ID (less than 9 digits)
         JsonObject json = new JsonObject();
         json.addProperty("id", 12345);
+        wc.add_worker(json);
         assertEquals(0, wc.getWorkers().size());
     }
 
     @Test
     public void test_add_worker_part_time() {
-        WorkerController wc = new WorkerController("empty.csv");
-        AddWorker addWorker = new AddWorker(wc);
-
         JsonObject json = new JsonObject();
         json.addProperty("id", 987654321);
         json.addProperty("name", "JaneSmith");
@@ -92,11 +88,8 @@ public class TestUnit {
         assertEquals(2, worker.getBranchNum());
     }
 
-
     @Test
     public void test_update_salary() {
-        WorkerController wc = new WorkerController("empty.csv");
-
         // Adding a worker
         JsonObject jsonAdd = new JsonObject();
         jsonAdd.addProperty("id", 987654321);
@@ -129,8 +122,6 @@ public class TestUnit {
 
     @Test
     public void test_update_job_type() {
-        WorkerController wc = new WorkerController("empty.csv");
-
         // Adding a worker
         JsonObject jsonAdd = new JsonObject();
         jsonAdd.addProperty("id", 987654321);
@@ -163,8 +154,6 @@ public class TestUnit {
 
     @Test
     public void test_update_branch() {
-        WorkerController wc = new WorkerController("empty.csv");
-
         // Adding a worker
         JsonObject jsonAdd = new JsonObject();
         jsonAdd.addProperty("id", 987654321);
@@ -179,26 +168,24 @@ public class TestUnit {
 
         wc.add_worker(jsonAdd);
 
-        // Preparing JSON for updating job type
+        // Preparing JSON for updating branch
         JsonObject jsonUpdate = new JsonObject();
         jsonUpdate.addProperty("id", 987654321);
-        jsonUpdate.addProperty("branch_num", "4");
+        jsonUpdate.addProperty("branch_num", 4);
 
-        // Updating the job type
+        // Updating the branch
         boolean success = wc.Update_Branch(jsonUpdate);
 
         // Asserting the update was successful
         assertTrue(success);
 
-        // Asserting the worker's job type was updated correctly
+        // Asserting the worker's branch was updated correctly
         Worker worker = wc.getWorkers().get(987654321);
         assertEquals(4, worker.getBranchNum());
     }
 
     @Test
-    public void test_Bank_Account_Num() {
-        WorkerController wc = new WorkerController("empty.csv");
-
+    public void test_update_bank_account_num() {
         // Adding a worker
         JsonObject jsonAdd = new JsonObject();
         jsonAdd.addProperty("id", 987654321);
@@ -213,26 +200,25 @@ public class TestUnit {
 
         wc.add_worker(jsonAdd);
 
-        // Preparing JSON for updating job type
+        // Preparing JSON for updating bank account number
         JsonObject jsonUpdate = new JsonObject();
         jsonUpdate.addProperty("id", 987654321);
         jsonUpdate.addProperty("bank_account", 123456);
 
-        // Updating the job type
+        // Updating the bank account number
         boolean success = wc.Update_bank_account_num(jsonUpdate);
 
         // Asserting the update was successful
         assertTrue(success);
 
-        // Asserting the worker's job type was updated correctly
+        // Asserting the worker's bank account number was updated correctly
         Worker worker = wc.getWorkers().get(987654321);
         assertEquals(123456, worker.getBank_account_num());
-
     }
 
     @Test
     public void test_appointment_manager() {
-        WorkerController wc = new WorkerController("empty.csv");
+        // Adding a worker
         JsonObject jsonAdd = new JsonObject();
         jsonAdd.addProperty("id", 987654321);
         jsonAdd.addProperty("name", "JaneSmith");
@@ -263,9 +249,6 @@ public class TestUnit {
 
     @Test
     public void test_add_worker_contractor() {
-        WorkerController wc = new WorkerController("empty.csv");
-        AddWorker addWorker = new AddWorker(wc);
-
         JsonObject json = new JsonObject();
         json.addProperty("id", 135792468);
         json.addProperty("name", "AliceJohnson");
@@ -282,23 +265,21 @@ public class TestUnit {
         Worker worker = wc.getWorkers().get(135792468);
         assertEquals(3, worker.getBranchNum());
 
-        AddWorker addWorker1 = new AddWorker(wc);
-
         JsonObject json1 = new JsonObject();
-        json.addProperty("id", 987654321);
-        json.addProperty("name", "JaneSmith");
-        json.addProperty("address", "456 Elm St");
-        json.addProperty("bank_account", 654321);
-        json.addProperty("hourly_salary", 30.0);
-        json.addProperty("vacation_days", 15);
-        json.addProperty("job_type", "Part_time_job");
-        json.addProperty("branch_num", 2);
-        json.addProperty("roles", "Cashier");
+        json1.addProperty("id", 987654321);
+        json1.addProperty("name", "JaneSmith");
+        json1.addProperty("address", "456 Elm St");
+        json1.addProperty("bank_account", 654321);
+        json1.addProperty("hourly_salary", 30.0);
+        json1.addProperty("vacation_days", 15);
+        json1.addProperty("job_type", "Part_time_job");
+        json1.addProperty("branch_num", 2);
+        json1.addProperty("roles", "Cashier");
 
-        wc.add_worker(json);
+        wc.add_worker(json1);
+
         Map<Integer, Worker> workers = wc.getWorkers();
         assertEquals(2, workers.size());
-
     }
 
     @Test
@@ -306,7 +287,7 @@ public class TestUnit {
         Set<Role> rolesPermissions = new HashSet<>();
         rolesPermissions.add(Role.Cashier);
         branch = new Branch(1);
-        worker = new Worker("Address 1", "John Doe", 1, 12345678, 20.0, 14, JobType.Full_time_job, branch, rolesPermissions);
+        Worker worker = new Worker("Address 1", "John Doe", 1, 12345678, 20.0, 14, JobType.Full_time_job, branch, rolesPermissions);
 
         JsonArray jsonArray = new JsonArray();
         JsonObject workerJson = new JsonObject();

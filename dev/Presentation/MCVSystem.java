@@ -1,7 +1,8 @@
 package Presentation;
 
-import Domain.ShiftController;
-import Domain.WorkerController;
+import Domain.*;
+import Dal.*;
+
 import java.util.Scanner;
 
 public class MCVSystem {
@@ -10,24 +11,28 @@ public class MCVSystem {
     private ManagerPresentation mp;
     private WorkerPresentation wp;
 
-
     private final WorkerController worker_controler;
     private final ShiftController shift_controler;
     private final AppointmentManager appointmentManager;
     private final AddWorker addWorker;
     private final EmploymentTermination emplymenttermination;
-    private final UpdateWorkerDetails updatrDetails;
+    private final UpdateWorkerDetails updateDetails;
     private final SubmitConstraints submitConstraints;
 
-
-    public MCVSystem(String file) {
-        worker_controler = new WorkerController(file);
-        appointmentManager  = new AppointmentManager(worker_controler);
-        addWorker  = new AddWorker(worker_controler);
-        emplymenttermination  = new EmploymentTermination(worker_controler);
-        updatrDetails  = new UpdateWorkerDetails(worker_controler);
-        shift_controler = new ShiftController();
-        submitConstraints  = new SubmitConstraints(worker_controler,shift_controler);
+    public MCVSystem(String dataPath) {
+        DatabaseConnection dbConnection = new DatabaseConnection(dataPath);
+        WorkArrangementDAO workArrangementDAO = new WorkArrangementDAO(dbConnection);
+        WorkArrangementRepository workArrangementRepository = new WorkArrangementRepository();
+        worker_controler = new WorkerController(dbConnection);
+        ShiftHRepository shiftHRepository = new ShiftHRepository();
+        WorkersRepository workersRepository = new WorkersRepository(dbConnection);
+        WorkersOnShiftRepository workersOnShiftRepository = new WorkersOnShiftRepository();
+        appointmentManager = new AppointmentManager(worker_controler);
+        addWorker = new AddWorker(worker_controler);
+        emplymenttermination = new EmploymentTermination(worker_controler);
+        updateDetails = new UpdateWorkerDetails(worker_controler);
+        shift_controler = new ShiftController(shiftHRepository, workersRepository, workArrangementRepository, workersOnShiftRepository);
+        submitConstraints = new SubmitConstraints(worker_controler, shift_controler);
     }
 
     public void Activate() {
@@ -37,7 +42,7 @@ public class MCVSystem {
             char input = sc.next().charAt(0);
             switch (input) {
                 case 'm':
-                    mp = new ManagerPresentation(worker_controler, appointmentManager, addWorker, emplymenttermination, updatrDetails, submitConstraints,shift_controler);
+                    mp = new ManagerPresentation(worker_controler, appointmentManager, addWorker, emplymenttermination, updateDetails, submitConstraints, shift_controler);
                     mp.menu();
                     break;
                 case 'w':

@@ -56,9 +56,10 @@ public class WorkersDAO implements IDAO<Worker> {
     }
 
     @Override
-    public void Delete(int id) throws SQLException { //todo - change to update
-        Update(id, "job_status", "false");
+    public void Delete() throws SQLException {
+
     }
+
 
     @Override
     public Worker Find(int id) throws SQLException {

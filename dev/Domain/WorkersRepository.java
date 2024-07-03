@@ -1,5 +1,6 @@
 package Domain;
 
+import Dal.DatabaseConnection;
 import Dal.WorkersDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -12,12 +13,13 @@ import java.util.*;
 
 public class WorkersRepository implements IRepository<Worker> {
 
-    private Map<Integer, Worker> workers;
-    private WorkersDAO workersDAO;
+    private final Map<Integer, Worker> workers;
+    private final WorkersDAO workersDAO;
     public BranchesRepository branchesRepository;
 
-    public WorkersRepository() {
+    public WorkersRepository(DatabaseConnection dbConnection) {
         this.workers = new HashMap<>();
+        this.workersDAO = new WorkersDAO(dbConnection); // Initialize workersDAO with dbConnection
     }
 
     @Override
@@ -38,28 +40,28 @@ public class WorkersRepository implements IRepository<Worker> {
 
     @Override
     public boolean Delete() {
-        Worker worker = workers.get(id);
-        if (worker != null && worker.getJob_status()) {
-            worker.setJob_status(false);
-            try {
-                workersDAO.Update(id, "job_status", "false");
-                return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                worker = workersDAO.Find(id);
-                if (worker != null && worker.getJob_status()) {
-                    worker.setJob_status(false);
-                    workersDAO.Update(id, "job_status", "false");
-                    workers.put(id, worker);
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+//        Worker worker = workers.get(id);
+//        if (worker != null && worker.getJob_status()) {
+//            worker.setJob_status(false);
+//            try {
+//                workersDAO.Update(id, "job_status", "false");
+//                return true;
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                worker = workersDAO.Find(id);
+//                if (worker != null && worker.getJob_status()) {
+//                    worker.setJob_status(false);
+//                    workersDAO.Update(id, "job_status", "false");
+//                    workers.put(id, worker);
+//                    return true;
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
         return false;
     }
 

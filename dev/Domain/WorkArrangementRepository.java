@@ -50,15 +50,15 @@ public class WorkArrangementRepository implements IRepository<Shift> {
         return null;
     }
 
-    public void init_branch_week() {
-        for (int i = 0; i < 7; i++) {
-            Shift morningShift = new Shift(i + 1, "Morning", new ArrayList<>());
-            Shift eveningShift = new Shift(i + 1, "Evening", new ArrayList<>());
-            weeklyWorkArrangement.add(morningShift); // todo
-            weeklyWorkArrangement.add(eveningShift);
-
-        }
-    }
+//    public void init_branch_week() {
+//        for (int i = 0; i < 7; i++) {
+//            Shift morningShift = new Shift(i + 1, "Morning", new ArrayList<>());
+//            Shift eveningShift = new Shift(i + 1, "Evening", new ArrayList<>());
+//            weeklyWorkArrangement.add(morningShift); // todo
+//            weeklyWorkArrangement.add(eveningShift);
+//
+//        }
+//    }
 
 
 }

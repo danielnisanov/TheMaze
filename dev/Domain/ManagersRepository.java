@@ -1,4 +1,5 @@
 package Domain;
+import Dal.DatabaseConnection;
 import Dal.ManagersDAO;
 import Dal.WorkersDAO;
 
@@ -10,8 +11,9 @@ public class ManagersRepository  implements IRepository<HRManager>{
     private Map<Integer, HRManager> managers;
     private ManagersDAO managersDAO;
 
-    public ManagersRepository() {
-        managers = new HashMap<Integer, HRManager>();
+    public ManagersRepository(DatabaseConnection dbConnection) {
+        this.managers = new HashMap<>();
+        this.managersDAO = new ManagersDAO(dbConnection); // Initialize managersDAO
     }
 
     @Override
@@ -39,6 +41,11 @@ public class ManagersRepository  implements IRepository<HRManager>{
             }
         }
         return hrManager;
+    }
+
+    @Override
+    public HRManager Find(int num) throws SQLException {
+        return null;
     }
 
 
@@ -74,10 +81,7 @@ public class ManagersRepository  implements IRepository<HRManager>{
         return false;
     }
 
-    @Override
-    public HRManager Find(int num) throws SQLException {
-        return null;
-    }
+
 
 
 }

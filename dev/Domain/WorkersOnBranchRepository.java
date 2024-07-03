@@ -1,9 +1,14 @@
 package Domain;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 public class WorkersOnBranchRepository implements IRepository<Worker> {
+    private final Map<Integer, Worker> workers_on_brunch;
 
+    public WorkersOnBranchRepository(Map<Integer, Worker> workersOnBrunch){
+        workers_on_brunch = workersOnBrunch;
+    }
     @Override
     public boolean Insert(Worker obj) {
         return false;
