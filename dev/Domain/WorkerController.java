@@ -1,5 +1,6 @@
 package Domain;
 
+import Dal.DatabaseConnection;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,96 +12,15 @@ import java.util.*;
 
 public class WorkerController {
     private LocalDate currentDate = LocalDate.now();
-    WorkersRepository Worker_Rep = new WorkersRepository();
-    ManagersRepository Manager_Rep = new ManagersRepository();
-    BranchesRepository Branch_Rep = new BranchesRepository();
+    private final WorkersRepository Worker_Rep;
+    private final ManagersRepository Manager_Rep;
+    private final BranchesRepository Branch_Rep;
 
-    public WorkerController(String file) {
-
-
-        // Associate managers with their branches
-        for (Map.Entry<Integer, HRManager> manager : managers.entrySet()) {
-            Branch branch = branches.get(manager.getValue().getBranch().getBranchNum());
-            if (branch != null) {
-                branch.set_manager(manager.getValue());
-            } else {
-                System.err.println("Error: Branch " + manager.getValue().getBranch() + " not found for manager " + manager.getKey());
-            }
-        }
-
-        for (Map.Entry<Integer, Worker> worker : workers.entrySet()) {
-            Branch branch = branches.get(worker.getValue().getBranchNum());
-            worker.getValue().setBranch(branch);
-            branch.add_worker_brunch(worker.getValue());
-        }
-
+    public WorkerController(DatabaseConnection dbConnection) {
+        Worker_Rep = new WorkersRepository(dbConnection);
+        Manager_Rep = new ManagersRepository(dbConnection);
+        Branch_Rep = new BranchesRepository(dbConnection);
     }
-//
-//    private Map<Integer, Branch> openFileIntoListsBranch(String file, Map<Integer, Branch> branches) throws FileNotFoundException {
-//        Scanner sc = new Scanner(new File(file));
-//        while (sc.hasNextLine()) {
-//            String line = sc.nextLine();
-//            String[] parts = line.split(",");
-//            if (parts[0].trim().equals("branch")) {
-//                int branchNum = Integer.parseInt(parts[1].trim());
-//                branches.put(branchNum, new Branch(branchNum));
-//            }
-//        }
-//        return branches;
-//    }
-//
-//    private Map<Integer, HRManager> openFileIntoListsManagers(String file, Map<Integer, HRManager> managers) throws FileNotFoundException {
-//        Scanner sc = new Scanner(new File(file));
-//        while (sc.hasNextLine()) {
-//            String line = sc.nextLine();
-//            String parts[] = line.split(",");
-//            if (parts[0].equals("manager")) {
-//                Branch curr_branch = branches.get(Integer.valueOf(parts[2]));
-//                managers.put(Integer.valueOf(parts[4]), new HRManager(parts[1], curr_branch, parts[3], Integer.valueOf(parts[4])));
-//            }
-//        }
-//        return managers;
-//    }
-//
-//    private Map<Integer, Worker> openFileIntoListsWorkers(String file, Map<Integer, Worker> workers) throws FileNotFoundException {
-//        Scanner sc = new Scanner(new File(file));
-//        while (sc.hasNextLine()) {
-//            String line = sc.nextLine();
-//            String parts[] = line.split(",");
-//            if (parts[0].equals("worker")) {
-//                String address = parts[1];
-//                String name = parts[2];
-//                int ID_number = Integer.valueOf(parts[3]);
-//                int bank_account_num = Integer.valueOf(parts[4]);
-//                double hourly_salary = Double.valueOf(parts[5]);
-//                int vaction_days = Integer.valueOf(parts[6]);
-//                JobType job_type = JobType.valueOf(parts[7]);
-//                int branchNum = Integer.valueOf(parts[8]);
-//
-//                Set<Role> roles_permissions = new HashSet<>();
-//                for (int i = 9; i < parts.length; i++)
-//                    roles_permissions.add(Role.valueOf(parts[i]));
-//
-//                // Get the branch or create a new one if it doesn't exist
-//                Branch branch = branches.get(branchNum);
-//                if (branch == null) {
-//                    branch = new Branch(branchNum);
-//                    branches.put(branchNum, branch);
-//                }
-//
-//                // Create the worker
-//                Worker worker = new Worker(address, name, ID_number, bank_account_num, hourly_salary, vaction_days,
-//                        job_type, branch, roles_permissions);
-//
-//                // Add worker to the branch
-//                branch.add_worker_brunch(worker);
-//                // Add worker to the workers map
-//                workers.put(ID_number, worker);
-//            }
-//        }
-//        // Print loaded workers for debugging
-//        return workers;
-//    }
 
 
     public boolean add_worker(JsonObject json) {
@@ -143,7 +63,7 @@ public class WorkerController {
         Branch branch = getBranch(branch_num);
         if (branch == null) {
             branch = new Branch(branch_num);
-            branches.put(branch_num, branch);
+            Branch_Rep.Insert(branch);
         }
 
         HRManager newManager = new HRManager(name, branch, String.valueOf(ID_number), ID_number);
@@ -164,7 +84,7 @@ public class WorkerController {
 
 
     public Branch getBranch(int id) {
-        return Branch_Rep.get_Branch(id);
+        return Branch_Rep.Find(id);
     }
 
     public JsonArray present_workers(Branch branch) {
@@ -189,7 +109,7 @@ public class WorkerController {
 
     public boolean Employment_termination(JsonObject json) {
         int id = json.get("id").getAsInt();
-        return Worker_Rep.Delete(id);
+        return Worker_Rep.Update(id, "job_status", "false");
     }
 
 
@@ -300,7 +220,7 @@ public class WorkerController {
     }
 
     public Worker getWorker(int id) {
-        return Worker_Rep.get_Worker(id);
+        return Worker_Rep.Find(id);
     }
 
     public boolean ChangePassword(int id, String password, String newValue){

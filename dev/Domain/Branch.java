@@ -9,14 +9,15 @@ public class Branch {
     private HRManager hr_manager;
     private final ArrayList<Integer> valid_days_for_submission;
     private final Map<Integer, Worker> workers_on_brunch;
-    private final ArrayList<Shift> weeklyWorkArrangement = new ArrayList<>();
-    private final ArrayList<Shift> shiftHistory = new ArrayList<>();
+
+    WorkArrangementRepository workArrangementRepository;
+    ShiftHRepository shift_hRepository;
 
     public Branch(int branch_num, HRManager manager) {
         this.branch_num = branch_num;
         this.hr_manager = manager;
         workers_on_brunch = new HashMap<>();
-        init_branch_week();
+//        initBranchWeek();
         valid_days_for_submission = new ArrayList<>();
         valid_days_for_submission.add(7);
         valid_days_for_submission.add(1);
@@ -29,7 +30,7 @@ public class Branch {
         this.branch_num = branch_num;
         this.hr_manager = null;
         workers_on_brunch = new HashMap<>();
-        init_branch_week();
+//        initBranchWeek();
         valid_days_for_submission = new ArrayList<>();
         valid_days_for_submission.add(7);
         valid_days_for_submission.add(1);
@@ -72,25 +73,20 @@ public class Branch {
         return workers_on_brunch.get(id) != null;
     }
 
-    public ArrayList<Shift> getWeeklyWorkArrangement() {
-        return weeklyWorkArrangement;
+    public ArrayList<Shift> get_Weekly_Work_Arrangement() {
+        return workArrangementRepository.getWeeklyWorkArrangement(0);
     }
 
-    public ArrayList<Shift> getShiftHistory() {
-        return shiftHistory;
+    public ArrayList<Shift> get_Shift_History() {
+        return shift_hRepository.getShiftHistory();
     }
 
     public ArrayList<Shift> setShiftHistory(ArrayList<Shift> shiftHistory){
         return shiftHistory;
     }
 
-
-    public void init_branch_week() {
-        for (int i = 0; i < 7; i++) {
-            Shift morningShift = new Shift(i + 1, "Morning", new ArrayList<>());
-            Shift eveningShift = new Shift(i + 1, "Evening", new ArrayList<>());
-            weeklyWorkArrangement.add(morningShift);
-            weeklyWorkArrangement.add(eveningShift);
-        }
-    }
+//
+//    public void initBranchWeek() {
+//        workArrangementRepository.init_branch_week();
+//    }
 }

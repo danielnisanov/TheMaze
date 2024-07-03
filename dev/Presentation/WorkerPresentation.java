@@ -118,7 +118,7 @@ public class WorkerPresentation {
     }
 
     private void Present_arrangement(Branch branch) {
-        List<Shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
+        List<Shift> weeklyWorkArrangement = branch.get_Weekly_Work_Arrangement();
         for (Shift s : weeklyWorkArrangement) {
             System.out.println(s);
         }

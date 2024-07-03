@@ -1,24 +1,25 @@
 package Domain;
 
+import Dal.DatabaseConnection;
 import Dal.WorkersDAO;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorkersRepository implements IRepository<Worker> {
 
-    private Map<Integer, Worker> workers;
-    private WorkersDAO workersDAO;
+    private final Map<Integer, Worker> workers;
+    private final WorkersDAO workersDAO;
+    public BranchesRepository branchesRepository;
 
-    public WorkersRepository() {
+    public WorkersRepository(DatabaseConnection dbConnection) {
         this.workers = new HashMap<>();
-
+        this.workersDAO = new WorkersDAO(dbConnection); // Initialize workersDAO with dbConnection
     }
 
     @Override
@@ -38,32 +39,31 @@ public class WorkersRepository implements IRepository<Worker> {
     }
 
     @Override
-    public boolean Delete(int id) {
-        Worker worker = workers.get(id);
-        if (worker != null && worker.getJob_status()) {
-            worker.setJob_status(false);
-            try {
-                workersDAO.Update(id, "job_status", "false");
-                return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                worker = workersDAO.Find(id);
-                if (worker != null && worker.getJob_status()) {
-                    worker.setJob_status(false);
-                    workersDAO.Update(id, "job_status", "false");
-                    workers.put(id, worker);
-                    return true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public boolean Delete() {
+//        Worker worker = workers.get(id);
+//        if (worker != null && worker.getJob_status()) {
+//            worker.setJob_status(false);
+//            try {
+//                workersDAO.Update(id, "job_status", "false");
+//                return true;
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                worker = workersDAO.Find(id);
+//                if (worker != null && worker.getJob_status()) {
+//                    worker.setJob_status(false);
+//                    workersDAO.Update(id, "job_status", "false");
+//                    workers.put(id, worker);
+//                    return true;
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
         return false;
     }
-
 
     @Override
     public boolean Update(int id, String field, String value) {
@@ -107,14 +107,10 @@ public class WorkersRepository implements IRepository<Worker> {
             case "hourly_salary":
                 worker.setHourly_salary(Double.parseDouble(value));
                 break;
-            case "branch": // todo - in the branch repository
-//                int branchNum = Integer.parseInt(value);
-//                Branch branch = branches.get(branchNum);
-//                if (branch == null) {
-//                    branch = new Branch(branchNum);
-//                    branches.put(branchNum, branch);
-//                }
-//                worker.setBranch(branch);
+            case "branch":
+                int branchNum = Integer.parseInt(value);
+                Branch branch = branchesRepository.Find(branchNum);
+                worker.setBranch(branch);
                 break;
             case "job_status": // fire a worker
                 worker.setJob_status(Boolean.parseBoolean(value));
@@ -122,21 +118,24 @@ public class WorkersRepository implements IRepository<Worker> {
             case "roles": // update worker roles - add Shift_manager
                 worker.getRoles_permissions().add(Role.Shift_manager);
                 break;
+            case "constraints":
+                // Deserialize the JSON string back to the map
+                Map<String, List<String>> constraints = new Gson().fromJson(value, new TypeToken<Map<String, List<String>>>() {}.getType());
+                worker.setConstraints(constraints);
+                break;
+            case "Total_hours":
+                worker.setTotal_hours(worker.getTotal_hours() + Integer.parseInt(value));
         }
     }
 
-
-    @Override
-    public boolean Find(int id) throws SQLException {
-        return workers.containsKey(id) || workersDAO.Find(id) != null;
-    }
 
     public Map<Integer, Worker> get_Workers() {
         getAllWorkers();
         return workers;
     }
 
-    public Worker get_Worker(int id) {
+    @Override
+    public Worker Find(int id) {
         Worker worker = workers.get(id);
 
         if (worker == null) { // I did not find the worker in workers
@@ -266,8 +265,6 @@ public class WorkersRepository implements IRepository<Worker> {
         }
     }
 
-
-
     public boolean Is_Worker(int id) {
         Worker worker = workers.get(id);
         if (worker == null) {
@@ -282,7 +279,6 @@ public class WorkersRepository implements IRepository<Worker> {
         }
         return worker != null && worker.getJob_status();
     }
-
 
     public double FindGlobalSalary(int id)  {
         Worker worker = workers.get(id);
@@ -345,6 +341,7 @@ public class WorkersRepository implements IRepository<Worker> {
         return null;
 
     }
+
     public JsonObject PresentWorker(int id) {
         Worker worker = workers.get(id);
         if (worker == null) { // I did not find the worker in workers

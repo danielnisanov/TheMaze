@@ -10,10 +10,10 @@ import java.time.LocalDate;
 public class Worker {
     protected String name;
     private int ID_number;
-    private String address ;
+    private String address;
     protected int bank_account_num;
-    protected  double hourly_salary;
-    protected  int vaction_days;
+    protected double hourly_salary;
+    protected int vaction_days;
     public JobType job_type;
     private LocalDate starting_day;
     public Branch branch;
@@ -27,8 +27,7 @@ public class Worker {
     }
 
 
-
-    public Branch getbranch (){
+    public Branch getbranch() {
         return branch;
     }
 
@@ -133,7 +132,7 @@ public class Worker {
         return roles_permissions;
     }
 
-    public void setRoles_permissions(Set<Role> role){
+    public void setRoles_permissions(Set<Role> role) {
         this.roles_permissions = role;
     }
 
@@ -183,6 +182,4 @@ public class Worker {
         return constraints;
     }
 
-
-
-    }
+}

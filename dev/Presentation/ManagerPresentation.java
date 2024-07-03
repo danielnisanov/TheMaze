@@ -118,7 +118,6 @@ public class ManagerPresentation {
                         changePassword();
                         break;
                     case 14:
-//                        present(manager.branch);
                         past_shifts(manager.getBranch());
                         break;
                     case 15:
@@ -144,7 +143,7 @@ public class ManagerPresentation {
 
 
     private void past_shifts(Branch branch){
-        JsonArray jsonArray = shiftController.presentShiftHistory(branch);
+        JsonArray jsonArray = shiftController.present_Shift_History(branch);
         for (JsonElement workerElement : jsonArray) {
             System.out.println(workerElement.toString());
         }
@@ -233,7 +232,7 @@ public class ManagerPresentation {
     }
 
     private void Present_arrangement(Branch branch) {
-        List<Shift> weeklyWorkArrangement = branch.getWeeklyWorkArrangement();
+        List<Shift> weeklyWorkArrangement = branch.get_Weekly_Work_Arrangement();
         for (Shift s : weeklyWorkArrangement) {
             System.out.println(s);
         }

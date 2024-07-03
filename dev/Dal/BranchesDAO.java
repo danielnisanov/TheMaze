@@ -23,37 +23,32 @@ public class BranchesDAO implements IDAO<Branch> {
     }
 
     @Override
-    public void Delete(int num) throws SQLException {
+    public void Delete() throws SQLException {
 
     }
 
     @Override
     public Branch Find(int id) throws SQLException {
-        String query = "SELECT * FROM branches WHERE branch_id = ?";
+        String query = "SELECT * FROM branches WHERE branch_num = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                HRManager manager = null;
-                int managerId = rs.getInt("manager_id");
-                if (managerId != 0) {
-                    manager = new ManagersDAO(dbConnection).Find(managerId);
-                }
-                Branch branch = new Branch(
-                        rs.getInt("branch_id"),
-                        manager
-                );
+                // Create the branch using the branch_num constructor
+                Branch branch = new Branch(rs.getInt("branch_num"));
                 return branch;
             }
         }
         return null;
     }
 
+
     @Override
     public boolean Update(int num, String field, String change) throws SQLException {
         return false;
     }
-
 }
+
+
