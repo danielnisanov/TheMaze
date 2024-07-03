@@ -87,19 +87,26 @@ public class ProductDAO implements IDAO<Product> {
 
     @Override
     public void update(Product product) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("UPDATE products SET catNum = ?, area = ?, manufacturer = ?, minQuantity = ?, costPrice = ?, sellingPrice = ?, discount = ?, sale = ?, category = ?, subCategory = ?, subSubCategory = ? WHERE name = ?");
-        stmt.setString(1, product.getCatNum());
-        stmt.setString(2, product.getArea());
-        stmt.setString(3, product.getManufacturer());
-        stmt.setInt(4, product.getMinQuantity());
-        stmt.setDouble(5, product.getCostPrice());
-        stmt.setDouble(6, product.getSellingPrice());
-        stmt.setDouble(7, product.getDiscount());
-        stmt.setDouble(8, product.getSale());
-        stmt.setString(9, product.getCat());
-        stmt.setString(10, product.getSubCat());
-        stmt.setString(11, product.getSubSubCat());
-        stmt.setString(12, product.getName());
+        PreparedStatement stmt = conn.prepareStatement("UPDATE products SET itemIndex=?, catNum=?, name=?, area=?, manufacturer=?, currentQuantity=?, shelfQuantity=?, warehouseQuantity=?, minQuantity=?, costPrice=?, sellingPrice=?, discount=?, sale=?, Category=?, subCategory=?, subSubCategory=? WHERE name = ?") ;
+
+      //  PreparedStatement stmt = conn.prepareStatement("UPDATE products SET catNum = ?, area = ?, manufacturer = ?, minQuantity = ?, costPrice = ?, sellingPrice = ?, discount = ?, sale = ?, category = ?, subCategory = ?, subSubCategory = ? WHERE name = ?");
+        stmt.setInt(1, product.getItemIndex());
+        stmt.setString(2, product.getCatNum());
+        stmt.setString(3, product.getName());
+        stmt.setString(4, product.getArea());
+        stmt.setString(5, product.getManufacturer());
+        stmt.setInt(6, product.getCurrentQuantity());
+        stmt.setInt(7, product.getShelfQuantity());
+        stmt.setInt(8, product.getWarehouseQuantity());
+        stmt.setInt(9, product.getMinQuantity());
+        stmt.setDouble(10, product.getCostPrice());
+        stmt.setDouble(11, product.getSellingPrice());
+        stmt.setDouble(12, product.getDiscount());
+        stmt.setDouble(13, product.getSale());
+        stmt.setString(14, product.getCat());
+        stmt.setString(15, product.getSubCat());
+        stmt.setString(16, product.getSubSubCat());
+        stmt.setString(17, product.getName());
         stmt.executeUpdate();
         stmt.close();
     }

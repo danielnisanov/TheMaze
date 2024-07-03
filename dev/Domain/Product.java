@@ -101,47 +101,6 @@ public class Product {
 
     public Item getItem(int id) throws Exception {
         return itemRepo.get(Integer.toString(id));
-
-    }
-
-//    public boolean isOnShelf(int id) throws Exception {
-//        return itemRepo.isOnShelf(id);
-//
-//        isExists(id);
-//        for (Map.Entry<String, Item> entry : items.entrySet()) {
-//            if (entry.getValue().getItemID() == id) {
-//                return entry.getValue().isOnShelf();
-//            }
-//        }
-//        return false;
-//    }
-
-
-//
-//
-//    //FIXME DAO
-//    public Map<Item, String> findExpiredItems ()  {
-//        LocalDate today = LocalDate.now();
-//        Map<Item, String>  expiredItems = new HashMap<>();
-//        for (Item i: items.values()){
-//            if(i.getExpirationDate().isBefore(today)){
-//                expiredItems.put(i, name);
-//            }
-//        }
-//        return expiredItems;
-//    }
-
-    //FIXME DAO
-    public int getNumDamagedItems(){
-//        int counter = 0;
-//            for (Item item: this.getItems().values()){
-//                if (item.isDamaged()){
-//                    counter++;
-//                }
-//            }
-//
-//        return counter;
-        return itemRepo.getNumDamagedItems();
     }
 
     public String getArea() {
@@ -160,13 +119,6 @@ public class Product {
     public void setDiscount(double discount) {
             this.discount = discount;
     }
-
-//    public void updateDamagedItem(int id, boolean damaged) throws Exception {
-//        isExists(id);
-//        items.get((Integer.toString(id))).setDamaged(damaged);
-//    }
-
-
 
     public void setItemIndex(int itemIndex) {
         this.itemIndex = itemIndex;
@@ -228,10 +180,6 @@ public class Product {
         this.subSubCat = subSubCat;
     }
 
-//    public void setItems(Map<String, Item> items) {
-//        this.items = items;
-//    }
-
     public int getItemIndex() {
         return itemIndex;
     }
@@ -292,20 +240,6 @@ public class Product {
         return subSubCat;
     }
 
-//    //FIXME DELETE
-//    public Map<String, Item> getItems() {
-//        return items;
-//    }
-
-
-//    public void moveItem(int id) throws Exception{
-//        isExists(id);
-//        if (!items.get((Integer.toString(id))).isOnShelf()) {
-//            items.get((Integer.toString(id))).setOnShelf(true);
-//            shelfQuantity++;
-//            warehouseQuantity--;
-//        }
-//    }
 
     @Override
     public String toString() {

@@ -71,8 +71,12 @@ public class ProductRepository implements IRepository<Product>{
         }
     }
 
+    public void update(Product product) throws SQLException {
+         productDAO.update(product);
+    }
 
-    public void updateDiscount(String name, double discount) throws Exception {
+
+        public void updateDiscount(String name, double discount) throws Exception {
         Product product = products.get(name);
         if (product != null) {
             product.setDiscount(discount);
