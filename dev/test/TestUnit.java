@@ -20,12 +20,13 @@ import static org.junit.Assert.*;
 public class TestUnit {
     private WorkerController wc;
     private Branch branch;
+    private WorkArrangementRepository workArrangementRepository;
 
     @Before
     public void setUp() {
         String dbPath = "C:\\Users\\ronig\\OneDrive\\שולחן העבודה\\ADSS\\Supermarket.db";
         DatabaseConnection dbConnection = new DatabaseConnection(dbPath);
-        wc = new WorkerController(dbConnection);
+        wc = new WorkerController(dbConnection,workArrangementRepository);
     }
 
     @Test
@@ -42,7 +43,7 @@ public class TestUnit {
 
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        Branch branch1 = new Branch(1);
+        Branch branch1 = new Branch(1,workArrangementRepository);
 
         AddWorker addWorker = new AddWorker(wc);
         addWorker.Add_Worker(branch1);
@@ -286,7 +287,7 @@ public class TestUnit {
     public void testPresentWorkers() {
         Set<Role> rolesPermissions = new HashSet<>();
         rolesPermissions.add(Role.Cashier);
-        branch = new Branch(1);
+        branch = new Branch(1,workArrangementRepository);
         Worker worker = new Worker("Address 1", "John Doe", 1, 12345678, 20.0, 14, JobType.Full_time_job, branch, rolesPermissions);
 
         JsonArray jsonArray = new JsonArray();
@@ -324,7 +325,7 @@ public class TestUnit {
     public void testPresentPastWorkers() {
         Set<Role> rolesPermissions = new HashSet<>();
         rolesPermissions.add(Role.Cashier);
-        branch = new Branch(1);
+        branch = new Branch(1,workArrangementRepository);
         Worker worker1 = new Worker("Address 1", "John Doe", 1, 12345678, 20.0, 14, JobType.Full_time_job, branch, rolesPermissions);
         Worker worker2 = new Worker("Address 2", "Jane Smith", 2, 87654321, 25.0, 21, JobType.Part_time_job, branch, rolesPermissions);
 

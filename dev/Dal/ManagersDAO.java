@@ -1,6 +1,7 @@
 package Dal;
 
 import Domain.Branch;
+import Domain.BranchesRepository;
 import Domain.HRManager;
 
 import java.sql.Connection;
@@ -10,10 +11,11 @@ import java.sql.SQLException;
 
 public class ManagersDAO implements IDAO<HRManager> {
     private final DatabaseConnection dbConnection;
+    private BranchesRepository BR = null;
 
-
-    public ManagersDAO(DatabaseConnection dbConnection) {
+    public ManagersDAO(DatabaseConnection dbConnection,BranchesRepository BR) {
         this.dbConnection = dbConnection;
+        this.BR = BR;
     }
 
     public void Insert(HRManager hrManager) {
@@ -46,7 +48,7 @@ public class ManagersDAO implements IDAO<HRManager> {
             if (rs.next()) {
                 HRManager manager = new HRManager(
                         rs.getString("name"),
-                        new Branch(rs.getInt("branch")),
+                        BR.Find((rs.getInt("branch"))),
                         rs.getString("password"),
                         rs.getInt("ID_number")
                 );

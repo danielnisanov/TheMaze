@@ -22,10 +22,11 @@ public class MCVSystem {
     public MCVSystem(String dataPath) {
         DatabaseConnection dbConnection = new DatabaseConnection(dataPath);
         WorkArrangementDAO workArrangementDAO = new WorkArrangementDAO(dbConnection);
-        WorkArrangementRepository workArrangementRepository = new WorkArrangementRepository();
-        worker_controler = new WorkerController(dbConnection);
+        WorkArrangementRepository workArrangementRepository = new WorkArrangementRepository(dbConnection);
+        worker_controler = new WorkerController(dbConnection,workArrangementRepository);
         ShiftHRepository shiftHRepository = new ShiftHRepository();
-        WorkersRepository workersRepository = new WorkersRepository(dbConnection);
+        BranchesRepository BR = new BranchesRepository(dbConnection,workArrangementRepository);
+        WorkersRepository workersRepository = new WorkersRepository(dbConnection,BR);
         WorkersOnShiftRepository workersOnShiftRepository = new WorkersOnShiftRepository();
         appointmentManager = new AppointmentManager(worker_controler);
         addWorker = new AddWorker(worker_controler);

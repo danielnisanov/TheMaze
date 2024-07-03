@@ -15,11 +15,13 @@ public class WorkerController {
     private final WorkersRepository Worker_Rep;
     private final ManagersRepository Manager_Rep;
     private final BranchesRepository Branch_Rep;
+    private final WorkArrangementRepository workArrangementRepository;
 
-    public WorkerController(DatabaseConnection dbConnection) {
-        Worker_Rep = new WorkersRepository(dbConnection);
-        Manager_Rep = new ManagersRepository(dbConnection);
-        Branch_Rep = new BranchesRepository(dbConnection);
+    public WorkerController(DatabaseConnection dbConnection, WorkArrangementRepository workArrangementRepository) {
+        this.workArrangementRepository = workArrangementRepository;
+        Branch_Rep = new BranchesRepository(dbConnection, workArrangementRepository);
+        Manager_Rep = new ManagersRepository(dbConnection,Branch_Rep);
+        Worker_Rep = new WorkersRepository(dbConnection,Branch_Rep);
     }
 
 
@@ -62,7 +64,7 @@ public class WorkerController {
 
         Branch branch = getBranch(branch_num);
         if (branch == null) {
-            branch = new Branch(branch_num);
+            branch = new Branch(branch_num,workArrangementRepository);
             Branch_Rep.Insert(branch);
         }
 

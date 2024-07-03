@@ -1,4 +1,5 @@
 package Domain;
+import Dal.DatabaseConnection;
 import Dal.WorkArrangementDAO;
 
 import java.util.*;
@@ -8,10 +9,8 @@ public class WorkArrangementRepository implements IRepository<Shift> {
     private final ArrayList<Shift> weeklyWorkArrangement;
     public WorkArrangementDAO workArrangementDAO;
 
-    public WorkArrangementRepository(){
+    public WorkArrangementRepository(DatabaseConnection dbConnection){
         this.weeklyWorkArrangement= new ArrayList<>();
-
-
     }
     @Override
     public boolean Insert(Shift obj) {

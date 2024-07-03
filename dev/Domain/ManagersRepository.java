@@ -11,9 +11,9 @@ public class ManagersRepository  implements IRepository<HRManager>{
     private Map<Integer, HRManager> managers;
     private ManagersDAO managersDAO;
 
-    public ManagersRepository(DatabaseConnection dbConnection) {
+    public ManagersRepository(DatabaseConnection dbConnection,BranchesRepository BR) {
         this.managers = new HashMap<>();
-        this.managersDAO = new ManagersDAO(dbConnection); // Initialize managersDAO
+        this.managersDAO = new ManagersDAO(dbConnection,BR); // Initialize managersDAO
     }
 
     @Override

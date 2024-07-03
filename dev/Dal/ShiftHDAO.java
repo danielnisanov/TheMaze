@@ -1,5 +1,6 @@
 package Dal;
 
+import Domain.BranchesRepository;
 import Domain.HRManager;
 import Domain.Shift;
 import Domain.Worker;
@@ -16,9 +17,9 @@ public class ShiftHDAO implements IDAO<Shift>  {
     private final DatabaseConnection dbConnection;
     WorkersDAO workersDAO;
 
-    public ShiftHDAO(DatabaseConnection dbConnection) {
+    public ShiftHDAO(DatabaseConnection dbConnection, BranchesRepository BR) {
         this.dbConnection = dbConnection;
-        this.workersDAO = new WorkersDAO(dbConnection);
+        this.workersDAO = new WorkersDAO(dbConnection,BR);
     }
 
     @Override

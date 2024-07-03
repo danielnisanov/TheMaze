@@ -17,9 +17,9 @@ public class WorkersRepository implements IRepository<Worker> {
     private WorkersDAO workersDAO;
     public BranchesRepository branchesRepository;
 
-    public WorkersRepository(DatabaseConnection dbConnection) {
+    public WorkersRepository(DatabaseConnection dbConnection,BranchesRepository BR) {
         this.workers = new HashMap<>();
-        this.workersDAO = new WorkersDAO(dbConnection); // Initialize workersDAO
+        this.workersDAO = new WorkersDAO(dbConnection,BR); // Initialize workersDAO
     }
 
     @Override
@@ -352,9 +352,7 @@ public class WorkersRepository implements IRepository<Worker> {
         return null;
     }
 
-    public boolean is_worker_in_branch(int id) {
-        getAllWorkers();
 
-        return workers_on_brunch.get(id) != null;
-    }
+
+
 }

@@ -1,5 +1,7 @@
 package Domain;
 
+import Dal.DatabaseConnection;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,11 +10,12 @@ public class Branch {
     private int branch_num;
     private HRManager hr_manager;
     private final ArrayList<Integer> valid_days_for_submission;
+    private final Map<Integer, Worker> workers_on_brunch;
 
-    WorkArrangementRepository workArrangementRepository;
-    ShiftHRepository shift_hRepository;
+    private final WorkArrangementRepository workArrangementRepository;
+     ShiftHRepository shift_hRepository; //todo
 
-    public Branch(int branch_num, HRManager manager) {
+    public Branch(int branch_num, HRManager manager, WorkArrangementRepository war) {
         this.branch_num = branch_num;
         this.hr_manager = manager;
         workers_on_brunch = new HashMap<>();
@@ -23,9 +26,10 @@ public class Branch {
         valid_days_for_submission.add(2);
         valid_days_for_submission.add(3);
         valid_days_for_submission.add(4);
+        workArrangementRepository = war;
     }
 
-    public Branch(int branch_num) {
+    public Branch(int branch_num, WorkArrangementRepository war){
         this.branch_num = branch_num;
         this.hr_manager = null;
         workers_on_brunch = new HashMap<>();
@@ -36,6 +40,7 @@ public class Branch {
         valid_days_for_submission.add(2);
         valid_days_for_submission.add(3);
         valid_days_for_submission.add(4);
+        workArrangementRepository = war;
     }
 
 

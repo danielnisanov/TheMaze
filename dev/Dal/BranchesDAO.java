@@ -2,6 +2,7 @@ package Dal;
 
 import Domain.Branch;
 import Domain.HRManager;
+import Domain.WorkArrangementRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,8 +12,10 @@ import java.sql.SQLException;
 
 public class BranchesDAO implements IDAO<Branch> {
     private DatabaseConnection dbConnection;
+    private WorkArrangementRepository war;
 
-    public BranchesDAO(DatabaseConnection dbConnection) {
+    public BranchesDAO(DatabaseConnection dbConnection,WorkArrangementRepository war) {
+        this.war = new WorkArrangementRepository(dbConnection);
         this.dbConnection = dbConnection;
     }
 
@@ -37,7 +40,7 @@ public class BranchesDAO implements IDAO<Branch> {
 
             if (rs.next()) {
                 // Create the branch using the branch_num constructor
-                Branch branch = new Branch(rs.getInt("branch_num"));
+                Branch branch = new Branch(rs.getInt("branch_num"),war);
                 return branch;
             }
         }

@@ -11,10 +11,13 @@ import java.util.Map;
 public class BranchesRepository implements IRepository<Branch> {
     private final Map<Integer, Branch> branches;
     private final BranchesDAO branchesDAO;
+    private final WorkArrangementRepository war;
 
-    public BranchesRepository(DatabaseConnection dbConnection) {
+
+    public BranchesRepository(DatabaseConnection dbConnection, WorkArrangementRepository war) {
+        this.war = new WorkArrangementRepository(dbConnection);
         this.branches = new HashMap<>();
-        this.branchesDAO = new BranchesDAO(dbConnection); // Initialize branchesDAO with dbConnection
+        this.branchesDAO = new BranchesDAO(dbConnection,war); // Initialize branchesDAO with dbConnection
     }
     @Override
     public boolean Insert(Branch branch) {
