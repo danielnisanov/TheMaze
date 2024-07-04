@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/dev/Dal/BranchesDAO.java" dialect="SQLite" />
     <file url="file://$PROJECT_DIR$/dev/Dal/ManagersDAO.java" dialect="SQLite" />
     <file url="file://$PROJECT_DIR$/dev/Dal/RolesDAO.java" dialect="SQLite" />
+    <file url="file://$PROJECT_DIR$/dev/Dal/WorkArrangementDAO.java" dialect="SQLite" />
     <file url="file://$PROJECT_DIR$/dev/Dal/WorkersDAO.java" dialect="SQLite" />
   </component>
 </project>

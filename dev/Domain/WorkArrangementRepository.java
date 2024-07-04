@@ -11,7 +11,9 @@ public class WorkArrangementRepository implements IRepository<Shift> {
 
     public WorkArrangementRepository(DatabaseConnection dbConnection){
         this.weeklyWorkArrangement= new ArrayList<>();
+        this.workArrangementDAO = new WorkArrangementDAO(dbConnection);
     }
+
     @Override
     public boolean Insert(Shift obj) {
         return false;

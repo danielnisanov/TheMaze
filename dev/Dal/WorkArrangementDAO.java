@@ -30,32 +30,36 @@ public class WorkArrangementDAO implements IDAO<ArrayList<Shift>>{
     }
 
     @Override
-    public ArrayList<Shift> Find(int weekNum) throws SQLException {
+    public ArrayList<Shift> Find(int day) throws SQLException {
         ArrayList<Shift> shifts = new ArrayList<>();
-        String query = "SELECT * FROM shifts WHERE week_num = ?";
+        String query = "SELECT * FROM workArrangement WHERE day = ?"; // Corrected table name and field name
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, weekNum);
+            stmt.setInt(1, day);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                int shiftDate = rs.getInt("shift_date");
+                int shiftDate = rs.getInt("shift_id"); // Assuming shift_id is used as shiftDate
                 String shiftType = rs.getString("shift_type");
 
                 String workersStr = rs.getString("workers_on_shift");
                 List<Worker> workers = new ArrayList<>();
                 for (String workerId : workersStr.split(",")) {
-                    Worker worker = findWorkerById(Integer.parseInt(workerId));
-                    if (worker != null) {
-                        workers.add(worker);
+                    if (!workerId.isEmpty()) { // Check if workerId is not empty
+                        Worker worker = findWorkerById(Integer.parseInt(workerId));
+                        if (worker != null) {
+                            workers.add(worker);
+                        }
                     }
                 }
 
-                Shift shift = new Shift(shiftDate, shiftType, workers);
+                Shift shift = new Shift(shiftDate, shiftType, workers); // Using the constructor as defined
                 shifts.add(shift);
             }
         }
         return shifts;
     }
+
+
 
     @Override
     public boolean Update(int num, String field, String change) throws SQLException {
