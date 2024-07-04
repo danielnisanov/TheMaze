@@ -51,6 +51,8 @@ public class SubmitConstraints {
                 return false;
             }
 
+            int driverCount = 0;
+
             for (Role role : Role.values()) {
                 int number;
                 while (true) {
@@ -61,6 +63,10 @@ public class SubmitConstraints {
                     } else {
                         break;
                     }
+                }
+
+                if (role == Role.Truck_driver) {
+                    driverCount = number;
                 }
 
                 for (int i = 0; i < number; i++) {
@@ -89,6 +95,34 @@ public class SubmitConstraints {
                         } else {
                             System.out.println("Worker " + selectedWorker.getName() + " is already assigned to this shift. Please select another worker.");
                         }
+                    }
+                }
+            }
+
+            // Ensure that a warehouseman is selected if there are any truck drivers
+            if (driverCount > 0) {
+                boolean warehousemanAssigned = false;
+
+                while (!warehousemanAssigned) {
+                    List<Worker> availableWarehousemen = wc.AvailableWorkers(selectedDay, selectedShift, Role.Storekeeper, branch);
+
+                    if (availableWarehousemen.isEmpty()) {
+                        System.out.println("No available warehousemen for " + selectedDay + " at " + selectedShift);
+                        return false;
+                    }
+
+                    System.out.println("Since there are truck drivers, you must select a warehouseman:");
+                    for (int j = 0; j < availableWarehousemen.size(); j++) {
+                        System.out.println("(" + j + ") " + availableWarehousemen.get(j).getName());
+                    }
+
+                    int choiceWarehouseman = getUserInput("Enter your choice (0-" + (availableWarehousemen.size() - 1) + "):", 0, availableWarehousemen.size() - 1);
+                    Worker selectedWarehouseman = availableWarehousemen.get(choiceWarehouseman);
+
+                    if (sc.add_worker_to_weekly_arrangement(branch, selectedWarehouseman, selectedDay, selectedShift, Role.Storekeeper)) {
+                        warehousemanAssigned = true;
+                    } else {
+                        System.out.println("Warehouseman " + selectedWarehouseman.getName() + " is already assigned to this shift. Please select another warehouseman.");
                     }
                 }
             }

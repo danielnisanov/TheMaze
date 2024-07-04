@@ -1,5 +1,6 @@
 package Dal;
 
+import Domain.BranchesRepository;
 import Domain.Worker;
 
 import java.sql.Connection;
@@ -11,9 +12,9 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
     private final DatabaseConnection dbConnection;
     WorkersDAO workersDAO;
 
-    public WorkersOnShiftDAO(DatabaseConnection dbConnection) {
+    public WorkersOnShiftDAO(DatabaseConnection dbConnection, BranchesRepository BR) {
         this.dbConnection = dbConnection;
-        this.workersDAO = new WorkersDAO(dbConnection);
+        this.workersDAO = new WorkersDAO(dbConnection,BR);
     }
 
     @Override

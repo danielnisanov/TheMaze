@@ -120,6 +120,8 @@ public class Worker {
         this.branch = branch;
     }
 
+
+
     public double getTotal_hours() {
         return total_hours;
     }

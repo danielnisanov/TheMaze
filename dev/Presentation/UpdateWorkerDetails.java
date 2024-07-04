@@ -17,11 +17,6 @@ public class UpdateWorkerDetails {
     public void updateJobType(Branch branch) {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
-        if(!branch.is_worker_in_branch((id_num)))
-        {
-            System.out.println("this worker is not in your branch");
-            return;
-        }
         // Check if the ID is a 9-digit number
         int temp_id = id_num;
         int sum = 0;
@@ -42,6 +37,13 @@ public class UpdateWorkerDetails {
         json.addProperty("id", id_num);
         json.addProperty("job_type", job_type.toString());
         wc.Update_job_type(json);
+
+        if(!branch.is_worker_in_branch((id_num)))
+        {
+            System.out.println("this worker is not in your branch");
+            return;
+        }
+
         if (wc.Update_job_type(json)) {
             System.out.println("Update job type success");
         }
@@ -83,11 +85,6 @@ public class UpdateWorkerDetails {
         System.out.println("Enter the worker ID");
         int id_num = scanner.nextInt();
 
-        if(!branch.is_worker_in_branch(id_num))
-        {
-            System.out.println("this worker is not in your branch");
-            return;
-        }
 
         // Check if the ID is a 9-digit number
         int temp_id = id_num;
@@ -114,6 +111,12 @@ public class UpdateWorkerDetails {
         json.addProperty("hourly_salary", hourly_salary);
 
         wc.update_salary(json);
+
+        if(!branch.is_worker_in_branch(id_num))
+        {
+            System.out.println("this worker is not in your branch");
+            return;
+        }
         if (wc.update_salary(json)) {
             System.out.println("Update salary success");
         }

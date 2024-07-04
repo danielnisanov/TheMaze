@@ -1,9 +1,6 @@
 package Dal;
 
-import Domain.Worker;
-import Domain.Role;
-import Domain.JobType;
-import Domain.Branch;
+import Domain.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +15,11 @@ import com.google.gson.reflect.TypeToken;
 public class WorkersDAO implements IDAO<Worker> {
     private final DatabaseConnection dbConnection;
     private final Gson gson;
-
-    public WorkersDAO(DatabaseConnection dbConnection) {
+    private BranchesRepository BR = null;
+    public WorkersDAO(DatabaseConnection dbConnection, BranchesRepository BR) {
         this.dbConnection = dbConnection;
         this.gson = new Gson();
+        this.BR = BR;
     }
 
     @Override
@@ -86,7 +84,7 @@ public class WorkersDAO implements IDAO<Worker> {
                         rs.getDouble("hourly_salary"),
                         rs.getInt("vacation_days"),
                         JobType.valueOf(rs.getString("job_type")),
-                        new Branch(rs.getInt("branch")),
+                        BR.Find((rs.getInt("branch"))),
                         roles
                 );
                 worker.setTotal_hours(rs.getDouble("total_hours"));
@@ -141,12 +139,32 @@ public class WorkersDAO implements IDAO<Worker> {
                 }
                 break;
             case "roles":
-                query = "UPDATE workers SET roles = ? WHERE ID_number = ?";
+                // Assuming the value is a comma-separated list of roles
+                query = "SELECT roles FROM workers WHERE ID_number = ?";
                 try (Connection conn = dbConnection.getConnection();
                      PreparedStatement stmt = conn.prepareStatement(query)) {
-                    stmt.setString(1, value);
-                    stmt.setInt(2, id);
-                    updated = stmt.executeUpdate() > 0;
+                    stmt.setInt(1, id);
+                    ResultSet rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        String currentRoles = rs.getString("roles");
+                        Set<Role> roleSet = Arrays.stream(currentRoles.split(","))
+                                .map(Role::valueOf)
+                                .collect(Collectors.toSet());
+                        roleSet.add(Role.Shift_manager);
+                        // Adding new roles from value
+                        Arrays.stream(value.split(","))
+                                .map(Role::valueOf)
+                                .forEach(roleSet::add);
+                        String updatedRoles = roleSet.stream()
+                                .map(Role::name)
+                                .collect(Collectors.joining(","));
+                        query = "UPDATE workers SET roles = ? WHERE ID_number = ?";
+                        try (PreparedStatement updateStmt = conn.prepareStatement(query)) {
+                            updateStmt.setString(1, updatedRoles);
+                            updateStmt.setInt(2, id);
+                            updated = updateStmt.executeUpdate() > 0;
+                        }
+                    }
                 }
                 break;
             case "job_status":
@@ -195,7 +213,7 @@ public class WorkersDAO implements IDAO<Worker> {
 
                 String constraintsJson = rs.getString("constraints");
                 Map<String, List<String>> constraints = gson.fromJson(constraintsJson, new TypeToken<Map<String, List<String>>>() {}.getType());
-
+                Branch b = BR.Find((rs.getInt("branch")));
                 Worker worker = new Worker(
                         rs.getString("address"),
                         rs.getString("name"),
@@ -204,9 +222,10 @@ public class WorkersDAO implements IDAO<Worker> {
                         rs.getDouble("hourly_salary"),
                         rs.getInt("vacation_days"),
                         JobType.valueOf(rs.getString("job_type")),
-                        new Branch(rs.getInt("branch")),
+                        b,
                         roles
                 );
+                b.add_worker_brunch(worker);
                 worker.setTotal_hours(rs.getDouble("total_hours"));
                 worker.setJob_status(rs.getBoolean("job_status"));
                 worker.setConstraints(constraints);

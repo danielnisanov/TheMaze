@@ -71,7 +71,7 @@ public class ManagerPresentation {
                 System.out.println("14. Present past shifts ");
                 System.out.println("15. present a worker");
                 System.out.println("16. End of work day");
-                System.out.println("18. Log out from the user");
+                System.out.println("17. Log out from the user");
                 System.out.print("Enter your choice: ");
                 choice = scanner.nextInt();
                 scanner.nextLine();

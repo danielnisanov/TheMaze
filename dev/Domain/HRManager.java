@@ -18,7 +18,7 @@ public class HRManager {
         this.name = name;
         this.ID_number = ID_number;
         this.password = password;
-        this.branch = new Branch(branch);
+//        this.branch = new Branch(branch,workArrangementRepository);//todo
     }
 
 
