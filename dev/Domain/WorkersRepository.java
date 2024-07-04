@@ -12,15 +12,17 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class WorkersRepository implements IRepository<Worker> {
-
     private Map<Integer, Worker> workers;
     private WorkersDAO workersDAO;
     public BranchesRepository branchesRepository;
 
-    public WorkersRepository(DatabaseConnection dbConnection,BranchesRepository BR) {
+    public WorkersRepository(DatabaseConnection dbConnection, BranchesRepository branchesRepository) {
         this.workers = new HashMap<>();
-        this.workersDAO = new WorkersDAO(dbConnection,BR); // Initialize workersDAO
+        this.branchesRepository = branchesRepository;
+        this.workersDAO = new WorkersDAO(dbConnection, branchesRepository );
+
     }
+
 
     @Override
     public boolean Insert(Worker worker) {
@@ -330,6 +332,7 @@ public class WorkersRepository implements IRepository<Worker> {
                 e.printStackTrace();
             }
         }
+
         // If worker is found and is currently employed, convert to JsonObject
         if (worker != null && worker.getJob_status()) {
             JsonObject workerJson = new JsonObject();

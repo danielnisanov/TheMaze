@@ -139,12 +139,32 @@ public class WorkersDAO implements IDAO<Worker> {
                 }
                 break;
             case "roles":
-                query = "UPDATE workers SET roles = ? WHERE ID_number = ?";
+                // Assuming the value is a comma-separated list of roles
+                query = "SELECT roles FROM workers WHERE ID_number = ?";
                 try (Connection conn = dbConnection.getConnection();
                      PreparedStatement stmt = conn.prepareStatement(query)) {
-                    stmt.setString(1, value);
-                    stmt.setInt(2, id);
-                    updated = stmt.executeUpdate() > 0;
+                    stmt.setInt(1, id);
+                    ResultSet rs = stmt.executeQuery();
+                    if (rs.next()) {
+                        String currentRoles = rs.getString("roles");
+                        Set<Role> roleSet = Arrays.stream(currentRoles.split(","))
+                                .map(Role::valueOf)
+                                .collect(Collectors.toSet());
+                        roleSet.add(Role.Shift_manager);
+                        // Adding new roles from value
+                        Arrays.stream(value.split(","))
+                                .map(Role::valueOf)
+                                .forEach(roleSet::add);
+                        String updatedRoles = roleSet.stream()
+                                .map(Role::name)
+                                .collect(Collectors.joining(","));
+                        query = "UPDATE workers SET roles = ? WHERE ID_number = ?";
+                        try (PreparedStatement updateStmt = conn.prepareStatement(query)) {
+                            updateStmt.setString(1, updatedRoles);
+                            updateStmt.setInt(2, id);
+                            updated = updateStmt.executeUpdate() > 0;
+                        }
+                    }
                 }
                 break;
             case "job_status":

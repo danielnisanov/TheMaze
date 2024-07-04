@@ -118,20 +118,8 @@ public class WorkerController {
 
     public boolean update_salary(JsonObject json) {
         int id = json.get("id").getAsInt();
-        int houerlySalary = json.get("hourly_salary").getAsInt();
-        if (Worker_Rep.Update(id, "hourly_salary", "houerlySalary")){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-
-    public boolean Update_job_type(JsonObject json) {
-        int id = json.get("id").getAsInt();
-        int job_type = Integer.parseInt(json.get("job_type").getAsString());
-        if (Worker_Rep.Update(id, "job_type", "job_type")) {
+        double hourlySalary = json.get("hourly_salary").getAsDouble();
+        if (Worker_Rep.Update(id, "hourly_salary", String.valueOf(hourlySalary))){
             return true;
         } else {
             return false;
@@ -139,16 +127,28 @@ public class WorkerController {
     }
 
 
-    public boolean Update_Branch(JsonObject json) {
+    public boolean Update_job_type(JsonObject json) {
         int id = json.get("id").getAsInt();
-        int branchNum = json.get("branch_num").getAsInt();
-        if (Worker_Rep.Update(id, "branch"," branchNum")){
-            return  true;
-        }
-        else {
+        String job_type = json.get("job_type").getAsString();
+        if (Worker_Rep.Update(id, "job_type", job_type)) {
+            return true;
+        } else {
             return false;
         }
     }
+
+
+
+    public boolean Update_Branch(JsonObject json) {
+        int id = json.get("id").getAsInt();
+        int branchNum = json.get("branch_num").getAsInt();
+        if (Worker_Rep.Update(id, "branch", String.valueOf(branchNum))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
     public boolean Update_bank_account_num(JsonObject json) {
