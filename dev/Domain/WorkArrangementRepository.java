@@ -30,14 +30,16 @@ public class WorkArrangementRepository implements IRepository<Shift> {
     }
 
 
-    public ArrayList<Shift> getWeeklyWorkArrangement(int num ) {
+    public ArrayList<Shift> getWeeklyWorkArrangement(int num) {
         if (!weeklyWorkArrangement.isEmpty()) {
+            System.out.println("Returning cached weekly work arrangement.");
             return weeklyWorkArrangement;
         } else {
             try {
                 ArrayList<Shift> foundShifts = workArrangementDAO.Find(num);
                 if (foundShifts != null) {
                     weeklyWorkArrangement.addAll(foundShifts);
+                    System.out.println("Retrieved and cached weekly work arrangement from database.");
                 }
                 return weeklyWorkArrangement;
             } catch (SQLException e) {
@@ -46,6 +48,7 @@ public class WorkArrangementRepository implements IRepository<Shift> {
             }
         }
     }
+
     @Override
     public Shift Find(int day){
         return null;

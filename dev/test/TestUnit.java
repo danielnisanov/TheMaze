@@ -11,22 +11,35 @@ import Presentation.AddWorker;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.*;
 
+import static Domain.Role.Storekeeper;
 import static org.junit.Assert.*;
 
 public class TestUnit {
     private WorkerController wc;
     private Branch branch;
     private WorkArrangementRepository workArrangementRepository;
+    private BranchesRepository branchRepo;
+    private ManagersRepository managerRepo;
+    private WorkersRepository workersRepository;
+    private ShiftHRepository shiftHRepository;
+    private BranchesRepository branchesRepository;
 
     @Before
     public void setUp() {
         String dbPath = "C:\\Users\\ronig\\OneDrive\\שולחן העבודה\\ADSS\\Supermarket.db";
         DatabaseConnection dbConnection = new DatabaseConnection(dbPath);
-        wc = new WorkerController(dbConnection,workArrangementRepository);
+        branchRepo = new BranchesRepository(dbConnection, workArrangementRepository);
+        managerRepo = new ManagersRepository(dbConnection, branchRepo);
+        workArrangementRepository = new WorkArrangementRepository(dbConnection);
+        wc = new WorkerController(dbConnection, workArrangementRepository);
+        workersRepository = new WorkersRepository(dbConnection, branchRepo);
+        shiftHRepository = new ShiftHRepository();
+        branchesRepository = new BranchesRepository(dbConnection, workArrangementRepository);
+        branch = new Branch(1, workArrangementRepository);
     }
 
     @Test
@@ -59,7 +72,7 @@ public class TestUnit {
         assertEquals(20, worker.getVaction_days());
         assertEquals(JobType.Full_time_job, worker.getJob_type());
         assertEquals(1, worker.getBranchNum());
-        assertTrue(worker.getRoles_permissions().contains(Role.Storekeeper));
+        assertTrue(worker.getRoles_permissions().contains(Storekeeper));
     }
 
     @Test
@@ -366,4 +379,27 @@ public class TestUnit {
         assertEquals(worker2.getStarting_day().toString(), retrievedWorkerJson.get("starting_day").getAsString());
         assertEquals(false, retrievedWorkerJson.get("job_status").getAsBoolean());
     }
+
+    @Test
+    public void test_add_manager() {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", "JohnDoe");
+        json.addProperty("ID_number", 123456788);
+        json.addProperty("branch_num", 1);
+
+        wc.add_manager(json);
+
+        HRManager manager = managerRepo.getManager(123456788);
+        assertNotNull(manager);
+        assertEquals("JohnDoe", manager.getName());
+        assertEquals(123456788, manager.getID_number());
+
+        Branch branch = branchRepo.Find(1);
+        assertNotNull(branch);
+        assertEquals(1, branch.getBranchNum());
+        assertEquals(manager, branch.getHRManager());
+    }
+
+
+
 }
