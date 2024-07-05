@@ -3,8 +3,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductControllerTest {
 
@@ -23,9 +26,9 @@ public class ProductControllerTest {
     @Test
     void testAddProduct() {
         try {
-           // categoryController.addCategory("Category");
-//            categoryController.addSubCategory("Apple","Fruits");
-//            categoryController.addSubSubCategory("100 gram","Apple","Fruits");
+//            categoryController.addCategory("Category");
+//            categoryController.addSubCategory("Banana","Fruits");
+//            categoryController.addSubSubCategory("100 gram","Banana","Fruits");
             productController.addProduct("1", "Test Product 1", "A1", "Test Manufacturer", 100, 10.0, 15.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
             Product retrievedProduct = productController.getProduct("Test Product 1");
             assertNotNull(retrievedProduct);
@@ -64,19 +67,19 @@ public class ProductControllerTest {
         }
     }
 
-//    @Test
-//    void testRemoveItemFromProduct() {
-//        try {
-//            productController.addProduct("4", "Test Product 4", "A3", "Test Manufacturer", 70, 15.0, 20.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
-//            productController.addItem("Test Product 4", LocalDate.now().plusMonths(3), true);
-//            Product product = productController.getProduct("Test Product 4");
-//            int initialItemCount = product.getItemRepo().getItems().size();
-//            productController.removeItem("Test Product 4", 1); // Assuming item number 1
-//            assertEquals(initialItemCount - 1, product.getItemRepo().getItems().size());
-//        } catch (Exception e) {
-//            fail("Exception thrown: " + e.getMessage());
-//        }
-//    }
+    @Test
+    void testRemoveItemFromProduct() {
+        try {
+            productController.addProduct("4", "Test Product 4", "A3", "Test Manufacturer", 70, 15.0, 20.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
+            productController.addItem("Test Product 4", LocalDate.now().plusMonths(3), true);
+            Product product = productController.getProduct("Test Product 4");
+            int initialItemCount = product.getItemRepo().getItems().size();
+            productController.removeItem("Test Product 4", 1); // Assuming item number 1
+            assertEquals(initialItemCount - 1, product.getItemRepo().getItems().size());
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
+    }
 
     @Test
     void testUpdateProductDiscount() {
@@ -138,6 +141,19 @@ public class ProductControllerTest {
         }
     }
 
-
+    @Test
+    void testGetExpiredItemsForProduct() {
+        try {
+            productController.addProduct("8", "Test Product 8", "C4", "Another Manufacturer", 20, 15.0, 20.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
+            Map<Item, String> expiredItemsBefore = productController.getExpiredItems();
+            int beforeSize = expiredItemsBefore.size();
+            productController.addItem("Test Product 8", LocalDate.of(2020, 1, 1), true); // Expired item
+            Map<Item, String> expiredItemsAfter = productController.getExpiredItems();
+            int afterSize = expiredItemsAfter.size();
+            assertEquals(beforeSize + 1, afterSize, "The expired number of items is not correct");
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
+    }
 
 }

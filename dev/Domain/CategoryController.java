@@ -16,8 +16,6 @@ public class CategoryController {
         return category_controller;
     }
 
-
-
     public CategoryController() {
         categoryRepo = new CategoryRepository();
     }

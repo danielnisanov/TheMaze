@@ -21,7 +21,6 @@ public class Product {
     private String cat;
     private String subCat;
     private String subSubCat;
-   // private Map<String,Item> items; //TODO DELETE
     private ItemRepository itemRepo;
 
 
@@ -75,8 +74,8 @@ public class Product {
         if (expirationDate == null){
             throw new Exception("expirationDate is missing.");
         }
-        itemIndex++;
-        Item newItem = new Item(productName, itemIndex, expirationDate,false, onShelf );
+        Item.itemIDidx++;
+        Item newItem = new Item(productName, Item.itemIDidx, expirationDate,false, onShelf );
         itemRepo.add(newItem);
         if (onShelf)
             shelfQuantity++;

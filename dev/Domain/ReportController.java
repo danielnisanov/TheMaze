@@ -21,7 +21,6 @@ public class ReportController {
 
     public ReportController() {
         reportIndex = 1;
-        //reports = new HashMap<>();
         product_controller = ProductController.getInstance();
         reportRepo = new ReportRepository();
     }

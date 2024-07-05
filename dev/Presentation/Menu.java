@@ -12,25 +12,17 @@ public class Menu {
     private ProductPresentation productPresentation;
     private CategoryPresentation categoryPresentation;
     private ReportPresentation reportPresentation;
-  //  private CSVReader csvReader;
-
 
     public Menu() {
         scanner = new Scanner(System.in);
         productPresentation = new ProductPresentation(scanner);
         categoryPresentation = new CategoryPresentation(scanner);
         reportPresentation = new ReportPresentation(scanner);
-    //    csvReader = new CSVReader();
     }
 
     public void start() throws Exception {
 
-        System.out.print("Do you want to load initial data? (Y/N): ");
-        String loadChoice = scanner.nextLine().trim().toUpperCase();
-        if (loadChoice.equals("Y")) {
-            loadInitialData();
-        }
-
+        loadInitialData();
         checkAndGenerateReport();
         MainMenu();
     }

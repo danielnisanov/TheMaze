@@ -15,7 +15,6 @@ public class ItemDAO implements IDAO<Item> {
 
     @Override
     public void add(Item item) throws SQLException {
-        System.out.println("ADDING ITEM IN ITEMDAO...");
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO items (itemID, productName, expirationDate,isDamaged, onShelf) VALUES (?,?, ?, ?,?)");
         stmt.setInt(1, item.getItemID());
         stmt.setString(2, item.getProductName());

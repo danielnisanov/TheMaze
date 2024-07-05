@@ -22,17 +22,8 @@ public class SubSubCategoryRepository implements IRepository<SubSubCategory>{
 
     @Override
     public void add(SubSubCategory subSubCategory) throws Exception {
-        if (subSubCategories.containsKey(subSubCategory.getSubSubCategoryName())) {
-            throw new Exception("SubSubCategory " + subSubCategory.getSubSubCategoryName() + " already exists.");
-        } else {
-            SubSubCategory subSubCategoryFromDB = subSubCategoryDAO.get(subSubCategory.getSubSubCategoryName());
-            if (subSubCategoryFromDB != null) {
-                subSubCategories.put(subSubCategory.getSubSubCategoryName(), subSubCategoryFromDB);
-            } else {
-                subSubCategoryDAO.add(subSubCategory);
-                subSubCategories.put(subSubCategory.getSubSubCategoryName(), subSubCategory);
-            }
-        }
+        subSubCategoryDAO.add(subSubCategory);
+        subSubCategories.put(subSubCategory.getSubSubCategoryName(), subSubCategory);
     }
 
     @Override

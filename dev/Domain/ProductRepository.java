@@ -147,17 +147,6 @@ public class ProductRepository implements IRepository<Product>{
     }
 
     public Map<Item, String> getDamagedItems() {
-//
-//        Map<Item, String> damagedItemsList = new HashMap<>();
-//        for (Product product: productsList.values() ){
-//            for (Item item: product.getItems().values()){
-//                if (item.isDamaged()){
-//                    damagedItemsList.put(item, product.getName());
-//                }
-//            }
-//        }
-//        return damagedItemsList;
-//    }
         try {
             return productDAO.getDamagedItems();
         } catch (Exception e) {
@@ -191,11 +180,9 @@ public class ProductRepository implements IRepository<Product>{
         }
     }
 
-    //TODO DELETE
     public void showAllItemsMAP(String productName) throws SQLException {
         Product product = productDAO.get(productName);
         ItemRepository p = product.getItemRepo();
         System.out.println(p.toString());
-
     }
 }

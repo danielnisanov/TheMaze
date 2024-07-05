@@ -231,7 +231,6 @@ public class ProductDAO implements IDAO<Product> {
                         rs.getString("subSubCategory")
                 );
 
-                // Check condition: currentQuantity <= minQuantity
                 if (product.getCurrentQuantity() <= product.getMinQuantity()) {
                     products.add(product);
                 }
@@ -351,9 +350,6 @@ public class ProductDAO implements IDAO<Product> {
             while (rs.next()) {
                 int itemID = rs.getInt("itemID");
                 String productName = rs.getString("productName");
-              //  LocalDate expirationDate = rs.getDate("expirationDate").toLocalDate();
-
-               // System.out.println(itemID + " " + productName + " " + expirationDate);
                 System.out.println(itemID + " " + productName );
 
             }

@@ -89,9 +89,7 @@ public class ProductController {
 
     public Map<Item, String> getExpiredItems(){
         return productRepo.getExpiredItems();
-
     }
-
 
     public void showProducts(){
         productRepo.showProducts();
