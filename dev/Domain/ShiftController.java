@@ -59,7 +59,7 @@ public class ShiftController {
 
         int shiftArrayIndex = dayIndex * 2 + shiftIndex;
 
-        if (shiftArrayIndex < 0 || shiftArrayIndex >= branch.get_Weekly_Work_Arrangement().size()) {
+        if (shiftArrayIndex < 0 || shiftArrayIndex > branch.get_Weekly_Work_Arrangement().size()) {
             throw new IndexOutOfBoundsException("Index " + shiftArrayIndex + " out of bounds for length " + branch.get_Weekly_Work_Arrangement().size());
         }
 
