@@ -5,15 +5,24 @@ import java.time.LocalDateTime;
 
 public class Item {
     private String productName;
+    static int itemIDidx = 0;
     private int itemID;
     private LocalDate expirationDate;
     private boolean isDamaged;
     private boolean onShelf;
 
-
-    public Item(String productName, int itemID, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
+    public Item(String productName, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
         this.productName = productName;
-        this.itemID = itemID;
+        itemIDidx++;
+        this.itemID = itemIDidx;
+        this.expirationDate = expirationDate;
+        this.isDamaged = isDamaged;
+        this.onShelf = onShelf;
+    }
+
+    public Item(String productName, int itemid, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
+        this.productName = productName;
+        this.itemID = itemid;
         this.expirationDate = expirationDate;
         this.isDamaged = isDamaged;
         this.onShelf = onShelf;
@@ -25,10 +34,6 @@ public class Item {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
     }
 
     public void setExpirationDate(LocalDate expirationDate) {
