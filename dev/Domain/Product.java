@@ -75,9 +75,7 @@ public class Product {
         if (expirationDate == null){
             throw new Exception("expirationDate is missing.");
         }
-        //itemIndex++;
         Item.itemIDidx++;
-        //Item newItem = new Item(productName, itemIndex, expirationDate,false, onShelf );
         Item newItem = new Item(productName, Item.itemIDidx, expirationDate,false, onShelf );
         itemRepo.add(newItem);
         if (onShelf)
