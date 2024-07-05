@@ -15,9 +15,10 @@ public class ItemDAO implements IDAO<Item> {
 
     @Override
     public void add(Item item) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO items (productName,itemID, expirationDate,isDamaged, onShelf) VALUES (?,?, ?, ?,?)");
-        stmt.setString(1, item.getProductName());
-        stmt.setInt(2, item.getItemID());
+        System.out.println("ADDING ITEM IN ITEMDAO...");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO items (itemID, productName, expirationDate,isDamaged, onShelf) VALUES (?,?, ?, ?,?)");
+        stmt.setInt(1, item.getItemID());
+        stmt.setString(2, item.getProductName());
         stmt.setDate(3, java.sql.Date.valueOf(item.getExpirationDate()));
         stmt.setBoolean(4, item.isDamaged());
         stmt.setBoolean(5, item.isOnShelf());
@@ -57,18 +58,6 @@ public class ItemDAO implements IDAO<Item> {
         }
     }
 
-//    @Override
-//    public void update(Item item) throws SQLException {
-//        Date sqlDate = Date.valueOf(item.getExpirationDate());
-//        PreparedStatement stmt = conn.prepareStatement("UPDATE items SET productName = ?,itemID=?, expirationDate = ?, isDamaged = ?, onShelf = ? WHERE itemID = ?");
-//        stmt.setString(1, item.getProductName());
-//        stmt.setInt(2, item.getItemID());
-//        stmt.setDate(3, sqlDate);
-//        stmt.setBoolean(4, item.isDamaged());
-//        stmt.setBoolean(5, item.isOnShelf());
-//        stmt.executeUpdate();
-//        stmt.close();
-//    }
 @Override
 public void update(Item item) throws SQLException {
     Date sqlDate = Date.valueOf(item.getExpirationDate());

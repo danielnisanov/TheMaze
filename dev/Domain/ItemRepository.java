@@ -143,6 +143,10 @@ public class ItemRepository implements IRepository <Item>{
         return null;
     }
 
+    public Map<String, Item> getItems() {
+        return items;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

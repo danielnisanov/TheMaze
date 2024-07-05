@@ -58,8 +58,6 @@ public class ProductController {
         productRepo.proIsExist(name);
         Product product = productRepo.get(name);
         product.addItem(productRepo.get(name).getName(), expirationDate, onShelf);
-        // productRepo.get(name).addItem(productRepo.get(name).getName(), expirationDate, onShelf);
-        System.out.println(product);
         productRepo.update(product);
     }
 
@@ -75,113 +73,31 @@ public class ProductController {
     }
 
 
-    //FIXME DAO
     public List<Product> getProductsByCategory(String category, String subCategory, String subSubCategory)  {
-//        List<Product> products = new ArrayList<>();
-//        if (category != null && !category.equals("")) {
-//            if (subCategory != null && !subCategory.equals("")) {
-//                if (subSubCategory != null && !subSubCategory.equals("")) {
-//                    for (Product p : productsList.values())
-//                        if (p.getCat().equals(category) && p.getSubCat().equals(subCategory) && p.getSubSubCat().equals(subSubCategory))
-//                            products.add(p);
-//                } else for (Product p : productsList.values())
-//                    if (p.getCat().equals(category) && p.getSubCat().equals(subCategory)) products.add(p);
-//            } else for (Product p : productsList.values())
-//                if (p.getCat().equals(category)) products.add(p);
-//        } else products = new ArrayList<>(productsList.values());
-//        return products;
-
         return productRepo.getProductsByCategory( category, subCategory, subSubCategory);
     }
 
-    //FIXME DAO
     public List<Product> getMissingProductsByCategory(String category, String subCategory, String subSubCategory) {
-//        List<Product> products = new ArrayList<>();
-//        if (category != null && !category.equals("")) {
-//            if (subCategory != null && !subCategory.equals("")) {
-//                if (subSubCategory != null && !subSubCategory.equals("")) {
-//                    for (Product p : productsList.values())
-//                        if (p.getCat().equals(category) && p.getSubCat().equals(subCategory) && p.getSubSubCat().equals(subSubCategory)) {
-//                            if (p.getCurrentQuantity() <= p.getMinQuantity())
-//                                products.add(p);
-//                        }
-//                }
-//                else {
-//                    for (Product p : productsList.values()) {
-//                        if (p.getCat().equals(category) && p.getSubCat().equals(subCategory)) {
-//                            if (p.getCurrentQuantity() <= p.getMinQuantity())
-//                                products.add(p);
-//                        }
-//                    }
-//                }
-//            }
-//            else {
-//                for (Product p : productsList.values()) {
-//                    if (p.getCat().equals(category)) {
-//                        if (p.getCurrentQuantity() <= p.getMinQuantity())
-//                            products.add(p);
-//                    }
-//                }
-//            }
-//        }
-//        else
-//            for (Product p : productsList.values()) {
-//                if (p.getCurrentQuantity() <= p.getMinQuantity())
-//                    products.add(p);
-//            }
-//        return products;
         return productRepo.getMissingProductsByCategory( category, subCategory, subSubCategory);
-
     }
 
 
-    //FIXME DAO
     public Map<Item, String> getDamagedItems(){
-//
-//        Map<Item, String> damagedItemsList = new HashMap<>();
-//        for (Product product: productsList.values() ){
-//            for (Item item: product.getItems().values()){
-//                if (item.isDamaged()){
-//                    damagedItemsList.put(item, product.getName());
-//                }
-//            }
-//        }
-//        return damagedItemsList;
         return productRepo.getDamagedItems();
 
     }
 
-    //FIXME DAO
     public Map<Item, String> getExpiredItems(){
-//        Map<Item, String> expiredItemsList = new HashMap<>();
-//        for (Product product: productsList.values() ){
-//            Map<Item, String> expiredItemsOfP;
-//            expiredItemsOfP = product.findExpiredItems();
-//            expiredItemsList.putAll(expiredItemsOfP);
-//        }
-//
-//        return expiredItemsList;
         return productRepo.getExpiredItems();
 
     }
 
 
-    //FIXME DAO
     public void showProducts(){
-//        for (Product p: productsList.values()){
-//            System.out.println(p.getName());
-//        }
         productRepo.showProducts();
     }
 
-    //FIXME DAO
     public void showAllItems(){
-//        for (Product p: productsList.values()){
-//            Map<String, Item> items =  p.getItems();
-//            for (Item i: items.values()){
-//                System.out.println( p.getName() +" "+ i.getItemID() +" "+i.getExpirationDate());
-//            }
-//        }
         productRepo.showAllItems();
 
     }

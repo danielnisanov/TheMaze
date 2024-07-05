@@ -47,7 +47,7 @@ public class ProductDAO implements IDAO<Product> {
     @Override
     public void remove(String name) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM products WHERE name = ?");
-        stmt.setString(1, name); //FIXME
+        stmt.setString(1, name);
         stmt.executeUpdate();
         stmt.close();
     }
@@ -55,7 +55,7 @@ public class ProductDAO implements IDAO<Product> {
     @Override
     public Product get(String name) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM products WHERE name = ?");
-        stmt.setString(1, name); //FIXME
+        stmt.setString(1, name);
         ResultSet rs = stmt.executeQuery();
         Product product = null;
         if (rs.next()) {

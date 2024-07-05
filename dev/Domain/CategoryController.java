@@ -60,22 +60,6 @@ public class CategoryController {
         s.removeSubSubCategory(subSubCategoryName);
     }
 
-//    public SubSubCategory subSubCategoryName (String subSubCategoryName, String subCategoryName, String categoryName) throws Exception{
-//        if (!categoriesList.containsKey(categoryName)){
-//            throw new Exception("The Category isn't exist.");
-//        }
-//        else if (!categoriesList.get(categoryName).getSubList().containsKey(subCategoryName)){
-//            throw new Exception("The SubCategory isn't exist.");
-//        }
-//        else if (!categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().containsKey(subSubCategoryName)){
-//            throw new Exception("This SubSubCategory isn't exist.");
-//        }
-//        else{
-//            return categoriesList.get(categoryName).getSubList().get(subCategoryName).getSubSubList().get(subSubCategoryName);
-//        }
-//    }
-
-
     public CategoryRepository getCategoryRepo() {
         return categoryRepo;
     }
@@ -85,17 +69,10 @@ public class CategoryController {
     }
 
     public void showCategories() throws SQLException {
-//        for (Category c: categoriesList.values()){
-//            System.out.println(c.toString());
-//        }
         categoryRepo.showCategories();
     }
 
     public void showSubCategories(String categoryName)throws Exception{
-//        Map<String,SubCategory> sublist= categoriesList.get(categoryName).getSubList();
-//        for (SubCategory s: sublist.values()){
-//            System.out.println(s.toString());
-//        }
         Category c = categoryRepo.get(categoryName);
         categoryRepo.showSubCategories(c);
     }

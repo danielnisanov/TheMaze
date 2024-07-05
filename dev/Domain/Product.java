@@ -46,7 +46,6 @@ public class Product {
         this.cat = cat;
         this.subCat = subCat;
         this.subSubCat = subSubCat;
-     // items = new HashMap<>(); //TODO DELETE
         itemRepo = new ItemRepository();
 
     }
@@ -67,7 +66,6 @@ public class Product {
         this.cat = cat;
         this.subCat = subCat;
         this.subSubCat = subSubCat;
-        //items = new HashMap<>(); //TODO DELETE
         itemRepo = new ItemRepository();
 
     }
