@@ -13,7 +13,7 @@ public class Item {
 
     public Item(String productName, LocalDate expirationDate, boolean isDamaged, boolean onShelf) {
         this.productName = productName;
-        itemIDidx++;
+       // itemIDidx++;
         this.itemID = itemIDidx;
         this.expirationDate = expirationDate;
         this.isDamaged = isDamaged;

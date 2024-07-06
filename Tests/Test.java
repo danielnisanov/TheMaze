@@ -1,34 +1,26 @@
 import Domain.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ProductControllerTest {
+public class Test {
 
     private ProductController productController;
-    private CategoryController categoryController;
     private ReportController reportController;
 
 
     @BeforeEach
     void setUp() {
         productController =  ProductController.getInstance();
-        categoryController =  CategoryController.getInstance();
         reportController = ReportController.getInstance();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testAddProduct() {
         try {
-//            categoryController.addCategory("Category");
-//            categoryController.addSubCategory("Banana","Fruits");
-//            categoryController.addSubSubCategory("100 gram","Banana","Fruits");
             productController.addProduct("1", "Test Product 1", "A1", "Test Manufacturer", 100, 10.0, 15.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
             Product retrievedProduct = productController.getProduct("Test Product 1");
             assertNotNull(retrievedProduct);
@@ -42,7 +34,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testRemoveProduct() {
         try {
             productController.addProduct("2", "Another Product 2", "B2", "Another Manufacturer", 50, 8.0, 12.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -55,7 +47,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testAddItemToProduct() {
         try {
             productController.addProduct("3", "Test Product 3", "A2", "Test Manufacturer", 80, 12.0, 18.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -67,7 +59,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testRemoveItemFromProduct() {
         try {
             productController.addProduct("4", "Test Product 4", "A3", "Test Manufacturer", 70, 15.0, 20.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -81,7 +73,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testUpdateProductDiscount() {
         try {
             productController.addProduct("5", "Test Product 5", "A4", "Test Manufacturer", 60, 20.0, 25.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -93,7 +85,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testUpdateProductSale() {
         try {
             productController.addProduct("6", "Test Product 6", "A5", "Test Manufacturer", 50, 18.0, 22.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -107,7 +99,7 @@ public class ProductControllerTest {
 
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testCreateInventoryReport() {
         try {
             reportController.createInventoryReport("Fruits", "Apple", "100 gram");
@@ -117,7 +109,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testCreateDamagedReport() {
         try {
             reportController.createDamagedReport();
@@ -127,7 +119,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testGetMissingItemsForProduct() {
         try {
             productController.addProduct("7", "Test Product 7", "C3", "Yet Another Manufacturer", 10, 12.0, 18.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -141,7 +133,7 @@ public class ProductControllerTest {
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void testGetExpiredItemsForProduct() {
         try {
             productController.addProduct("8", "Test Product 8", "C4", "Another Manufacturer", 20, 15.0, 20.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
@@ -151,6 +143,20 @@ public class ProductControllerTest {
             Map<Item, String> expiredItemsAfter = productController.getExpiredItems();
             int afterSize = expiredItemsAfter.size();
             assertEquals(beforeSize + 1, afterSize, "The expired number of items is not correct");
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
+    }
+
+    @org.junit.jupiter.api.Test
+    void testUpdateItemOnShelf() {
+        try {
+            productController.addProduct("9", "Test Product 9", "C8", "Test Manufacturer", 4, 18.0, 22.0, 0.0, 0.0, "Fruits", "Apple", "100 gram");
+            Product product = productController.getProduct("Test Product 9");
+            int beforeOnShelf = product.getShelfQuantity();
+            productController.addItem("Test Product 9", LocalDate.now().plusMonths(6), true);
+            int afterOnShelf = product.getShelfQuantity();
+            assertEquals( beforeOnShelf+1, afterOnShelf);
         } catch (Exception e) {
             fail("Exception thrown: " + e.getMessage());
         }
