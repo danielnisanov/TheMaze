@@ -1,10 +1,6 @@
 package Domain;
-
-
-
 import Dal.WorkArrangementDAO;
-import Dal.WorkersOnShiftDAO;
-
+import Dal.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +19,7 @@ public class WorkersOnShiftRepository implements IRepository<Worker> {
             return false; // Worker already exists
         } else {
             try {
-                workersOnShiftDAO.InsertShift(worker,shift_id); // Add worker to the database
+                workersOnShiftDAO.InsertShiftWA(worker,shift_id); // Add worker to the database
                 workers_on_shift.add(worker); // Add worker to the map
                 return true;
             } catch (SQLException e) {
