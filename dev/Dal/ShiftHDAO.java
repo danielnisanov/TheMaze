@@ -24,7 +24,7 @@ public class ShiftHDAO implements IDAO<Shift>  {
 
     @Override
     public void Insert(Shift shift) throws SQLException {
-        String query = "INSERT INTO shifts (shift_date, shift_type, workers_on_shift) VALUES (?, ?, ?)";
+        String query = "INSERT INTO shiftHistory (shift_date, shift_type, workers_on_shift) VALUES (?, ?, ?)";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, shift.getShift_date()); // assuming shift_date is a string

@@ -24,10 +24,12 @@ public class MCVSystem {
         WorkArrangementDAO workArrangementDAO = new WorkArrangementDAO(dbConnection);
         WorkArrangementRepository workArrangementRepository = new WorkArrangementRepository(dbConnection);
         worker_controler = new WorkerController(dbConnection,workArrangementRepository);
-        ShiftHRepository shiftHRepository = new ShiftHRepository();
         BranchesRepository BR = new BranchesRepository(dbConnection,workArrangementRepository);
+        ShiftHDAO shf = new ShiftHDAO(dbConnection,BR);
+        ShiftHRepository shiftHRepository = new ShiftHRepository(shf);
         WorkersRepository workersRepository = new WorkersRepository(dbConnection,BR);
-        WorkersOnShiftRepository workersOnShiftRepository = new WorkersOnShiftRepository();
+        WorkersOnShiftDAO wosd = new WorkersOnShiftDAO(dbConnection,BR);
+        WorkersOnShiftRepository workersOnShiftRepository = new WorkersOnShiftRepository(wosd);
         appointmentManager = new AppointmentManager(worker_controler);
         addWorker = new AddWorker(worker_controler);
         emplymenttermination = new EmploymentTermination(worker_controler);

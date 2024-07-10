@@ -5,6 +5,7 @@ import Domain.Worker;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class WorkersOnShiftDAO implements IDAO<Worker> {
@@ -17,15 +18,34 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
         this.workersDAO = new WorkersDAO(dbConnection,BR);
     }
 
-    @Override
-    public void Insert(Worker worker) throws SQLException {
-        String query = "INSERT INTO workers_on_shift (id_number, ...) VALUES (?, ...)";
+
+    public void InsertShift(Worker worker,int shift_id) throws SQLException {
+        String val = "";
+        String query = "SELECT * from WorkArrangement WHERE shift_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, worker.getID_number());
-            // Set other fields
+            stmt.setInt(1, shift_id+1);
+            ResultSet res = stmt.executeQuery();
+            while(res.next()) {
+                val = res.getString(4);
+            }
+        }
+        query = "UPDATE WorkArrangement SET workers_on_shift = ? WHERE shift_id = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            if(val != "")
+            {
+                val += ",";
+            }
+            stmt.setString(1, val+worker.getID_number());
+            stmt.setInt(2, shift_id+1);
             stmt.executeUpdate();
         }
+    }
+
+    @Override
+    public void Insert(Worker obj) throws SQLException {
+
     }
 
     @Override

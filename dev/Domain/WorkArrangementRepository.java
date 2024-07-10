@@ -11,6 +11,8 @@ public class WorkArrangementRepository implements IRepository<Shift> {
 
     public WorkArrangementRepository(DatabaseConnection dbConnection){
         this.weeklyWorkArrangement= new ArrayList<>();
+        for (int i = 0 ; i < 14; i++)
+            weeklyWorkArrangement.add(new Shift(i/7,(i%2 == 1)? "Evening" : "Morning",new ArrayList<Worker>()));
         this.workArrangementDAO = new WorkArrangementDAO(dbConnection);
     }
 
@@ -30,16 +32,18 @@ public class WorkArrangementRepository implements IRepository<Shift> {
     }
 
 
-    public ArrayList<Shift> getWeeklyWorkArrangement(int num) {
+    public ArrayList<Shift> getWeeklyWorkArrangement() {
         if (!weeklyWorkArrangement.isEmpty()) {
             System.out.println("Returning cached weekly work arrangement.");
             return weeklyWorkArrangement;
         } else {
             try {
-                ArrayList<Shift> foundShifts = workArrangementDAO.Find(num);
-                if (foundShifts != null) {
-                    weeklyWorkArrangement.addAll(foundShifts);
-                    System.out.println("Retrieved and cached weekly work arrangement from database.");
+                for(int i = 0; i < 14; i++) {
+                    ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
+                    if (foundShifts != null) {
+                        weeklyWorkArrangement.addAll(foundShifts);
+                        System.out.println("Retrieved and cached weekly work arrangement from database.");
+                    }
                 }
                 return weeklyWorkArrangement;
             } catch (SQLException e) {

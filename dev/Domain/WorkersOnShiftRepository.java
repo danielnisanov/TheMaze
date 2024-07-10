@@ -11,17 +11,17 @@ public class WorkersOnShiftRepository implements IRepository<Worker> {
     public ArrayList<Worker> workers_on_shift;
     public WorkersOnShiftDAO workersOnShiftDAO;
 
-    public WorkersOnShiftRepository (){
+    public WorkersOnShiftRepository (WorkersOnShiftDAO wdao){
         this.workers_on_shift = new ArrayList<>()  ;
+        workersOnShiftDAO = wdao;
     }
 
-    @Override
-    public boolean Insert(Worker worker) {
+    public boolean InsertShift(Worker worker,int shift_id) {
         if (workers_on_shift.contains(worker.getID_number())) {
             return false; // Worker already exists
         } else {
             try {
-                workersOnShiftDAO.Insert(worker); // Add worker to the database
+                workersOnShiftDAO.InsertShift(worker,shift_id); // Add worker to the database
                 workers_on_shift.add(worker); // Add worker to the map
                 return true;
             } catch (SQLException e) {
@@ -32,22 +32,27 @@ public class WorkersOnShiftRepository implements IRepository<Worker> {
     }
 
     @Override
+    public boolean Insert(Worker obj) {
+        return false;
+    }
+
+    @Override
     public boolean Update(int num, String field, String change) throws SQLException {
         return false;
     }
 
     @Override
     public boolean Delete() {
-        try {
+        //try {
             // Delete all workers from the database
-            workersOnShiftDAO.Delete();
+            //workersOnShiftDAO.Delete();
             // Clear the list
             workers_on_shift.clear();
             return true;
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle exception
-            return false;
-        }
+        //} catch (SQLException e) {
+            //e.printStackTrace(); // Handle exception
+            ///return false;
+        //}
     }
 
     @Override

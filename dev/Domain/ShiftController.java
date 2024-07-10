@@ -20,6 +20,25 @@ public class ShiftController {
     }
 
     public boolean add_worker_to_weekly_arrangement(Branch branch, Worker worker, String day, String shiftType, Role role) {
+        boolean success = workersOnShiftRepository.InsertShift(worker,getDayIndex(day)*2 + getShiftIndex(shiftType));
+        if (!success) {
+            return false; // Worker is already assigned to this shift
+        }
+        /*if(branch.get_Weekly_Work_Arrangement().isEmpty())
+        {
+            Shift currentShift = new Shift(getDayIndex(day), shiftType, new ArrayList<Worker>());
+            currentShift.workers_on_shift.add(worker);// Add workers to shift
+            workArrangementRepository.Insert(currentShift);
+//        branch.get_Weekly_Work_Arrangement().add(currentShift);
+            shiftHRepository.Insert(currentShift);
+            int id = worker.getID_number();
+            workersRepository.Update(id,"Total_hours", "8");
+
+            branch.get_Weekly_Work_Arrangement().add(currentShift);
+            return true;
+        }*/
+
+
         int dayIndex = getDayIndex(day);
         int shiftIndex = getShiftIndex(shiftType);
 
@@ -29,17 +48,11 @@ public class ShiftController {
 
         int shiftArrayIndex = dayIndex * 2 + shiftIndex;
 
-        if (shiftArrayIndex < 0 || shiftArrayIndex >= branch.get_Weekly_Work_Arrangement().size()) {
+        if (shiftArrayIndex < 0 || shiftArrayIndex > 14) {
             throw new IndexOutOfBoundsException("Index " + shiftArrayIndex + " out of bounds for length " + branch.get_Weekly_Work_Arrangement().size());
         }
 
         Shift currentShift = branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex);
-
-        boolean success = workersOnShiftRepository.Insert(worker);
-        if (!success) {
-            return false; // Worker is already assigned to this shift
-        }
-
         currentShift.workers_on_shift.add(worker);// Add workers to shift
         workArrangementRepository.Insert(currentShift);
 //        branch.get_Weekly_Work_Arrangement().add(currentShift);
@@ -63,9 +76,11 @@ public class ShiftController {
             throw new IndexOutOfBoundsException("Index " + shiftArrayIndex + " out of bounds for length " + branch.get_Weekly_Work_Arrangement().size());
         }
 
-        Shift currentShift = branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex);
-        workersOnShiftRepository.Delete();
-        currentShift.workers_on_shift.clear(); // todo- delete from repository
+        if(!branch.get_Weekly_Work_Arrangement().isEmpty()) {
+            Shift currentShift = branch.get_Weekly_Work_Arrangement().get(shiftArrayIndex);
+            workersOnShiftRepository.Delete();
+            currentShift.workers_on_shift.clear(); // todo- delete from repository
+        }
         return true;
     }
 
