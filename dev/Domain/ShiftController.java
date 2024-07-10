@@ -17,7 +17,7 @@ public class ShiftController {
     }
 
     public boolean add_worker_to_weekly_arrangement(Branch branch, Worker worker, String day, String shiftType, Role role) {
-        boolean success = workersOnShiftRepository.InsertShiftWA(worker,getDayIndex(day)*2 + getShiftIndex(shiftType)) ;
+        boolean success = workersOnShiftRepository.InsertShift(worker,getDayIndex(day)*2 + getShiftIndex(shiftType)) ;
 
         if (!success) {
             return false; // Worker is already assigned to this shift
