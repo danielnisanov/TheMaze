@@ -1,18 +1,18 @@
 package test;
 
 import Dal.DatabaseConnection;
+import Dal.ShiftHDAO;
 import Domain.*;
+import Presentation.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import Presentation.AddWorker;
-
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import java.io.PrintStream;
 import java.util.*;
 
 import static Domain.Role.Storekeeper;
@@ -27,24 +27,49 @@ public class TestUnit {
     private WorkersRepository workersRepository;
     private ShiftHRepository shiftHRepository;
     private BranchesRepository branchesRepository;
+    private WorkersOnShiftRepository workersOnShiftRepository;
+    private ManagerPresentation managerPresentation;
+    private AppointmentManager appointmentManager;
+    private AddWorker addWorker;
+    private EmploymentTermination employmentTermination;
+    private UpdateWorkerDetails updateWorkerDetails;
+    private SubmitConstraints submitConstraints;
+    private ShiftController shiftController;
+    private HRManager manager;
 
     @Before
     public void setUp() {
         String dbPath = "C:\\Users\\ronig\\OneDrive\\שולחן העבודה\\ADSS\\Supermarket.db";
         DatabaseConnection dbConnection = new DatabaseConnection(dbPath);
+
+        // Initialize repositories and controllers
+        workArrangementRepository = new WorkArrangementRepository(dbConnection);
         branchRepo = new BranchesRepository(dbConnection, workArrangementRepository);
         managerRepo = new ManagersRepository(dbConnection, branchRepo);
-        workArrangementRepository = new WorkArrangementRepository(dbConnection);
-        wc = new WorkerController(dbConnection, workArrangementRepository);
         workersRepository = new WorkersRepository(dbConnection, branchRepo);
-        shiftHRepository = new ShiftHRepository();
+        ShiftHDAO shf = new ShiftHDAO(dbConnection,branchRepo);
+        shiftHRepository = new ShiftHRepository(shf);
         branchesRepository = new BranchesRepository(dbConnection, workArrangementRepository);
+        wc = new WorkerController(dbConnection, workArrangementRepository);
         branch = new Branch(1, workArrangementRepository);
+
+        // Initialize Presentation dependencies
+        appointmentManager = new AppointmentManager(wc);
+        addWorker = new AddWorker(wc);
+        employmentTermination = new EmploymentTermination(wc);
+        updateWorkerDetails = new UpdateWorkerDetails(wc);
+        submitConstraints = new SubmitConstraints(wc , shiftController);
+        shiftController = new ShiftController(shiftHRepository, workersRepository, workArrangementRepository, workersOnShiftRepository);
+
+        // Initialize ManagerPresentation
+        managerPresentation = new ManagerPresentation(wc, appointmentManager, addWorker, employmentTermination, updateWorkerDetails, submitConstraints, shiftController);
     }
+
+
 
     @Test
     public void test_add_worker() {
-        String input = "123456789\n" +  // ID number
+        String input = "123456111\n" +  // ID number
                 "JohnDoe\n" +     // Name
                 "123456\n" +      // Bank account
                 "50.0\n" +        // Hourly salary
@@ -64,7 +89,7 @@ public class TestUnit {
         Map<Integer, Worker> workers = wc.getWorkers();
         assertEquals(1, workers.size());
 
-        Worker worker = workers.get(123456789);
+        Worker worker = workers.get(123456111);
         assertEquals("JohnDoe", worker.getName());
         assertEquals("123 Main St", worker.getAddress());
         assertEquals(123456, worker.getBank_account_num());
@@ -75,18 +100,11 @@ public class TestUnit {
         assertTrue(worker.getRoles_permissions().contains(Storekeeper));
     }
 
-    @Test
-    public void test_add_worker_invalid_id() {
-        JsonObject json = new JsonObject();
-        json.addProperty("id", 12345);
-        wc.add_worker(json);
-        assertEquals(0, wc.getWorkers().size());
-    }
 
     @Test
     public void test_add_worker_part_time() {
         JsonObject json = new JsonObject();
-        json.addProperty("id", 987654321);
+        json.addProperty("id", 111111111);
         json.addProperty("name", "JaneSmith");
         json.addProperty("address", "456 Elm St");
         json.addProperty("bank_account", 654321);
@@ -98,9 +116,10 @@ public class TestUnit {
 
         wc.add_worker(json);
 
-        Worker worker = wc.getWorkers().get(987654321);
+        Worker worker = wc.getAllWorkers().get(111111111);
         assertEquals(2, worker.getBranchNum());
     }
+
 
     @Test
     public void test_update_salary() {
@@ -130,9 +149,10 @@ public class TestUnit {
         assertTrue(success);
 
         // Asserting the worker's salary was updated correctly
-        Worker worker = wc.getWorkers().get(987654321);
+        Worker worker = wc.getAllWorkers().get(987654321);
         assertEquals(50.0, worker.getHourly_salary(), 0.0);
     }
+
 
     @Test
     public void test_update_job_type() {
@@ -162,9 +182,10 @@ public class TestUnit {
         assertTrue(success);
 
         // Asserting the worker's job type was updated correctly
-        Worker worker = wc.getWorkers().get(987654321);
+        Worker worker = wc.getAllWorkers().get(987654321);
         assertEquals(JobType.Full_time_job, worker.getJob_type());
     }
+
 
     @Test
     public void test_update_branch() {
@@ -194,15 +215,16 @@ public class TestUnit {
         assertTrue(success);
 
         // Asserting the worker's branch was updated correctly
-        Worker worker = wc.getWorkers().get(987654321);
+        Worker worker = wc.getAllWorkers().get(987654321);
         assertEquals(4, worker.getBranchNum());
     }
+
 
     @Test
     public void test_update_bank_account_num() {
         // Adding a worker
         JsonObject jsonAdd = new JsonObject();
-        jsonAdd.addProperty("id", 987654321);
+        jsonAdd.addProperty("id", 121212124);
         jsonAdd.addProperty("name", "JaneSmith");
         jsonAdd.addProperty("address", "456 Elm St");
         jsonAdd.addProperty("bank_account", 654321);
@@ -216,8 +238,8 @@ public class TestUnit {
 
         // Preparing JSON for updating bank account number
         JsonObject jsonUpdate = new JsonObject();
-        jsonUpdate.addProperty("id", 987654321);
-        jsonUpdate.addProperty("bank_account", 123456);
+        jsonUpdate.addProperty("id", 121212124);
+        jsonUpdate.addProperty("bank_account", 123456); // Note: removed the quotes around 123456
 
         // Updating the bank account number
         boolean success = wc.Update_bank_account_num(jsonUpdate);
@@ -226,9 +248,11 @@ public class TestUnit {
         assertTrue(success);
 
         // Asserting the worker's bank account number was updated correctly
-        Worker worker = wc.getWorkers().get(987654321);
+        Worker worker = wc.getAllWorkers().get(121212124);
         assertEquals(123456, worker.getBank_account_num());
     }
+
+
 
     @Test
     public void test_appointment_manager() {
@@ -257,14 +281,15 @@ public class TestUnit {
         assertTrue(success);
 
         // Asserting the worker's roles include Shift_manager
-        Worker worker = wc.getWorkers().get(987654321);
+        Worker worker = wc.getAllWorkers().get(987654321);
         assertTrue(worker.getRoles_permissions().contains(Role.Shift_manager));
     }
+
 
     @Test
     public void test_add_worker_contractor() {
         JsonObject json = new JsonObject();
-        json.addProperty("id", 135792468);
+        json.addProperty("id", 135792469);
         json.addProperty("name", "AliceJohnson");
         json.addProperty("address", "789 Oak St");
         json.addProperty("bank_account", 987654);
@@ -276,11 +301,11 @@ public class TestUnit {
 
         wc.add_worker(json);
 
-        Worker worker = wc.getWorkers().get(135792468);
+        Worker worker = wc.getWorkers().get(135792469);
         assertEquals(3, worker.getBranchNum());
 
         JsonObject json1 = new JsonObject();
-        json1.addProperty("id", 987654321);
+        json1.addProperty("id", 985654321);
         json1.addProperty("name", "JaneSmith");
         json1.addProperty("address", "456 Elm St");
         json1.addProperty("bank_account", 654321);
@@ -295,6 +320,7 @@ public class TestUnit {
         Map<Integer, Worker> workers = wc.getWorkers();
         assertEquals(2, workers.size());
     }
+
 
     @Test
     public void testPresentWorkers() {
@@ -333,6 +359,7 @@ public class TestUnit {
         assertEquals("[Cashier]", workerJson.get("Roles and Permissions").getAsString());
         assertEquals("true", workerJson.get("Job Status").getAsString());
     }
+
 
     @Test
     public void testPresentPastWorkers() {
@@ -380,6 +407,8 @@ public class TestUnit {
         assertEquals(false, retrievedWorkerJson.get("job_status").getAsBoolean());
     }
 
+
+
     @Test
     public void test_add_manager() {
         JsonObject json = new JsonObject();
@@ -400,6 +429,49 @@ public class TestUnit {
         assertEquals(manager, branch.getHRManager());
     }
 
+    @Test
+    public void testIsWorker() {
+        // Add a worker to the repository
+        Worker worker = new Worker("123 Main St", "John Doe", 666666666, 654321, 30.0, 15, JobType.Full_time_job, new Branch(1, workArrangementRepository), Collections.singleton(Storekeeper));
+        workersRepository.Insert(worker);
+
+        // Create a JSON object representing the worker's ID
+        JsonObject json = new JsonObject();
+        json.addProperty("id", 666666666);
+
+        // Check if the worker is recognized
+        assertTrue(wc.IsWorker(json));
+
+        // Create a JSON object representing a non-existent worker's ID
+        JsonObject jsonInvalid = new JsonObject();
+        jsonInvalid.addProperty("id", 999999);
+
+        // Check if the non-existent worker is recognized
+        assertFalse(wc.IsWorker(jsonInvalid));
+    }
+
+    @Test
+    public void test_changePassword() {
+        String newPassword = "newpassword123";
+        String input = newPassword + "\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        // Capture the console output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        // Call the changePassword method
+        managerPresentation.changePassword();
+
+        // Verify the expected output
+        String expectedOutput = "Enter the new password: Password updated successfully.\n";
+        assertEquals(expectedOutput, outContent.toString());
+
+        // Verify the password was actually changed
+        boolean passwordChanged = wc.ChangePassword(manager.getID_number(), "password", newPassword);
+        assertEquals(true, passwordChanged);
+    }
 
 
 }

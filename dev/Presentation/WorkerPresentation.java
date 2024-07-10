@@ -64,7 +64,7 @@ public class WorkerPresentation {
                     Find_Start_date();
                     break;
                 case 4:
-                    Submit_constraints(worker_controler.getBranch(worker_controler.getWorkers().get(workerID).getBranchNum()), workerID);
+                    Submit_constraints(worker_controler.getBranch(worker_controler.getAllWorkers().get(workerID).getBranchNum()), workerID);
                     break;
                 case 5:
                     Present_arrangement(worker.getbranch());

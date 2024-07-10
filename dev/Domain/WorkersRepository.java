@@ -108,10 +108,15 @@ public class WorkersRepository implements IRepository<Worker> {
         }
     }
 
-    public Map<Integer, Worker> get_Workers() {
+    public Map<Integer, Worker> get_All_Workers() {
         getAllWorkers();
         return workers;
     }
+
+    public Map<Integer, Worker> get_Workers() {
+        return workers;
+    }
+
 
     @Override
     public Worker Find(int id) {

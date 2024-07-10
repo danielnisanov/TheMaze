@@ -11,8 +11,9 @@ public class ShiftHRepository implements IRepository<Shift> {
     private final ArrayList<Shift> shiftHistory;
     private ShiftHDAO shiftHDAO;
 
-    public ShiftHRepository() {
+    public ShiftHRepository(ShiftHDAO sDAO) {
         this.shiftHistory = new ArrayList<>();
+        shiftHDAO = sDAO;
     }
 
 

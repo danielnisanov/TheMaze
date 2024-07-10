@@ -10,7 +10,7 @@ public class AppointmentManager {
     static Scanner scanner = new Scanner(System.in);
     private WorkerController wc;
 
-    AppointmentManager(WorkerController wc)
+    public AppointmentManager(WorkerController wc)
     {
         this.wc = wc;
     }

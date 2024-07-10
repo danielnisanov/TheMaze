@@ -78,7 +78,7 @@ public class Branch {
     }
 
     public ArrayList<Shift> get_Weekly_Work_Arrangement() {
-        return workArrangementRepository.getWeeklyWorkArrangement(0);
+        return workArrangementRepository.getWeeklyWorkArrangement();
     }
 
     public ArrayList<Shift> get_Shift_History() {

@@ -149,7 +149,7 @@ public class ManagerPresentation {
         }
     }
 
-    private void changePassword() {
+    public void changePassword() {
         scanner.nextLine();  // Consume the leftover newline
         System.out.print("Enter the new password: ");
         String newPassword = scanner.nextLine();

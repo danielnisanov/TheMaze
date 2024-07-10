@@ -153,14 +153,15 @@ public class WorkerController {
 
     public boolean Update_bank_account_num(JsonObject json) {
         int id = json.get("id").getAsInt();
-        JsonElement bankAccountElement = json.get("bank_account");
+        int bankAccountNum = json.get("bank_account").getAsInt(); // Extract the actual value
 
-        if( Worker_Rep.Update(id, "bank_account_num","bankAccountElement" )){
+        if( Worker_Rep.Update(id, "bank_account_num", String.valueOf(bankAccountNum) )){
             return true;
-        }else {
+        } else {
             return false;
         }
     }
+
 
     // Finding available workers based on constraints, day, shift, and role
     public List<Worker> AvailableWorkers(String day, String shiftType, Role role, Branch branch) {
@@ -215,6 +216,10 @@ public class WorkerController {
         int id = json.get("id").getAsInt();
         return Worker_Rep.PresentWorker(id);
 
+    }
+
+    public Map<Integer, Worker> getAllWorkers() {
+        return Worker_Rep.get_All_Workers();
     }
 
     public Map<Integer, Worker> getWorkers() {
