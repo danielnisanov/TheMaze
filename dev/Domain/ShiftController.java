@@ -2,7 +2,7 @@ package Domain;
 
 import com.google.gson.JsonArray;
 
-//
+
 public class ShiftController {
     private final ShiftHRepository shiftHRepository;
     private final WorkersRepository workersRepository;
