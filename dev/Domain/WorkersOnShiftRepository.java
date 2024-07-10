@@ -1,5 +1,7 @@
 package Domain;
 
+
+
 import Dal.WorkArrangementDAO;
 import Dal.WorkersOnShiftDAO;
 
@@ -44,14 +46,14 @@ public class WorkersOnShiftRepository implements IRepository<Worker> {
     @Override
     public boolean Delete() {
         //try {
-            // Delete all workers from the database
-            //workersOnShiftDAO.Delete();
-            // Clear the list
-            workers_on_shift.clear();
-            return true;
+        // Delete all workers from the database
+        //workersOnShiftDAO.Delete();
+        // Clear the list
+        workers_on_shift.clear();
+        return true;
         //} catch (SQLException e) {
-            //e.printStackTrace(); // Handle exception
-            ///return false;
+        //e.printStackTrace(); // Handle exception
+        ///return false;
         //}
     }
 

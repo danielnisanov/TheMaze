@@ -19,7 +19,7 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
     }
 
 
-    public void InsertShift(Worker worker,int shift_id) throws SQLException {
+    public void InsertShiftWA(Worker worker, int shift_id) throws SQLException {
         String val = "";
         String query = "SELECT * from WorkArrangement WHERE shift_id = ?";
         try (Connection conn = dbConnection.getConnection();
@@ -42,6 +42,36 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
             stmt.executeUpdate();
         }
     }
+
+    public void InsertShiftSH(Worker worker, int shift_date, String shift_type) throws SQLException {
+        String val = "";
+        String query = "SELECT workers_on_shift FROM ShiftHRepository WHERE shift_date = ? AND shift_type = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, shift_date);
+            stmt.setString(2, shift_type);
+            ResultSet res = stmt.executeQuery();
+            if (res.next()) {
+                val = res.getString("workers_on_shift");
+            }
+        }
+
+        if (val != null && !val.isEmpty()) {
+            val += ",";
+        }
+        val += worker.getID_number();
+
+        query = "INSERT OR REPLACE INTO ShiftHRepository (shift_date, shift_type, workers_on_shift) VALUES (?, ?, ?)";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, shift_date);
+            stmt.setString(2, shift_type);
+            stmt.setString(3, val);
+            stmt.executeUpdate();
+        }
+    }
+
+
 
     @Override
     public void Insert(Worker obj) throws SQLException {
