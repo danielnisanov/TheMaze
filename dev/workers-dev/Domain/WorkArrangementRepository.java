@@ -32,25 +32,43 @@ public class WorkArrangementRepository implements IRepository<Shift> {
         return false;
     }
 
+//
+//    public ArrayList<Shift> getWeeklyWorkArrangement() {
+//        weeklyWorkArrangement.clear();
+//        try {
+//            for (int i = 1; i <= 14; i++) { // Loop through shift_id from 1 to 14
+//                ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
+//                if (foundShifts != null) {
+//                    weeklyWorkArrangement.addAll(foundShifts);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        for (Shift shift : weeklyWorkArrangement) {
+//            System.out.println("Shift in arrangement: " + shift); // Debug print
+//        }
+//        return weeklyWorkArrangement;
+//    }
 
     public ArrayList<Shift> getWeeklyWorkArrangement() {
-        weeklyWorkArrangement.clear();
-        try {
-            for (int i = 1; i <= 14; i++) { // Loop through shift_id from 1 to 14
-                ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
-                if (foundShifts != null) {
-                    weeklyWorkArrangement.addAll(foundShifts);
+        if (!weeklyWorkArrangement.isEmpty()) {
+            return weeklyWorkArrangement;
+        } else {
+            try {
+                for(int i = 0; i < 14; i++) {
+                    ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
+                    if (foundShifts != null) {
+                        weeklyWorkArrangement.addAll(foundShifts);
+                    }
                 }
+                return weeklyWorkArrangement;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        for (Shift shift : weeklyWorkArrangement) {
-            System.out.println("Shift in arrangement: " + shift); // Debug print
-        }
-        return weeklyWorkArrangement;
     }
-
 
     @Override
     public Shift Find(int day){
