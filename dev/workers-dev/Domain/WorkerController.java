@@ -1,6 +1,7 @@
 package Domain;
 
 import Dal.DatabaseConnection;
+import Dal.WorkersDAO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -19,7 +20,7 @@ public class WorkerController {
 
     public WorkerController(DatabaseConnection dbConnection, WorkArrangementRepository workArrangementRepository) {
         this.workArrangementRepository = workArrangementRepository;
-        Branch_Rep = new BranchesRepository(dbConnection, workArrangementRepository);
+        Branch_Rep = new BranchesRepository(dbConnection, workArrangementRepository );
         Manager_Rep = new ManagersRepository(dbConnection,Branch_Rep);
         Worker_Rep = new WorkersRepository(dbConnection,Branch_Rep);
     }

@@ -19,19 +19,20 @@ public class ShiftHRepository implements IRepository<Shift> {
 
     @Override
     public boolean Insert(Shift shift) {
-        if (shiftHistory.contains(shift)) {
-            return false; // Shift already exists
-        }
-        else {
-            try {
-                shiftHDAO.Insert(shift); // Add shift to the database
-                shiftHistory.add(shift); // Add shift to the local list
-                return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
+//        if (shiftHistory.contains(shift)) {
+//            return false; // Shift already exists
+//        }
+//        else {
+//            try {
+//                shiftHDAO.Insert(shift); // Add shift to the database
+//                shiftHistory.add(shift); // Add shift to the local list
+//                return true;
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+//        }
+        return true;
     }
 
 

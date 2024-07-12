@@ -1,9 +1,8 @@
 package Domain;
-import Dal.WorkArrangementDAO;
 import Dal.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
 //
 public class WorkersOnShiftRepository implements IRepository<Worker> {
     public ArrayList<Worker> workers_on_shift;
@@ -14,12 +13,26 @@ public class WorkersOnShiftRepository implements IRepository<Worker> {
         workersOnShiftDAO = wdao;
     }
 
-    public boolean InsertShift(Worker worker,int shift_id) {
+    public boolean InsertShiftWA(Worker worker, int shift_id) {
         if (workers_on_shift.contains(worker.getID_number())) {
             return false; // Worker already exists
         } else {
             try {
                 workersOnShiftDAO.InsertShiftWA(worker,shift_id); // Add worker to the database
+                workers_on_shift.add(worker); // Add worker to the map
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle exception
+                return false;
+            }
+        }
+    }
+    public boolean InsertShiftSH(Worker worker, int day, String type) {
+        if (workers_on_shift.contains(worker.getID_number())) {
+            return false; // Worker already exists
+        } else {
+            try {
+                workersOnShiftDAO.InsertShiftSH(worker,day,type); // Add worker to the database
                 workers_on_shift.add(worker); // Add worker to the map
                 return true;
             } catch (SQLException e) {

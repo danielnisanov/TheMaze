@@ -1,5 +1,5 @@
 package test;
-import Dal.WorkersOnShiftDAO;
+
 import Dal.DatabaseConnection;
 import Dal.ShiftHDAO;
 import Domain.*;
@@ -64,7 +64,6 @@ public class TestUnit {
         // Initialize ManagerPresentation
         managerPresentation = new ManagerPresentation(wc, appointmentManager, addWorker, employmentTermination, updateWorkerDetails, submitConstraints, shiftController);
     }
-
 
 
     @Test
@@ -451,7 +450,7 @@ public class TestUnit {
     }
 
     @Test
-    public void test_changePassword() {
+    public void test_changePassword() { //
         String newPassword = "newpassword123";
         String input = newPassword + "\n";
         InputStream in = new ByteArrayInputStream(input.getBytes());
@@ -471,6 +470,186 @@ public class TestUnit {
         // Verify the password was actually changed
         boolean passwordChanged = wc.ChangePassword(manager.getID_number(), "password", newPassword);
         assertEquals(true, passwordChanged);
+    }
+
+    @Test
+    public void test_change_manager_password() { //
+        // Retrieve the manager from the repository
+        HRManager testManager = managerRepo.getManager(123456789); // Use existing manager's ID
+        assertNotNull(testManager); // Ensure the manager exists
+
+        // Set the manager in the ManagerPresentation for the test
+        managerPresentation.setManager(testManager);
+        System.out.println("here1");
+
+        // Change the password
+        managerPresentation.changePassword();
+        System.out.println("here");
+
+        // Verify the password was changed successfully
+        HRManager updatedManager = managerRepo.getManager(123456789);
+        assertNotNull(updatedManager);
+        assertTrue(updatedManager.authenticate("new_password123"));
+    }
+
+    @Test
+    public void test_update_salary2() {
+        // Adding a worker
+        JsonObject jsonAdd = new JsonObject();
+        jsonAdd.addProperty("id", 112233444);
+        jsonAdd.addProperty("name", "lini");
+        jsonAdd.addProperty("address", "456 Elm St");
+        jsonAdd.addProperty("bank_account", 65);
+        jsonAdd.addProperty("hourly_salary", 30);
+        jsonAdd.addProperty("vacation_days", 15);
+        jsonAdd.addProperty("job_type", "Part_time_job");
+        jsonAdd.addProperty("branch_num", 2);
+        jsonAdd.addProperty("roles", "Cashier");
+
+        wc.add_worker(jsonAdd);
+
+        // Preparing JSON for updating salary
+        JsonObject jsonUpdate = new JsonObject();
+        jsonUpdate.addProperty("id", 112233444);
+        jsonUpdate.addProperty("hourly_salary", 50.0);
+
+        // Updating the salary
+        boolean success = wc.update_salary(jsonUpdate);
+
+        // Asserting the update was successful
+        assertTrue(success);
+
+        // Asserting the worker's salary was updated correctly
+        Worker worker = wc.getAllWorkers().get(112233444);
+        assertEquals(50.0, worker.getHourly_salary(), 0.0);
+    }
+
+    @Test
+    public void test_update_job_type2() {
+        // Adding a worker
+        JsonObject jsonAdd = new JsonObject();
+        jsonAdd.addProperty("id", 131313133);
+        jsonAdd.addProperty("name", "alin");
+        jsonAdd.addProperty("address", "456 Elm St");
+        jsonAdd.addProperty("bank_account", 123);
+        jsonAdd.addProperty("hourly_salary", 30.0);
+        jsonAdd.addProperty("vacation_days", 15);
+        jsonAdd.addProperty("job_type", "Part_time_job");
+        jsonAdd.addProperty("branch_num", 2);
+        jsonAdd.addProperty("roles", "Cashier");
+
+        wc.add_worker(jsonAdd);
+
+        // Preparing JSON for updating job type
+        JsonObject jsonUpdate = new JsonObject();
+        jsonUpdate.addProperty("id", 131313133);
+        jsonUpdate.addProperty("job_type", "Full_time_job");
+
+        // Updating the job type
+        boolean success = wc.Update_job_type(jsonUpdate);
+
+        // Asserting the update was successful
+        assertTrue(success);
+
+        // Asserting the worker's job type was updated correctly
+        Worker worker = wc.getAllWorkers().get(131313133);
+        assertEquals(JobType.Full_time_job, worker.getJob_type());
+
+    }
+
+    @Test
+    public void test_update_branch2() {
+        // Adding a worker
+        JsonObject jsonAdd = new JsonObject();
+        jsonAdd.addProperty("id", 119911999);
+        jsonAdd.addProperty("name", "Gali");
+        jsonAdd.addProperty("address", "Elm St");
+        jsonAdd.addProperty("bank_account", 654321);
+        jsonAdd.addProperty("hourly_salary", 30.0);
+        jsonAdd.addProperty("vacation_days", 15);
+        jsonAdd.addProperty("job_type", "Part_time_job");
+        jsonAdd.addProperty("branch_num", 2);
+        jsonAdd.addProperty("roles", "Cashier");
+
+        wc.add_worker(jsonAdd);
+
+        // Preparing JSON for updating branch
+        JsonObject jsonUpdate = new JsonObject();
+        jsonUpdate.addProperty("id", 119911999);
+        jsonUpdate.addProperty("branch_num", 4);
+
+        // Updating the branch
+        boolean success = wc.Update_Branch(jsonUpdate);
+
+        // Asserting the update was successful
+        assertTrue(success);
+
+        // Asserting the worker's branch was updated correctly
+        Worker worker = wc.getAllWorkers().get(119911999);
+        assertEquals(4, worker.getBranchNum());
+    }
+
+    @Test
+    public void add_shift_manager() {
+        // Adding a worker
+        JsonObject jsonAdd = new JsonObject();
+        jsonAdd.addProperty("id", 141414144);
+        jsonAdd.addProperty("name", "gal");
+        jsonAdd.addProperty("address", "love you");
+        jsonAdd.addProperty("bank_account", 654321);
+        jsonAdd.addProperty("hourly_salary", 30.0);
+        jsonAdd.addProperty("vacation_days", 15);
+        jsonAdd.addProperty("job_type", "Part_time_job");
+        jsonAdd.addProperty("branch_num", 2);
+        jsonAdd.addProperty("roles", "Cashier");
+
+        wc.add_worker(jsonAdd);
+
+        // Preparing JSON for appointing manager
+        JsonObject jsonAppointment = new JsonObject();
+        jsonAppointment.addProperty("id", 141414144);
+
+        // Appointing the worker as a manager
+        boolean success = wc.appointment_manager(jsonAppointment);
+
+        // Asserting the appointment was successful
+        assertTrue(success);
+
+        // Asserting the worker's roles include Shift_manager
+        Worker worker = wc.getAllWorkers().get(141414144);
+        assertTrue(worker.getRoles_permissions().contains(Role.Shift_manager));
+    }
+
+    @Test
+    public void test_update_bank_account() {
+        // Adding a worker
+        JsonObject jsonAdd = new JsonObject();
+        jsonAdd.addProperty("id", 134134134);
+        jsonAdd.addProperty("name", "hi");
+        jsonAdd.addProperty("address", "456 Elm St");
+        jsonAdd.addProperty("bank_account", 654321);
+        jsonAdd.addProperty("hourly_salary", 30.0);
+        jsonAdd.addProperty("vacation_days", 15);
+        jsonAdd.addProperty("job_type", "Part_time_job");
+        jsonAdd.addProperty("branch_num", 2);
+        jsonAdd.addProperty("roles", "Cashier");
+
+        wc.add_worker(jsonAdd);
+
+        // Preparing JSON for updating bank account number
+        JsonObject jsonUpdate = new JsonObject();
+        jsonUpdate.addProperty("id", 134134134);
+        jsonUpdate.addProperty("bank_account", 123456); // Note: removed the quotes around 123456
+
+        // Updating the bank account number
+        boolean success = wc.Update_bank_account_num(jsonUpdate);
+
+        // Asserting the update was successful
+        assertTrue(success);
+
+        // Asserting the worker's bank account number was updated correctly
+        Worker worker = wc.getAllWorkers().get(134134134);
+        assertEquals(123456, worker.getBank_account_num());
     }
 
 

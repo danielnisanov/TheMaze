@@ -16,6 +16,7 @@ public class WorkersDAO implements IDAO<Worker> {
     private final DatabaseConnection dbConnection;
     private final Gson gson;
     private BranchesRepository BR = null;
+
     public WorkersDAO(DatabaseConnection dbConnection, BranchesRepository BR) {
         this.dbConnection = dbConnection;
         this.gson = new Gson();

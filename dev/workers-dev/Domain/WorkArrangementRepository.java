@@ -1,6 +1,7 @@
 package Domain;
 import Dal.DatabaseConnection;
 import Dal.WorkArrangementDAO;
+import Dal.WorkersDAO;
 
 import java.util.*;
 import java.sql.SQLException;
@@ -33,25 +34,23 @@ public class WorkArrangementRepository implements IRepository<Shift> {
 
 
     public ArrayList<Shift> getWeeklyWorkArrangement() {
-        if (!weeklyWorkArrangement.isEmpty()) {
-            System.out.println("Returning cached weekly work arrangement.");
-            return weeklyWorkArrangement;
-        } else {
-            try {
-                for(int i = 0; i < 14; i++) {
-                    ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
-                    if (foundShifts != null) {
-                        weeklyWorkArrangement.addAll(foundShifts);
-                        System.out.println("Retrieved and cached weekly work arrangement from database.");
-                    }
+        weeklyWorkArrangement.clear();
+        try {
+            for (int i = 1; i <= 14; i++) { // Loop through shift_id from 1 to 14
+                ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
+                if (foundShifts != null) {
+                    weeklyWorkArrangement.addAll(foundShifts);
                 }
-                return weeklyWorkArrangement;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return null;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        for (Shift shift : weeklyWorkArrangement) {
+            System.out.println("Shift in arrangement: " + shift); // Debug print
+        }
+        return weeklyWorkArrangement;
     }
+
 
     @Override
     public Shift Find(int day){

@@ -14,6 +14,7 @@ public class BranchesRepository implements IRepository<Branch> {
     private final WorkArrangementRepository war;
 
 
+
     public BranchesRepository(DatabaseConnection dbConnection, WorkArrangementRepository war) {
         this.war = new WorkArrangementRepository(dbConnection);
         this.branches = new HashMap<>();

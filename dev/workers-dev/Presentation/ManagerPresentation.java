@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Scanner;
+import java.io.InputStream;
 
 
 public class ManagerPresentation {
@@ -236,6 +237,10 @@ public class ManagerPresentation {
         for (Shift s : weeklyWorkArrangement) {
             System.out.println(s);
         }
+    }
+
+    public void setManager(HRManager manager) {
+        this.manager = manager;
     }
 
 

@@ -33,8 +33,7 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
         query = "UPDATE WorkArrangement SET workers_on_shift = ? WHERE shift_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            if(val != "")
-            {
+            if (val != null && !val.isEmpty()) {
                 val += ",";
             }
             stmt.setString(1, val+worker.getID_number());
@@ -45,7 +44,7 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
 
     public void InsertShiftSH(Worker worker, int shift_date, String shift_type) throws SQLException {
         String val = "";
-        String query = "SELECT workers_on_shift FROM ShiftHRepository WHERE shift_date = ? AND shift_type = ?";
+        String query = "SELECT workers_on_shift FROM ShiftHistory WHERE shift_date = ? AND shift_type = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, shift_date);
@@ -61,7 +60,7 @@ public class WorkersOnShiftDAO implements IDAO<Worker> {
         }
         val += worker.getID_number();
 
-        query = "INSERT OR REPLACE INTO ShiftHRepository (shift_date, shift_type, workers_on_shift) VALUES (?, ?, ?)";
+        query = "INSERT OR REPLACE INTO ShiftHistory (shift_date, shift_type, workers_on_shift) VALUES (?, ?, ?)";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, shift_date);

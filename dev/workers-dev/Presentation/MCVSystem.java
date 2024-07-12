@@ -21,15 +21,20 @@ public class MCVSystem {
 
     public MCVSystem(String dataPath) {
         DatabaseConnection dbConnection = new DatabaseConnection(dataPath);
-        WorkArrangementDAO workArrangementDAO = new WorkArrangementDAO(dbConnection);
         WorkArrangementRepository workArrangementRepository = new WorkArrangementRepository(dbConnection);
-        worker_controler = new WorkerController(dbConnection,workArrangementRepository);
-        BranchesRepository BR = new BranchesRepository(dbConnection,workArrangementRepository);
-        ShiftHDAO shf = new ShiftHDAO(dbConnection,BR);
+
+        WorkersDAO workersDAO = new WorkersDAO(dbConnection, new BranchesRepository(dbConnection, workArrangementRepository));
+        WorkArrangementDAO workArrangementDAO = new WorkArrangementDAO(dbConnection);
+        workArrangementDAO.setWorkersDAO(workersDAO); // Setting WorkersDAO in WorkArrangementDAO
+
+        worker_controler = new WorkerController(dbConnection, workArrangementRepository);
+        BranchesRepository BR = new BranchesRepository(dbConnection, workArrangementRepository);
+        ShiftHDAO shf = new ShiftHDAO(dbConnection, BR);
         ShiftHRepository shiftHRepository = new ShiftHRepository(shf);
-        WorkersRepository workersRepository = new WorkersRepository(dbConnection,BR);
-        WorkersOnShiftDAO wosd = new WorkersOnShiftDAO(dbConnection,BR);
+        WorkersRepository workersRepository = new WorkersRepository(dbConnection, BR);
+        WorkersOnShiftDAO wosd = new WorkersOnShiftDAO(dbConnection, BR);
         WorkersOnShiftRepository workersOnShiftRepository = new WorkersOnShiftRepository(wosd);
+
         appointmentManager = new AppointmentManager(worker_controler);
         addWorker = new AddWorker(worker_controler);
         emplymenttermination = new EmploymentTermination(worker_controler);

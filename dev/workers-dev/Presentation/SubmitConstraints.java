@@ -107,11 +107,11 @@ public class SubmitConstraints {
                     List<Worker> availableWarehousemen = wc.AvailableWorkers(selectedDay, selectedShift, Role.Storekeeper, branch);
 
                     if (availableWarehousemen.isEmpty()) {
-                        System.out.println("No available warehousemen for " + selectedDay + " at " + selectedShift);
+                        System.out.println("No available Storekeeper for " + selectedDay + " at " + selectedShift);
                         return false;
                     }
 
-                    System.out.println("Since there are truck drivers, you must select a warehouseman:");
+                    System.out.println("Since there are truck drivers, you must select a Storekeeper:");
                     for (int j = 0; j < availableWarehousemen.size(); j++) {
                         System.out.println("(" + j + ") " + availableWarehousemen.get(j).getName());
                     }
@@ -122,7 +122,7 @@ public class SubmitConstraints {
                     if (sc.add_worker_to_weekly_arrangement(branch, selectedWarehouseman, selectedDay, selectedShift, Role.Storekeeper)) {
                         warehousemanAssigned = true;
                     } else {
-                        System.out.println("Warehouseman " + selectedWarehouseman.getName() + " is already assigned to this shift. Please select another warehouseman.");
+                        System.out.println("Storekeeper " + selectedWarehouseman.getName() + " is already assigned to this shift. Please select another Storekeeper.");
                     }
                 }
             }
