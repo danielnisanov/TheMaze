@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ADSS_Group_I:jar3">
+    <output-path>$PROJECT_DIR$/out/artifacts/ADSS_Group_I_jar3</output-path>
+    <root id="archive" name="ADSS_Group_I.jar">
+      <element id="module-output" name="ADSS_Group_I" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/studies/second year/semester B/Analysis and design of software systems/project 2/sqlite-jdbc-3.14.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

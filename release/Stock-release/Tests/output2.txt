@@ -1,0 +1,319 @@
+Do you want to load initial data? (Y/N): Today is not Sunday. No inventory report is generated.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Category Menu:
+1. Add category
+2. Add sub-category
+3. Add sub-sub-category
+4. Remove category
+5. Remove sub-category
+6. Remove sub-sub-category
+7. Return to Main Menu
+Select an option: Enter category name: Category added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Category Menu:
+1. Add category
+2. Add sub-category
+3. Add sub-sub-category
+4. Remove category
+5. Remove sub-category
+6. Remove sub-sub-category
+7. Return to Main Menu
+Select an option: Enter category name: Category added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Category Menu:
+1. Add category
+2. Add sub-category
+3. Add sub-sub-category
+4. Remove category
+5. Remove sub-category
+6. Remove sub-sub-category
+7. Return to Main Menu
+Select an option: Enter category name from the list: 
+Dairy products
+Fruits
+Enter sub-category name: Sub-category added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Category Menu:
+1. Add category
+2. Add sub-category
+3. Add sub-sub-category
+4. Remove category
+5. Remove sub-category
+6. Remove sub-sub-category
+7. Return to Main Menu
+Select an option: Enter category name from the list: 
+Dairy products
+Fruits
+Enter sub-category name: Sub-category added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Category Menu:
+1. Add category
+2. Add sub-category
+3. Add sub-sub-category
+4. Remove category
+5. Remove sub-category
+6. Remove sub-sub-category
+7. Return to Main Menu
+Select an option: Dairy products
+Fruits
+Enter category name: Orange
+Banana
+Enter sub-category name: Enter sub-sub-category name: Sub-sub-category added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Category Menu:
+1. Add category
+2. Add sub-category
+3. Add sub-sub-category
+4. Remove category
+5. Remove sub-category
+6. Remove sub-sub-category
+7. Return to Main Menu
+Select an option: Dairy products
+Fruits
+Enter category name: Orange
+Banana
+Enter sub-category name: Enter sub-sub-category name: Sub-sub-category added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product catalog number: Enter product name: Enter area: Enter manufacturer: Enter minimum quantity: Enter cost price: Enter selling price: Enter discount: Enter sale: Enter category: Enter sub-category: Enter sub-sub-category: Product added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product catalog number: Enter product name: Enter area: Enter manufacturer: Enter minimum quantity: Enter cost price: Enter selling price: Enter discount: Enter sale: Enter category: Enter sub-category: Enter sub-sub-category: Product added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product catalog number: Enter product name: Enter area: Enter manufacturer: Enter minimum quantity: Enter cost price: Enter selling price: Enter discount: Enter sale: Enter category: Enter sub-category: Enter sub-sub-category: Product added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter if the item is on shelf (true/false): Enter expiration date (yyyy-MM-dd): Item added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter if the item is on shelf (true/false): Enter expiration date (yyyy-MM-dd): Item added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter if the item is on shelf (true/false): Enter expiration date (yyyy-MM-dd): Item added successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Yellow banana 1 2020-06-06
+Yellow banana 2 2020-06-07
+Yellow banana 3 2020-06-08
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter item id: Item{itemID=1, expirationDate=2020-06-06, isDamaged=false, onShelf=true}
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: 
+ Products and Items Menu:
+1. Add new product
+2. Display an existing product
+3. Remove an existing product
+4. Show all items
+5. Add new item
+6. Display an existing item
+7. Remove an existing item
+8. Update product discount from suppliers
+9. Update product sale for customers
+10. Move item from the warehouse to the shelf
+11. Check item location
+12. Update item damaged
+13. Return to Main Menu
+Select an option: Enter product name: Enter item id: Please note, the quantity of items from this product has reached the minimum quantity:2
+Item removed successfully.
+
+Menu:
+1. Categories Menu
+2. Products and Items Menu
+3. Reports Menu
+4. Exit
+Select an option: Exiting...
