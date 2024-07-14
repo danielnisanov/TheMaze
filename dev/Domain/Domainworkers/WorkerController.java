@@ -234,6 +234,10 @@ public class WorkerController {
         return Manager_Rep.Update(id, password, newValue);
     }
 
+    public boolean is_Manager_Or_Storekeeper(int id){
+        return  Worker_Rep.isManager_Or_Storekeeper(id);
+    }
+
 }
 
 

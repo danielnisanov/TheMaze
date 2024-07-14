@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
+import static Domain.Domainworkers.Role.Shift_manager;
+import static Domain.Domainworkers.Role.Storekeeper;
+
 public class WorkersRepositoryWorkers implements IRepositoryWorkers<Worker> {
     private Map<Integer, Worker> workers;
     private WorkersDAO workersDAO;
@@ -96,7 +99,7 @@ public class WorkersRepositoryWorkers implements IRepositoryWorkers<Worker> {
                 worker.setJob_status(Boolean.parseBoolean(value));
                 break;
             case "roles": // update worker roles - add Shift_manager
-                worker.getRoles_permissions().add(Role.Shift_manager);
+                worker.getRoles_permissions().add(Shift_manager);
                 break;
             case "constraints":
                 // Deserialize the JSON string back to the map
@@ -360,6 +363,10 @@ public class WorkersRepositoryWorkers implements IRepositoryWorkers<Worker> {
         return null;
     }
 
+    public boolean isManager_Or_Storekeeper(int id){
+        Worker worker = Find(id);
+        return Is_Worker(id) && (worker.roles_permissions.contains(Shift_manager)|| worker.roles_permissions.contains(Storekeeper));
+    }
 
 
 

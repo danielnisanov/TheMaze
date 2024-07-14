@@ -75,14 +75,18 @@ public class WorkerPresentation {
                     Present_arrangement(worker.getbranch());
                     break;
                 case 6:
-                    try {
-                        Menu menu = new Menu();
-                        menu.start();
-                        Connection identifier = DataBase.connect();
+                    if (isManagerOrStorekeeper(workerID)) {
+                        try {
+                            Menu menu = new Menu();
+                            menu.start();
+                            Connection identifier = DataBase.connect();
+                        }
+                        catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
-                    catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    else
+                        System.out.println("Not a storekeeper or shiftmanager");
                     break;
                 case 7:
                     exit = true;
@@ -137,5 +141,9 @@ public class WorkerPresentation {
         for (Shift s : weeklyWorkArrangement) {
             System.out.println(s);
         }
+    }
+
+    public boolean isManagerOrStorekeeper(int workerID){
+      return  worker_controler.is_Manager_Or_Storekeeper( workerID);
     }
 }

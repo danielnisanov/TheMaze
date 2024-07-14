@@ -38,7 +38,7 @@ public class TestUnit {
 
     @Before
     public void setUp() {
-        String dbPath = "C:\\Users\\ronig\\OneDrive\\שולחן העבודה\\ADSS\\Supermarket.db";
+        String dbPath = "C:\\Users\\97252\\OneDrive\\Documents\\GitHub\\ADSS_Group_I\\Supermarket.db";
         DatabaseConnection dbConnection = new DatabaseConnection(dbPath);
 
         // Initialize repositories and controllers
