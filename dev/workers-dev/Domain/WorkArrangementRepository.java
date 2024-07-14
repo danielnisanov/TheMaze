@@ -32,24 +32,6 @@ public class WorkArrangementRepository implements IRepository<Shift> {
         return false;
     }
 
-//
-//    public ArrayList<Shift> getWeeklyWorkArrangement() {
-//        weeklyWorkArrangement.clear();
-//        try {
-//            for (int i = 1; i <= 14; i++) { // Loop through shift_id from 1 to 14
-//                ArrayList<Shift> foundShifts = workArrangementDAO.Find(i);
-//                if (foundShifts != null) {
-//                    weeklyWorkArrangement.addAll(foundShifts);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        for (Shift shift : weeklyWorkArrangement) {
-//            System.out.println("Shift in arrangement: " + shift); // Debug print
-//        }
-//        return weeklyWorkArrangement;
-//    }
 
     public ArrayList<Shift> getWeeklyWorkArrangement() {
         if (!weeklyWorkArrangement.isEmpty()) {
@@ -75,15 +57,7 @@ public class WorkArrangementRepository implements IRepository<Shift> {
         return null;
     }
 
-//    public void init_branch_week() {
-//        for (int i = 0; i < 7; i++) {
-//            Shift morningShift = new Shift(i + 1, "Morning", new ArrayList<>());
-//            Shift eveningShift = new Shift(i + 1, "Evening", new ArrayList<>());
-//            weeklyWorkArrangement.add(morningShift); // todo
-//            weeklyWorkArrangement.add(eveningShift);
-//
-//        }
-//    }
+
 
 
 }
