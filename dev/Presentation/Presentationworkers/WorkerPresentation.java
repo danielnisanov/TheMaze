@@ -1,11 +1,14 @@
 package Presentation.Presentationworkers;
 
+import DB.DataBase;
 import Domain.Domainworkers.*;
 import com.google.gson.JsonObject;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import Presentation.Presentationstock.*;
 
 public class WorkerPresentation {
     JsonObject json = new JsonObject();
@@ -72,7 +75,14 @@ public class WorkerPresentation {
                     Present_arrangement(worker.getbranch());
                     break;
                 case 6:
-                    //implement the call for the menu from Stock-Dev:Presentation:Menu
+                    try {
+                        Menu menu = new Menu();
+                        menu.start();
+                        Connection identifier = DataBase.connect();
+                    }
+                    catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 7:
                     exit = true;
