@@ -4,7 +4,7 @@ import DB.DataBase;
 
 import java.sql.Connection;
 
-public class Main {
+public class Main_stock {
 
     public static void main(String[] args) throws Exception {
         try {
