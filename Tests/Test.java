@@ -12,7 +12,6 @@ public class Test {
     private ProductController productController;
     private ReportController reportController;
 
-
     @BeforeEach
     void setUp() {
         productController =  ProductController.getInstance();

@@ -1,5 +1,4 @@
 package test;
-
 import DAL.DALworkers.DatabaseConnection;
 import DAL.DALworkers.ShiftHDAO;
 import Domain.Domainworkers.*;
@@ -8,7 +7,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.testng.annotations.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
