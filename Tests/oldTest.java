@@ -7,7 +7,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Test {
+public class oldTest {
 
     private ProductController productController;
     private ReportController reportController;

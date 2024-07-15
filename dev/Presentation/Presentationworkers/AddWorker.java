@@ -10,10 +10,9 @@ import java.util.Set;
 public class AddWorker {
     static Scanner scanner = new Scanner(System.in);
 
-    private WorkerController wc;
+    private final WorkerController wc;
 
     public AddWorker(WorkerController wc) {
-
         this.wc = wc;
     }
 
