@@ -22,7 +22,6 @@ public class WorkArrangementDAO implements IDAO<ArrayList<Shift>> {
 
     @Override
     public void Insert(ArrayList<Shift> obj) throws SQLException {
-        // Implementation of Insert method if needed
     }
 
     public void setWorkersDAO(WorkersDAO workersDAO) {
